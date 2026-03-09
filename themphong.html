@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Thêm Phòng - A-Train Clone</title>
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <style>
+        /* Navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ff385c;
+            color: white;
+        }
+
+        .navbar .logo h1 {
+            font-size: 24px;
+            margin: 0; /* Remove default margin */
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar nav ul li {
+            margin-left: 20px;
+        }
+
+        .navbar nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Button styling */
+        .nav-buttons button {
+            background-color: white;
+            color: #ff385c;
+            border: 1px solid #ff385c;
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #ff385c;
+            color: white;
+        }
+        .logo a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu của tiêu đề */
+}
+
+        /* Body styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            background-image: url(anh/anhnen.jpg);
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            line-height: 1.3;
+        }
+
+        /* Login container styling */
+        .login-container {
+            flex-grow: 1;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            margin: auto;
+            margin-top: 50px;
+            margin-bottom: 50px; /* Thêm margin-bottom để tạo khoảng cách với footer */
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 1.8em;
+        }
+
+        /* Input group styling */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #ff5a5f;
+            outline: none;
+        }
+
+        /* Button styling for submit */
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff5a5f;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e54a4f;
+            transform: translateY(-2px);
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #f7f7f7;
+            padding: 40px 0;
+            border-top: 1px solid #eaeaea;
+            text-align: center;
+        }
+        /* Ẩn nút tăng giảm số trong các trình duyệt khác nhau */
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type="number"] {
+                -moz-appearance: textfield;
+                appearance: none; /* Ẩn nút cho Firefox */
+            }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column {
+            flex: 1; /* Cho các cột có kích thước bằng nhau */
+            min-width: 200px; /* Đảm bảo các cột không quá nhỏ */
+        }
+
+        .footer-column h4 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .footer-column img {
+            width: 60px;
+            height: auto;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+        .logo a {
+            text-decoration: none; /* Loại bỏ gạch chân */
+            color: inherit; /* Giữ nguyên màu của tiêu đề */
+        }
+        /* Footer bottom styling */
+        .footer-bottom {
+            padding: 20px 0;
+            font-size: 14px;
+            color: #888;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .login-container {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-column {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <div class="logo">
+                    <a href="QuanLy.html">
+                    <h1>Quản lý A-Train</h1>
+                </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="login-container">
+        <h2>Thêm phòng</h2>
+        <form id="addroomForm">
+            <div class="form-group">
+                <label for="hotel">Khách sạn</label>
+                <select id="hotel" name="hotel" required>
+                    <option value="">Chọn khách sạn</option>
+                    <!-- Các tùy chọn khách sạn sẽ được thêm vào đây bằng JavaScript -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="roomtype">Loại phòng</label>
+                <input type="text" id="roomtype" name="roomtype" placeholder="Nhập loại phòng" required>
+            </div>
+            <div class="form-group">
+                <label for="roomprice">Giá phòng</label>
+                <input type="number" id="roomprice" name="roomprice" placeholder="Nhập giá phòng" required>
+            </div>
+            <div class="form-group">
+                <label for="roomtt">Trạng thái phòng</label>
+                <input type="text" id="roomtt" name="roomtt" placeholder="Ghi trống" required>
+            </div>
+            <div class="form-group">
+                <label for="roomacs">Tiện nghi</label>
+                <input type="text" id="roomacs" name="roomacs" placeholder="Nhập tiện nghi phòng" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <label for="hotelid">Mã khách sạn</label>
+                <input type="text" id="hotelid" name="hotelid" placeholder="Mã khách sạn" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="roomimg">Ảnh phòng</label>
+                <input type="file" id="roomimg" name="roomimg" required>
+            </div>
+            <button type="submit" id="addroomSubmit">Thêm phòng</button>
+        </form>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
+                <p>Liên hệ hợp tác: partner@A-Train.com</p>
+                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về chúng tôi</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động website</p>
+                <p>Cơ hội nghề nghiệp</p>
+                <p>Dành cho đối tác</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+        </div>
+    </footer>
+    <script>
+        // Khi trang được tải, lấy danh sách khách sạn
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(`/dsks`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch hotels');
+                    }
+                    return response.json();
+                })
+                .then(hotels => {
+                    const hotelSelect = document.getElementById('hotel');
+                    hotelSelect.innerHTML = '<option value="">Chọn khách sạn</option>';
+                    hotels.forEach(hotel => {
+                        const option = document.createElement('option');
+                        option.value = hotel.MaKS; // Sử dụng MaKS làm giá trị
+                        option.textContent = hotel.TenKS; // Sử dụng TenKS làm văn bản hiển thị
+                        hotelSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching hotels:', error));
+        });
+    
+        // Cập nhật mã khách sạn khi người dùng chọn
+        document.getElementById('hotel').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const roomLocateInput = document.getElementById('hotelid');
+            
+            roomLocateInput.value = selectedOption.value ? selectedOption.value : ''; // Cập nhật mã khách sạn
+        });
+    
+        // Xử lý gửi form
+        document.getElementById('addroomForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu mẫu
+    
+            const roomImgInput = document.getElementById('roomimg');
+            const data = {
+                roomtype: document.getElementById('roomtype').value,
+                roomprice: document.getElementById('roomprice').value,
+                roomtt: document.getElementById('roomtt').value,
+                roomacs: document.getElementById('roomacs').value,
+                hotelid: document.getElementById('hotelid').value,
+                roomimg: null // Khởi tạo trường cho hình ảnh
+            };
+    
+            // Kiểm tra nếu có hình ảnh
+            if (roomImgInput.files.length > 0) {
+                const file = roomImgInput.files[0]; // Lấy file hình ảnh đầu tiên
+                const reader = new FileReader();
+                
+                reader.onloadend = function() {
+                    data.roomimg = reader.result; // Gán chuỗi base64 cho roomimg
+                    sendData(data); // Gọi hàm gửi dữ liệu
+                };
+                
+                reader.readAsDataURL(file); // Đọc file dưới dạng data URL
+            } else {
+                sendData(data); // Gọi hàm gửi dữ liệu nếu không có hình ảnh
+            }
+    
+            function sendData(data) {
+                fetch('/themphong', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data) // Chuyển đổi đối tượng thành chuỗi JSON
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(responseData => {
+                    alert(responseData.message); // Hiển thị thông báo
+                    if (responseData.message === "Thêm phòng thành công") {
+                        window.location.href = '/quanly'; // Chuyển hướng nếu thành công
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Đã xảy ra lỗi: ' + error.message); // Hiển thị lỗi
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Đặt Phòng</title>
+    <link rel="stylesheet" href="HP.css">
+    <style>
+        /* Styles for booking list and confirmation modal */
+        .booking-list {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .booking-item {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .booking-item h2 {
+            font-size: 24px;
+            color: #ff385c;
+            margin-bottom: 15px;
+        }
+
+        .booking-item p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .cancel-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .cancel-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Confirmation modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .confirm-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+
+        .cancel-modal-button {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <h1>A-Train</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <h1>Danh Sách Phòng Đã Đặt</h1>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+                <span id="usernameDisplay" style="display: none;"></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="booking-list">
+        <div class="booking-item">
+            <h2>Thông tin người đặt</h2>
+            <p><strong>Tên người đặt:</strong> Nguyễn Văn A</p>
+            <p><strong>Số điện thoại:</strong> 0901234567</p>
+            <p><strong>Email:</strong> nguyenvana@example.com</p>
+            <p><strong>CCCD:</strong> 123456789012</p>
+            <p><strong>Ngày đặt:</strong> 10/11/2023</p>
+            <p><strong>Số đêm:</strong> 3</p>
+            <p><strong>Loại phòng:</strong> Phòng Deluxe</p>
+            <button class="cancel-button">Hủy phòng</button>
+        </div>
+
+        <div class="booking-item">
+            <h2>Thông tin người đặt</h2>
+            <p><strong>Tên người đặt:</strong> Trần Thị B</p>
+            <p><strong>Số điện thoại:</strong> 0987654321</p>
+            <p><strong>Email:</strong> tranthib@example.com</p>
+            <p><strong>CCCD:</strong> 987654321098</p>
+            <p><strong>Ngày đặt:</strong> 15/11/2023</p>
+            <p><strong>Số đêm:</strong> 2</p>
+            <p><strong>Loại phòng:</strong> Phòng Superior</p>
+            <button class="cancel-button">Hủy phòng</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3>Bạn có chắc chắn muốn hủy phòng này?</h3>
+            <div class="modal-buttons">
+                <button id="confirmCancel" class="modal-button confirm-button">Xác nhận</button>
+                <button id="cancelModal" class="modal-button cancel-modal-button">Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
+                <p>Liên hệ hợp tác: partner@A-Train.com</p>
+                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về chúng tôi</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động website</p>
+                <p>Cơ hội nghề nghiệp</p>
+                <p>Dành cho đối tác</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column-app">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+    
+            // Kiểm tra trạng thái đăng nhập
+            const username = sessionStorage.getItem('username');
+            const customerId = sessionStorage.getItem('customerId'); // Lấy customerId từ session
+    
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+    
+                // Chuyển hướng dựa trên vai trò người dùng
+                const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
+                usernameDisplay.addEventListener("click", () => {
+                    window.location.href = redirectPage;
+                });
+            } else {
+                loginButton.style.display = 'inline';
+                registerButton.style.display = 'inline';
+            }
+    
+            // Đăng xuất
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('customerId');
+                window.location.href = "/logout";
+            });
+    
+            // Tải thông tin đặt phòng
+            loadBookings();
+    
+            function loadBookings() {
+                fetch(`/api/bookingscustomer?customerId=${customerId}`) // Gửi customerId trong query string
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Lỗi khi tải thông tin đặt phòng');
+                        }
+                        return response.json();
+                    })
+                    .then(bookings => {
+                        const bookingList = document.querySelector('.booking-list');
+                        bookingList.innerHTML = ''; // Xóa danh sách đặt phòng hiện tại
+    
+                        // Kiểm tra nếu bookings là mảng
+                        if (Array.isArray(bookings)) {
+                            bookings.forEach(booking => {
+                                const bookingItem = document.createElement('div');
+                                bookingItem.className = 'booking-item';
+    
+                                // Định dạng ngày
+                                const dateString = booking.Ngaynhanphong;
+                                const date = new Date(dateString);
+                                const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    
+                                bookingItem.innerHTML = `
+                                    <p><strong>Tên khách hàng:</strong> ${booking.HoVaTen}</p>
+                                    <p><strong>Ngày đặt:</strong> ${formattedDate}</p>
+                                    <p><strong>Số đêm:</strong> ${booking.SoDem}</p>
+                                    <p><strong>Số người:</strong> ${booking.SoNguoi}</p>
+                                    <p><strong>Loại phòng:</strong> ${booking.LoaiPhong}</p>
+                                    <button class="cancel-button" data-id="${booking.MaDatPhong}">Hủy phòng</button>
+                                `;
+                                bookingList.appendChild(bookingItem);
+                            });
+                        } else {
+                            console.error("Dữ liệu không phải là mảng:", bookings);
+                        }
+    
+                        attachCancelButtons(); // Gắn sự kiện cho các nút hủy
+                    })
+                    .catch(error => {
+                        console.error("Đã xảy ra lỗi:", error.message);
+                        alert("Không thể tải thông tin đặt phòng. Vui lòng thử lại sau."); // Thông báo cho người dùng
+                    });
+            }
+    
+            function attachCancelButtons() {
+                document.querySelectorAll('.cancel-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const bookingId = this.getAttribute('data-id');
+                        const modal = document.getElementById('confirmationModal');
+    
+                        // Hiển thị modal xác nhận
+                        modal.style.display = 'flex';
+    
+                        // Xử lý xác nhận hủy
+                        document.getElementById('confirmCancel').onclick = function() {
+                            fetch(`/api/bookings/${bookingId}`, {
+                                method: 'DELETE',
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    loadBookings(); // Tải lại danh sách đặt phòng sau khi xóa
+                                    modal.style.display = 'none'; // Ẩn modal
+                                } else {
+                                    throw new Error('Không thể hủy đặt phòng');
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Đã xảy ra lỗi khi hủy đặt phòng:", error.message);
+                                alert("Không thể hủy đặt phòng. Vui lòng thử lại sau."); // Thông báo cho người dùng
+                            });
+                        };
+    
+                        // Xử lý hủy bỏ trong modal
+                        document.getElementById('cancelModal').onclick = function() {
+                            modal.style.display = 'none'; // Ẩn modal
+                        };
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

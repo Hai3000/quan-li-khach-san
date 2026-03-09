@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+<style>
+    /* Tổng thể cho phần đăng ký */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+    margin: 0; /* Remove default margin */
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Button styling */
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+/* Body styling */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    background-image: url(anh/anhnen.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    line-height: 1.3;
+}
+
+/* Login container styling */
+.login-container {
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    margin: 50px auto; /* Thêm margin-top và margin-bottom */
+}
+
+.login-container h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.8em;
+}
+/* Ẩn nút tăng/giảm trong các trình duyệt Webkit (Chrome, Safari, Edge) */
+#regid::-webkit-inner-spin-button,
+#regid::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ẩn nút tăng/giảm trong Firefox */
+#regid {
+    -moz-appearance: textfield;
+}
+
+/* Input group styling */
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.input-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+        select{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+.input-group input:focus {
+    border-color: #ff5a5f;
+    outline: none;
+}
+
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff5a5f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e54a4f;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.login-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    border-top: 1px solid #eaeaea;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.footer-column img {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+/* Footer bottom styling */
+.footer-bottom {
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .login-container {
+        padding: 20px;
+        max-width: 100%;
+        margin: 20px auto; /* Giảm khoảng cách trên/dưới container */
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>A-Train</h1>
+            </div>
+        </div>
+    </header>
+    <!-- Register Form -->
+    <div class="login-container">
+        <h2>Đăng kí</h2>
+        <form id="registerForm">
+            <div class="input-group">
+                <label for="regname">Họ tên</label>
+                <input type="text" id="regname" placeholder="Nhập họ tên" required maxlength="50">
+                <span id="nameError" class="error-message"></span>
+            </div>
+            <div class="input-group">
+                <label for="regdate">Ngày sinh</label>
+                <input type="date" id="regdate" required>
+                <span id="dateError" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="regsex">Giới tính:</label>
+                <select id="regsex" required>
+                    <option value="">Chọn giới tính</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="reglocate">Địa chỉ</label>
+                <input type="text" id="reglocate" placeholder="Nhập địa chỉ" required>
+            </div>
+            <div class="input-group">
+                <label for="regphone">Số điện thoại</label>
+                <input type="tel" id="regphone" placeholder="Nhập SĐT" required>
+                <span id="phoneError" class="error-message"></span>
+            </div>
+            <div class="input-group">
+                <label for="regid">CCCD</label>
+                <input type="number" id="regid" placeholder="Nhập CCCD" required>
+                <span id="cccdError" class="error-message"></span>
+            </div>
+            <div class="input-group">
+                <label for="regemail">Email</label>
+                <input type="email" id="regemail" placeholder="Nhập email" required>
+                <span id="emailError" class="error-message"></span>
+            </div>
+            <div class="input-group">
+                <label for="regpassword">Mật khẩu</label>
+                <input type="password" id="regpassword" placeholder="Nhập mật khẩu" required minlength="8" maxlength="15">
+            </div>
+            <div class="input-group">
+                <label for="confirmpassword">Xác nhận mật khẩu</label>
+                <input type="password" id="confirmpassword" placeholder="Xác nhận mật khẩu" required minlength="8" maxlength="15">
+                <span id="passwordError" class="error-message"></span>
+            </div>
+            <button type="submit" id="regSubmit">Đăng kí</button>
+        </form>
+        <button type="button" id="logbutton">Đăng nhập</button>
+    </div>
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Hỗ trợ</h4>
+                    <p>📞 Hotline: 1900 123 456</p>
+                    <p>Hỗ trợ khách hàng: support@A-Train.com</p>
+                    <p>Liên hệ hợp tác: partner@A-Train.com</p>
+                    <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Giới thiệu</h4>
+                    <p>Về chúng tôi</p>
+                    <p>Trang blog</p>
+                    <p>Quy chế hoạt động website</p>
+                    <p>Cơ hội nghề nghiệp</p>
+                    <p>Dành cho đối tác</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Đối tác thanh toán</h4>
+                    <img src="/anh/bankpay.svg" alt="BankPay" />
+                    <img src="/anh/visa.svg" alt="Visa" />
+                </div>
+                <div class="footer-column-app">
+                    <h4>Tải ứng dụng</h4>
+                    <img src="/anh/AppStore.svg" alt="App Store" />
+                    <img src="/anh/CHPlay.svg" alt="Google Play" />
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+            </div>
+        </footer>
+    <script>
+        document.getElementById('logbutton').addEventListener("click", function () {
+            window.location.href = "/login"; 
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu mẫu
+            const name = document.getElementById('regname').value;
+            const date = document.getElementById('regdate').value;
+            const sex = document.getElementById('regsex').value;
+            const locate = document.getElementById('reglocate').value;
+            const phone = document.getElementById('regphone').value;
+            const id = document.getElementById('regid').value;
+            const email = document.getElementById('regemail').value;
+            const password = document.getElementById('regpassword').value;
+            const confirmPassword = document.getElementById('confirmpassword').value;
+
+            let isValid = true;
+
+            // Kiểm tra số điện thoại (Việt Nam, 10 số, bắt đầu với 0)
+            const phoneRegex = /^0\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                isValid = false;
+                document.getElementById('phoneError').textContent = 'Số điện thoại không hợp lệ!';
+            } else {
+                document.getElementById('phoneError').textContent = '';
+            }
+
+            // Kiểm tra tên
+            if (name.trim() === "Admin") {
+                isValid = false;
+                document.getElementById('nameError').textContent = 'Tên không hợp lệ!';
+            } else {
+                document.getElementById('nameError').textContent = '';
+            }
+
+            // Kiểm tra email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                isValid = false;
+                document.getElementById('emailError').textContent = 'Email không hợp lệ!';
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+            // Kiểm tra độ tuổi
+            const birthDate = new Date(date); // Giả sử 'date' là giá trị ngày sinh từ input
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            const dayDifference = today.getDate() - birthDate.getDate();
+
+            if (age < 18 || (age === 18 && (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)))) {
+                isValid = false;
+                document.getElementById('dateError').textContent = 'Bạn phải từ 18 tuổi trở lên để đăng ký tài khoản!';
+            } else {
+                document.getElementById('dateError').textContent = '';
+            }
+            // Kiểm tra số CCCD (12 số hoặc 9 số)
+            const cccdRegex = /^(\d{9}|\d{12})$/;
+            if (!cccdRegex.test(id)) {
+                isValid = false;
+                document.getElementById('cccdError').textContent = 'Số CCCD/Hộ chiếu không hợp lệ!';
+            } else {
+                document.getElementById('cccdError').textContent = '';
+            }
+            // Kiểm tra mật khẩu và xác nhận mật khẩu
+            if (password !== confirmPassword) {
+                isValid = false;
+                document.getElementById('passwordError').textContent = 'Mật khẩu không khớp!';
+            } else {
+                document.getElementById('passwordError').textContent = '';
+            }
+
+            // Nếu có lỗi, ngăn form submit
+            if (!isValid) {
+                return; // Đảm bảo không tiếp tục
+            }
+            // Gửi dữ liệu đến máy chủ
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    regname: name,
+                    regdate: date,
+                    regsex: sex,
+                    reglocate: locate,
+                    regphone: phone,
+                    regid: id,
+                    regemail: email,
+                    regpassword: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Hiển thị thông báo
+                // Chuyển hướng nếu đăng ký thành công
+                if (data.message === "User registered successfully") {
+                    window.location.href = '/login'; // Hoặc trang bạn muốn chuyển đến
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi: ' + error.message); // Hiển thị lỗi
+            });
+        });
+    </script>
+</body>
+</html>

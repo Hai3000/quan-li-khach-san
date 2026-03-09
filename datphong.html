@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt phòng - A-Train Clone</title>
+    <link rel="stylesheet" href="datphong.css">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+<style>
+    /* Đặt kiểu cho toàn trang */
+body {
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    background-image: url(anh/anhnen.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    line-height: 1.3;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c; /* Màu nền navbar */
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 28px; /* Kích thước chữ lớn hơn cho logo */
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 30px; /* Khoảng cách giữa các mục menu */
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px; /* Kích thước chữ lớn hơn cho liên kết */
+    transition: color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.navbar nav ul li a:hover {
+    text-decoration: underline; /* Gạch chân khi hover */
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 10px 15px; /* Cải thiện padding */
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+/* Form container */
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Tăng độ mờ cho bóng */
+}
+
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group input[type="tel"],
+.form-group input[type="email"],
+.form-group input[type="time"],
+.form-group textarea {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s; /* Hiệu ứng chuyển màu viền */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus {
+    border-color: #ff385c; /* Đổi màu viền khi focus */
+}
+
+.form-group input[type="submit"] {
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #218838;
+}
+/* Ẩn nút tăng giảm trong các trình duyệt Webkit (Chrome, Safari, Edge) */
+#numberOfPeople::-webkit-inner-spin-button,
+#numberOfPeople::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ẩn nút tăng giảm trong Firefox */
+#numberOfPeople {
+    -moz-appearance: textfield;
+}
+
+
+/* Footer */
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    border-top: 1px solid #eaeaea;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.footer-column img {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+/* Footer bottom styling */
+.footer-bottom {
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>A-Train</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="#">Trải Nghiệm</a></li>
+                    <li><a href="#">Trải nghiệm trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+                <span id="usernameDisplay" style="display: none;"></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <h2>Đặt phòng</h2>
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="hotel">Tên khách sạn:</label>
+                <input type="text" id="hotel" name="hotel" required readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="room">Loại phòng:</label>
+                <input type="text" id="room" name="room" required readonly>
+            </div>
+            <div class="form-group">
+                <label for="checkindate">Ngày nhận phòng:</label>
+                <input type="date" id="checkindate" name="checkindate" required>
+            </div>
+            <div class="form-group">
+                <label for="checkoutdate">Ngày trả phòng:</label>
+                <input type="date" id="checkoutdate" name="checkoutdate" required>
+            </div>
+            <div class="form-group">
+                <label for="numberOfNights">Số đêm:</label>
+                <input type="number" id="numberOfNights" name="numberOfNights" required readonly>
+                <span id="nightError" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="numberOfPeople">Số người:</label>
+                <input type="number" id="numberOfPeople" name="numberOfPeople" required min="1" max="4">
+            </div>
+
+            
+            <div class="form-group">
+                <label for="totalPrice">Tổng tiền:</label>
+                <input type="text" id="totalPrice" name="totalPrice" readonly>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Xác nhận đặt phòng">
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
+                <p>Liên hệ hợp tác: partner@A-Train.com</p>
+                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về chúng tôi</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động website</p>
+                <p>Cơ hội nghề nghiệp</p>
+                <p>Dành cho đối tác</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column-app">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const nightError = document.getElementById("nightError");
+            const username = sessionStorage.getItem('username');
+    
+            // Hiển thị thông tin người dùng nếu đã đăng nhập
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+            } else {
+                loginButton.style.display = 'inline';
+                registerButton.style.display = 'inline';
+            }
+    
+            // Đăng xuất
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('customerId'); // Xóa ID khách hàng khi đăng xuất
+                window.location.href = "/logout"; // Redirect after logout
+            });
+    
+            // Lấy mã phòng và mã khách sạn từ URL
+            const getQueryParam = (param) => {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            };
+    
+            const maPhong = getQueryParam('maPhong'); 
+            const maKS = getQueryParam('maKS');
+    
+            // Fetch thông tin khách sạn và loại phòng
+            let roomPrice = 0; // Khởi tạo biến lưu giá phòng
+            fetch(`/data/hotelandroom/${maKS}/${maPhong}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Không thể lấy dữ liệu');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('hotel').value = data.TenKS;
+                    document.getElementById('room').value = data.LoaiPhong;
+                    roomPrice = data.GiaPhong; // Lấy giá phòng từ dữ liệu
+                })
+                .catch(error => console.error('Error fetching data:', error));
+    
+            // Tính số đêm khi ngày nhận và trả phòng thay đổi
+            const checkinDateInput = document.getElementById('checkindate');
+            const checkoutDateInput = document.getElementById('checkoutdate');
+            const numberOfNightsInput = document.getElementById('numberOfNights');
+            const numberOfPeopleInput = document.getElementById('numberOfPeople');
+            const totalPriceInput = document.getElementById('totalPrice');
+    
+            // Đặt ngày hiện tại làm ngày tối thiểu cho checkinDate
+            const today = new Date().toISOString().split("T")[0];
+            checkinDateInput.setAttribute("min", today);
+    
+            // Hàm tính số đêm dựa trên ngày nhận và trả phòng
+            const calculateNights = () => {
+                const checkinDate = new Date(checkinDateInput.value);
+                const checkoutDate = new Date(checkoutDateInput.value);
+                if (checkinDate && checkoutDate && checkoutDate > checkinDate) {
+                    const timeDiff = checkoutDate - checkinDate;
+                    const daysDiff = timeDiff / (1000 * 3600 * 24);
+                    numberOfNightsInput.value = daysDiff;
+                    nightError.textContent = daysDiff > 4 ? 'Quá số lượng cho phép' : '';
+                    updateTotalPrice();
+                } else {
+                    numberOfNightsInput.value = 0;
+                    totalPriceInput.value = 0; // Reset total price
+                    nightError.textContent = '';
+                }
+            };
+    
+            // Cập nhật ngày tối thiểu cho checkoutDate khi chọn checkinDate
+            checkinDateInput.addEventListener('change', function() {
+                const checkinDate = new Date(checkinDateInput.value);
+                if (checkinDate) {
+                    const minCheckoutDate = new Date(checkinDate);
+                    minCheckoutDate.setDate(minCheckoutDate.getDate() + 1);
+                    checkoutDateInput.setAttribute("min", minCheckoutDate.toISOString().split("T")[0]);
+                }
+                calculateNights();
+            });
+    
+            const updateTotalPrice = () => {
+                const numberOfNights = parseInt(numberOfNightsInput.value, 10);
+                const numberOfPeople = parseInt(numberOfPeopleInput.value, 10);
+                const totalPrice = roomPrice * numberOfNights * numberOfPeople;
+                totalPriceInput.value = totalPrice > 0 ? totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : '0';
+            };
+    
+            checkoutDateInput.addEventListener('change', calculateNights);
+            numberOfPeopleInput.addEventListener('change', updateTotalPrice);
+    
+            // Xử lý form đặt phòng
+            document.getElementById('bookingForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+    
+                const numberOfNights = parseInt(numberOfNightsInput.value, 10);
+                const numberOfPeople = parseInt(numberOfPeopleInput.value, 10);
+                const checkinTime = checkinDateInput.value;
+                const checkoutTime = checkoutDateInput.value;
+                const customerId = sessionStorage.getItem('customerId');
+    
+                if (!checkinTime || !checkoutTime || numberOfNights <= 0 || numberOfPeople <= 0) {
+                    alert('Vui lòng kiểm tra thông tin đặt phòng!');
+                    return;
+                }
+                if (numberOfNights > 4) {
+                    alert('Số đêm tối đa là 4. Vui lòng điều chỉnh lại!');
+                    return;
+                }
+    
+                const bookingInfo = {
+                    maPhong,
+                    numberOfNights,
+                    numberOfPeople,
+                    checkinTime,
+                    checkoutTime,
+                    customerId
+                };
+    
+                try {
+                    const response = await fetch('/save-booking', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(bookingInfo),
+                    });
+    
+                    if (response.ok) {
+                        const data = await response.json();
+                        const maDatPhong = data.bookingId;
+                        alert('Đặt phòng thành công!');
+                        window.location.href = `/payment?maPhong=${maPhong}&maDatPhong=${maDatPhong}&customerId=${customerId}`;
+                    } else {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Đặt phòng không thành công');
+                    }
+                } catch (error) {
+                    console.error('Có lỗi xảy ra:', error);
+                    alert('Đã xảy ra lỗi khi đặt phòng: ' + error.message);
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

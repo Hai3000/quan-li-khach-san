@@ -1,0 +1,167 @@
+/* CSS cho phần header (Topbar) */
+.header {
+    background-color: rgb(73, 146, 219);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* Căn đều khoảng cách giữa các phần */
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .logo h1 {
+    font-size: 24px;
+    color: #e7e7e7;
+    margin: 0;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.header nav ul li {
+    margin-left: 20px;
+}
+
+.header nav ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.header nav ul li a:hover {
+    background-color: #0056b3;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #9ac1e7;
+    padding: 20px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    height: 100%;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown style */
+.sidebar ul .dropdown {
+    display: none;
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 20px; /* Indent for sub-menu */
+}
+
+.sidebar ul .dropdown li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul .dropdown li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 8px 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.sidebar ul .dropdown li a:hover {
+    background-color: #ddd;
+}
+
+/* Style to show dropdown when the parent item is hovered */
+.sidebar li:hover .dropdown {
+    display: block;
+}
+
+/* Content area styles */
+.content {
+    margin-left: 270px; /* Offset content to the right of the sidebar */
+    padding: 20px;
+}
+
+.content h2 {
+    font-size: 28px;
+    color: #333;
+}
+
+.content p {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Style for the notification badge */
+.header .notifications {
+    position: relative;
+}
+
+.header .notifications i {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.header .notifications .badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 7px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .header nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header nav ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,229 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.logo a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu của tiêu đề */
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+/* Responsive styling with media queries */
+@media (max-width: 768px) {
+    /* Đảm bảo form container có chiều rộng nhỏ hơn trên màn hình nhỏ */
+    .form-container {
+        margin: 20px auto;
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    /* Navbar - hàng dọc trên các màn hình nhỏ */
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar nav ul {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .navbar nav ul li {
+        margin: 10px 0;
+    }
+
+    .navbar .logo h1 {
+        font-size: 20px;
+    }
+
+    .navbar nav ul li a {
+        font-size: 18px;
+    }
+
+    .nav-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav-buttons button {
+        margin: 10px 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Trên màn hình điện thoại */
+    .form-container {
+        padding: 10px;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .form-group input[type="submit"] {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    /* Giảm kích thước font của logo */
+    .navbar .logo h1 {
+        font-size: 18px;
+    }
+
+    .navbar nav ul li a {
+        font-size: 16px;
+    }
+}
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eaeaea;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Đối tác thanh toán */
+.footer-column {
+    text-align: left;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
+.footer-column div {
+    display: flex;
+    justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
+    align-items: center;
+    flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
+    gap: 10px; /* Khoảng cách giữa các logo */
+}
+
+.footer-column img {
+    width: 60px; /* Đặt kích thước chiều rộng cho các logo */
+    height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa các logo */
+    object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
+}
+
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}

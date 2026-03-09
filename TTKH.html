@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin khách hàng</title>
+    <link rel="stylesheet" href="TTKH.css"> 
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+}
+.center{
+    text-align: center;
+}
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+.customer-info-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.customer-info-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.info-group {
+    margin-bottom: 15px;
+}
+
+.info-group p {
+    font-size: 18px;
+}
+
+.form-group {
+    text-align: center;
+}
+
+.form-group button {
+    padding: 10px 20px;
+    background-color: #ff385c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-group button:hover {
+    background-color: #e54a4f;
+}
+
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eaeaea;
+}
+.logo a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu của tiêu đề */
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    text-align: left;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.footer-column img {
+    width: 60px;
+    height: auto;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/trangchu">
+                <h1>A-Train</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="#">Trải Nghiệm</a></li>
+                    <li><a href="#">Trải nghiệm trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <a href="/login">
+                <button id="loginButton">Đăng nhập</button>
+            </a>
+            <span id="usernameDisplay"></span>
+            <button id="logoutButton" style="display: none;">Đăng xuất</button>
+            <button id="history">Lịch sử đặt phòng</button>
+            </div>
+        </div>
+    </header>
+    
+    <div id ="info-list"></div>
+      <!-- Nút chuyển hướng đến trang chỉnh sửa thông tin -->
+      <div class="form-group">
+        <a href="/chinhsuatt">
+            <button type="button">Chỉnh sửa thông tin</button>
+        </a>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
+                <p>Liên hệ hợp tác: partner@A-Train.com</p>
+                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về chúng tôi</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động website</p>
+                <p>Cơ hội nghề nghiệp</p>
+                <p>Dành cho đối tác</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="" />
+                <img src="/anh/visa.svg" alt="" />
+            </div>
+            <div class="footer-column-app">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userEmailDisplay = document.getElementById("userEmailDisplay");
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const history = document.getElementById("history");
+            const username = sessionStorage.getItem('username'); 
+            const userid = sessionStorage.getItem('customerId'); 
+            if (username) {
+                // Hiển thị tên người dùng và nút Đăng xuất
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                usernameDisplay.addEventListener("click", function () {
+                    // Chuyển hướng đến trang thongtinphong1
+                    window.location.href = "/ttkh";
+                });
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+            }
+
+            // Xử lý nút Đăng xuất
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('customerId'); // Xóa ID khách hàng khi đăng xuất
+                window.location.href = "/logout"; // Chuyển hướng sau khi đăng xuất
+            });
+             // Xử lý nút Đăng xuất
+             history.addEventListener("click", () => {
+                window.location.href = `/lichsudatphongkhachhang?maKH=${userid}`; // Chuyển hướng sau khi đăng xuất
+            });
+        });
+    fetch(`/api/user`)
+    .then(response => response.json())
+    .then(user => {
+        const userList = document.getElementById('info-list');
+        const div = document.createElement('div');
+        div.className = 'customer-info-container'; // Thêm class cho mỗi ô
+
+        // Xử lý định dạng ngày sinh
+        const dateString = user.NgaySinh;
+        const date = new Date(dateString);
+        
+        // Định dạng ngày theo dạng dd/MM/yyyy
+        const formattedDate = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+
+        div.innerHTML = `
+            <h2>Thông tin khách hàng</h2>
+            <div class="info-group">
+                <p><strong>Tên khách hàng:</strong> <span id="customerName">${user.HoVaTen}</span></p>
+            </div>
+            <div class="info-group">
+                <p><strong>Số điện thoại:</strong> <span id="customerPhone">${user.SoDienThoai}</span></p>
+            </div>
+            <div class="info-group">
+                <p><strong>Ngày sinh:</strong> <span id="customerBirth">${formattedDate}</span></p> <!-- Sử dụng ngày đã định dạng -->
+            </div>
+            <div class="info-group">
+                <p><strong>Giới tính:</strong> <span id="customerGender">${user.GioiTinh}</span></p>
+            </div>
+            <div class="info-group">
+                <p><strong>Địa chỉ:</strong> <span id="customerAddress">${user.DiaChi}</span></p>
+            </div>
+        `;
+        userList.appendChild(div); // Thêm div vào userList
+    })
+    .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
