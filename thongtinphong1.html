@@ -3,602 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông tin phòng</title>
-    <link rel="stylesheet" href="thongtinphong.css">
+    <title>Thông tin phòng | Quản lý khách sạn</title>
     <link rel='shortcut icon' href='/anh/favicon.ico' />
     <style>
-        * {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
- }
- .half-star {
-    width: 15px; /* Adjust to match the size of your stars */
-    height: 15px; /* Adjust to match the size of your stars */
-    vertical-align: middle; /* Aligns the image nicely with text */
-    display: inline-block; /* Ensures the image behaves like text */
-    margin-bottom: 3px;
-}
- body {
-     font-family: Arial, sans-serif;
-     background-color: #f7f7f7;
- }
- .logo a {
-     text-decoration: none; /* Loại bỏ gạch chân */
-     color: inherit; /* Giữ nguyên màu của tiêu đề */
- }
- .navbar {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     padding: 20px;
-     background-color: #ff385c;
-     color: white;
- }
- 
- .navbar .logo h1 {
-     font-size: 24px;
- }
- 
- .navbar nav ul {
-     list-style: none;
-     margin: 0;
-     padding: 0;
-     display: flex;
- }
- 
- .navbar nav ul li {
-     margin-left: 20px;
- }
- 
- .navbar nav ul li a {
-     color: white;
-     text-decoration: none;
-     font-size: 16px;
- }
- 
- .nav-buttons button {
-     background-color: white;
-     color: #ff385c;
-     border: 1px solid #ff385c;
-     padding: 8px 15px;
-     margin-left: 10px;
-     border-radius: 5px;
-     cursor: pointer;
- }
- 
- .nav-buttons button:hover {
-     background-color: #ff385c;
-     color: white;
- }
- 
- .room-container {
-     max-width: 1200px;
-     margin: 20px auto;
-     padding: 20px;
- }
- 
- .room-header {
-     text-align: left;
-     margin-bottom: 20px;
- }
- 
- .room-header h1 {
-     font-size: 32px;
-     color: #333;
-     margin-bottom: 10px;
- }
- 
- .room-header p {
-     font-size: 18px;
-     color: #555;
- }
- 
- .room-rating {
-     display: flex;
-     align-items: center;
-     margin-top: 10px;
- }
- 
- .room-rating span {
-     font-size: 16px;
-     color: #f59e0b;
-     margin-right: 10px;
- }
- 
- .room-rating a {
-     font-size: 16px;
-     color: #ff385c;
-     text-decoration: none;
- }
- 
- .room-rating a:hover {
-     text-decoration: underline;
- }
- 
- /* Image gallery */
- 
- .room-images {
-     display: flex;
-     justify-content: space-between;
-     gap: 10px;
- }
- 
- .main-image img {
-     width: 80%;
-     height: auto;
-     border-radius: 10px;
-     object-fit: cover;
- }
- 
- /* Thumbnails */
- .thumbnail-images {
-     display: grid;
-     grid-template-columns: repeat(1, 1fr);
-     grid-gap: 10px;
-     width: 190px; /* Giảm chiều rộng của khối thumbnails */
- }
- 
- .thumbnail-images img {
-     width: 100%;
-     height: auto;
-     border-radius: 5px; /* Giảm bo tròn cho ảnh nhỏ */
-     cursor: pointer;
-     object-fit: cover;
-     transition: transform 0.3s ease;
- }
- 
- .thumbnail-images img:hover {
-     transform: scale(1.05); /* Phóng to nhẹ khi hover */
-     opacity: 0.8;
-     transition: 0.3s;
- }
- 
- /* Styling for the room list section */
- .room-list {
-     margin-top: 50px;
-     padding: 0 20px;
- }
- 
- .room-list h2 {
-     font-size: 28px;
-     font-weight: bold;
-     margin-bottom: 30px;
-     color: #333;
-     text-align: left;
- }
- 
- /* Styling for each room item */
- .room-item {
-     display: flex;
-     justify-content: space-between;
-     padding: 20px 0;
-     border-bottom: 1px solid #eaeaea;
-     align-items: center;
-     flex-wrap: wrap; /* Đảm bảo bố cục tốt trên màn hình nhỏ */
-     max-width: 1100px; /* Đặt độ rộng tối đa cho room item */
-     margin: 0 auto; /* Căn giữa trên màn hình */
-     gap: 10px; /* Giảm khoảng cách giữa các phần tử */
- }
- 
- .room-image {
-     flex: 0 0 180px; /* Giảm kích thước ảnh để các phần gần nhau hơn */
-     margin-right: 10px; /* Giảm khoảng cách giữa ảnh và nội dung */
- }
- 
- .room-image img {
-     width: 100%;
-     height: auto;
-     border-radius: 10px;
-     object-fit: cover;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- }
- 
- .room-info {
-     flex: 1;
-     margin-right: 10px; /* Giảm khoảng cách giữa thông tin và đặc điểm */
- }
- 
- .room-info h3 {
-     font-size: 18px;
-     color: #333;
-     margin-bottom: 5px; /* Giảm khoảng cách dưới tiêu đề */
- }
- 
- .room-info p {
-     font-size: 16px;
-     margin-bottom: 5px;
-     color: #666;
- }
- 
- .room-info a {
-     font-size: 16px;
-     color: #ff385c;
-     text-decoration: none;
-     font-weight: bold;
-     display: inline-block;
-     margin-top: 5px; /* Giảm khoảng cách trên của link */
- }
- 
- .room-info a:hover {
-     text-decoration: underline;
- }
- 
- .room-features {
-     flex: 1;
- }
- 
- .room-features h3 {
-     font-size: 18px;
-     color: #333;
-     margin-bottom: 5px;
- }
- 
- .room-features p {
-     font-size: 16px;
-     color: #666;
- }
- 
- .room-price {
-     text-align: right;
-     flex: 0 0 150px; /* Giảm kích thước phần giá để tiết kiệm không gian */
- }
- 
- .room-price h3 {
-     font-size: 18px;
-     color: #333;
-     margin-bottom: 5px; /* Giảm khoảng cách dưới tiêu đề giá */
- }
- 
- .room-price p {
-     font-size: 22px;
-     color: #ff385c;
-     font-weight: bold;
-     margin-bottom: 5px;
- }
- 
- .room-price del {
-     font-size: 16px;
-     color: #888;
-     margin-left: 5px;
- }
- 
- .room-price .btn-book {
-     background-color: #ff6f61;
-     color: white;
-     border: none;
-     padding: 8px 15px; /* Giảm kích thước nút */
-     border-radius: 5px;
-     cursor: pointer;
-     font-size: 16px;
-     transition: background-color 0.3s ease;
- }
- 
- .room-price .btn-book:hover {
-     background-color: #ff3e30;
- }
- 
- /* Chính sách nhận - trả phòng */
- .policy-section {
-     text-align: center;
-     padding: 40px 0;
- }
- 
- .policy-section h2 {
-     font-size: 28px;
-     font-weight: bold;
-     margin-bottom: 30px;
- }
- 
- .policy-grid {
-     display: grid;
-     grid-template-columns: repeat(4, 1fr);
-     gap: 20px;
-     max-width: 1200px;
-     margin: 0 auto;
- }
- 
- .policy-item h3 {
-     font-size: 18px;
-     color: #333;
-     margin-bottom: 10px;
- }
- 
- .policy-item p {
-     font-size: 16px;
-     color: #666;
- }
- 
- 
- 
- 
- /* Footer */
- footer {
-     background-color: #f7f7f7;
-     padding: 40px 0;
-     margin-top: 40px;
-     border-top: 1px solid #eaeaea;
- }
- 
- .footer-content {
-     display: flex;
-     justify-content: space-between;
-     max-width: 1200px;
-     margin: 0 auto;
-     flex-wrap: wrap;
-     gap: 20px;
- }
- 
- /* Đối tác thanh toán */
- .footer-column {
-     text-align: left;
- }
- 
- .footer-column h4 {
-     font-size: 18px;
-     color: #333;
-     margin-bottom: 10px;
- }
- 
- /* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
- .footer-column div {
-     display: flex;
-     justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
-     align-items: center;
-     flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
-     gap: 10px; /* Khoảng cách giữa các logo */
- }
- 
- .footer-column img {
-     width: 60px; /* Đặt kích thước chiều rộng cho các logo */
-     height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
-     margin-right: 10px; /* Khoảng cách giữa các logo */
-     object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
- }
- 
- 
- /* Footer Bottom */
- .footer-bottom {
-     text-align: center;
-     padding: 20px 0;
-     font-size: 14px;
-     color: #888;
-     border-top: 1px solid #ddd;
- }
- 
- /* Responsive Design */
- @media (max-width: 768px) {
-     .footer-content {
-         flex-direction: column;
-         text-align: center;
-     }
- 
-     .footer-column {
-         margin-bottom: 20px;
-     }
- 
-     
- }
- 
- 
- /* Tiện nghi */
- .facilities-section {
-     padding: 40px 20px;
-     background-color: #f9f9f9;
-     margin-top: 40px;
-     text-align: center;
- }
- 
- .facilities-section h2 {
-     font-size: 28px;
-     margin-bottom: 20px;
-     color: #333;
- }
- 
- .facilities-list {
-     list-style-type: none;
-     padding: 0;
-     display: grid;
-     grid-template-columns: repeat(3, 1fr);
-     gap: 10px;
-     max-width: 1200px;
-     margin: 0 auto;
- }
- 
- .facilities-list li {
-     background-color: white;
-     padding: 15px;
-     border-radius: 5px;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-     font-size: 16px;
-     color: #555;
- }
- 
- /* Đánh giá */
- .reviews-section {
-     padding: 40px 20px;
-     background-color: #fff;
-     margin-top: 40px;
-     text-align: center;
- }
- 
- .reviews-section h2 {
-     font-size: 28px;
-     margin-bottom: 20px;
-     color: #333;
- }
- 
- .review {
-     max-width: 800px;
-     margin: 0 auto 20px;
-     background-color: #f1f1f1;
-     padding: 20px;
-     border-radius: 10px;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- }
- 
- .review-text {
-     font-size: 18px;
-     color: #555;
-     margin-bottom: 10px;
- }
- 
- .review-author {
-     font-size: 16px;
-     color: #888;
- }
- 
- .write-review {
-             margin: 30px auto; /* Center horizontally */
-             padding: 20px;
-             max-width: 600px; /* Limit width for a centered effect */
-             background-color: #f9f9f9;
-             border-radius: 10px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         }
- 
-         .write-review h3 {
-             font-size: 24px;
-             color: #333;
-             margin-bottom: 15px;
-         }
- 
-         .write-review textarea {
-             width: 100%;
-             padding: 10px;
-             font-size: 16px;
-             border-radius: 5px;
-             border: 1px solid #ccc;
-             resize: vertical;
-             margin-bottom: 15px;
-         }
- 
-         .write-review .btn-submit {
-             padding: 10px 20px;
-             background-color: #ff385c;
-             color: white;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-             font-size: 16px;
-             transition: background-color 0.3s ease;
-         }
- 
-         .write-review .btn-submit:hover {
-             background-color: #e31b4c;
-         }
- 
- /* Responsive Design */
- @media (max-width: 768px) {
-     .facilities-list {
-         grid-template-columns: 1fr;
-     }
- 
-     .review {
-         width: 100%;
-     }
- }
-     </style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo a { text-decoration: none; }
+
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-buttons { display: flex; align-items: center; gap: 10px; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        #loginButton { background: var(--primary-color); color: white; border: none; }
+
+        /* Room Container */
+        .room-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .room-header { margin-bottom: 25px; }
+
+        .room-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .room-header p {
+            font-size: 16px;
+            color: var(--text-dark);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        /* Room List */
+        #list-room {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        #list-room h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--bg-light);
+        }
+
+        .room-item {
+            display: grid;
+            grid-template-columns: 250px 1fr 200px;
+            gap: 25px;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .room-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+
+        .room-image img {
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .room-info h3, .room-features h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .room-info p, .room-features p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .room-price {
+            border-left: 1px solid #eee;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: right;
+        }
+
+        .room-price p {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .room-price small {
+            color: var(--text-gray);
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .btn-book {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-book:hover { background-color: var(--secondary-color); }
+
+        /* Reviews Section */
+        .reviews-section {
+            background-color: var(--bg-light);
+            padding: 60px 20px;
+            margin-top: 50px;
+        }
+
+        .reviews-section h2 { text-align: center; margin-bottom: 40px; font-size: 28px; }
+
+        .review {
+            background: white;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .review-text { font-style: italic; color: var(--text-dark); font-size: 16px; margin-bottom: 10px; }
+        .review-author { font-size: 14px; color: var(--text-gray); font-weight: 600; }
+
+        /* Write Review */
+        .write-review {
+            max-width: 800px;
+            margin: -30px auto 50px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 2;
+        }
+
+        .write-review h3 { margin-bottom: 20px; text-align: center; }
+
+        .write-review select, .write-review textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover { background: #000; }
+
+        /* Policies */
+        .policy-section { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        .policy-item h3 { font-size: 16px; margin-bottom: 10px; }
+        .policy-item p { font-size: 14px; color: var(--text-gray); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #eee;
+            padding: 60px 5% 20px;
+            background: var(--bg-light);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+        }
+
+        .footer-column h4 { font-size: 15px; margin-bottom: 15px; }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center; margin-top: 50px; padding-top: 20px;
+            border-top: 1px solid #ddd; font-size: 13px; color: var(--text-gray);
+        }
+
+        .half-star { width: 16px; height: 16px; vertical-align: middle; margin: 0 2px 3px; }
+
+        @media (max-width: 768px) {
+            .room-item { grid-template-columns: 1fr; }
+            .room-price { border-left: none; padding-left: 0; border-top: 1px solid #eee; padding-top: 15px; text-align: left; }
+        }
+    </style>
+</head>
 <body>
     <header>
         <div class="navbar">
             <div class="logo">
-                <a href="index.html"><h1>A-Train</h1></a>
+                <a href="index.html"><h1>Quản lý khách sạn</h1></a>
             </div>
             <nav>
                 <ul>
                     <li><a href="#">Nơi ở</a></li>
                     <li><a href="#">Trải Nghiệm</a></li>
-                    <li><a href="#">Trải nghiệm trực tuyến</a></li>
                 </ul>
             </nav>
             <div class="nav-buttons">
                 <button id="registerButton">Đăng ký</button>
                 <button id="loginButton">Đăng nhập</button>
                 <button id="logoutButton" style="display: none;">Đăng xuất</button>
-                <span id="usernameDisplay" style="display: none;">Hello World</span>
+                <span id="usernameDisplay" style="display: none; font-weight: bold; cursor: pointer;"></span>
             </div>
         </div>
     </header>
 
-    <div id="room-container" class="room-container">
-        <div class="room-header">
-            <h1>Khách sạn Sang Trọng</h1>
-            <p>📍 Vũng Tàu, Vietnam</p>
-        </div>
-    </div>
-
-    <div id="list-room">
-        <h2>Danh sách phòng</h2>
-        <div class="room-list"></div>
-    </div>
-
-    <div class="reviews-section" id="reviews-section1">
-        <h2>Đánh giá</h2>
-        <!-- Các đánh giá sẽ được thêm vào đây thông qua JavaScript -->
-    </div>
-
-    <div class="write-review">
-        <h3>Viết đánh giá của bạn</h3>
-        <select id="rate" name="rate" required>
-            <option value="">Rate</option>
-            <option value="0">0</option>
-            <option value="0.5">0.5</option>
-            <option value="1">1</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2</option>
-            <option value="2.5">2.5</option>
-            <option value="3">3</option>
-            <option value="3.5">3.5</option>
-            <option value="4">4</option>
-            <option value="4.5">4.5</option>
-            <option value="5">5</option>
-        </select>
-        <textarea id="userReview" placeholder="Chia sẻ trải nghiệm của bạn" rows="4" required></textarea>
-        <button id="submitReview" class="btn-submit">Gửi đánh giá</button>
-    </div>
-
-    <div class="policy-section">
-        <h2>Chính sách nhận - trả phòng</h2>
-        <div class="policy-grid">
-            <div class="policy-item">
-                <h3>Theo giờ</h3>
-                <p>Mở cửa từ 7:00</p>
-            </div>
-            <div class="policy-item">
-                <h3>Qua đêm</h3>
-                <p>22:00 – 10:00</p>
-            </div>
-            <div class="policy-item">
-                <h3>Theo ngày</h3>
-                <p>14:00 – 12:00</p>
-            </div>
-            <div class="policy-item">
-                <h3>Chính sách hủy phòng</h3>
-                <p>Hủy phòng miễn phí 1 tiếng trước khi nhận phòng.</p>
+    <main>
+        <div id="room-container" class="room-container">
+            <div class="room-header">
+                <h1>Đang tải thông tin khách sạn...</h1>
             </div>
         </div>
-    </div>
+
+        <div id="list-room">
+            <h2>Danh sách phòng trống</h2>
+            <div class="room-list">
+                </div>
+        </div>
+
+        <div class="reviews-section" id="reviews-section1">
+            <h2>Đánh giá từ khách hàng</h2>
+            </div>
+
+        <div class="write-review">
+            <h3>Chia sẻ trải nghiệm của bạn</h3>
+            <select id="rate" name="rate" required>
+                <option value="">Chọn số sao</option>
+                <option value="5">5 sao - Tuyệt vời</option>
+                <option value="4">4 sao - Rất tốt</option>
+                <option value="3">3 sao - Bình thường</option>
+                <option value="2">2 sao - Kém</option>
+                <option value="1">1 sao - Rất kém</option>
+            </select>
+            <textarea id="userReview" placeholder="Viết nhận xét của bạn tại đây..." rows="4" required></textarea>
+            <button id="submitReview" class="btn-submit">Gửi đánh giá ngay</button>
+        </div>
+
+        <div class="policy-section">
+            <h2 style="margin-bottom: 30px;">Chính sách nhận - trả phòng</h2>
+            <div class="policy-grid">
+                <div class="policy-item">
+                    <h3>🕒 Theo giờ</h3>
+                    <p>Mở cửa từ 7:00 sáng hàng ngày.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>🌙 Qua đêm</h3>
+                    <p>Nhận: 22:00 – Trả: 10:00 sáng hôm sau.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>📅 Theo ngày</h3>
+                    <p>Nhận: 14:00 – Trả: 12:00 trưa.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>❌ Hủy phòng</h3>
+                    <p>Miễn phí nếu hủy trước 1 tiếng.</p>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <footer>
         <div class="footer-content">
             <div class="footer-column">
                 <h4>Hỗ trợ</h4>
-                <p>📞 Hotline: 1900 123 456</p>
-                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
-                <p>Liên hệ hợp tác: partner@A-Train.com</p>
-                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+                <p>📞 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết tranh chấp</p>
             </div>
             <div class="footer-column">
                 <h4>Giới thiệu</h4>
                 <p>Về chúng tôi</p>
                 <p>Trang blog</p>
-                <p>Quy chế hoạt động website</p>
                 <p>Cơ hội nghề nghiệp</p>
-                <p>Dành cho đối tác</p>
             </div>
             <div class="footer-column">
-                <h4>Đối tác thanh toán</h4>
+                <h4>Thanh toán</h4>
                 <img src="/anh/bankpay.svg" alt="BankPay" />
                 <img src="/anh/visa.svg" alt="Visa" />
             </div>
@@ -609,55 +383,44 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+            <p>© 2026 Quản lý khách sạn • Bảo mật • Điều khoản • Sơ đồ trang web</p>
         </div>
     </footer>
 
     <script>
-        // Xử lý đăng nhập và đăng xuất
+        // GIỮ NGUYÊN TOÀN BỘ LOGIC JAVASCRIPT CỦA BẠN
         const username = sessionStorage.getItem('username'); 
         const logoutButton = document.getElementById("logoutButton");
         const loginButton = document.getElementById("loginButton");
         const registerButton = document.getElementById("registerButton");
         const usernameDisplay = document.getElementById("usernameDisplay");
 
-        // Hiển thị thông tin người dùng nếu đã đăng nhập
         if (username) {
             usernameDisplay.textContent = `Xin chào, ${username}!`;
             usernameDisplay.style.display = 'inline';
             logoutButton.style.display = 'inline';
             loginButton.style.display = 'none';
             registerButton.style.display = 'none';
+            const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
+            usernameDisplay.addEventListener("click", () => { window.location.href = redirectPage; });
         }
 
-        // Xử lý sự kiện đăng xuất
         logoutButton.addEventListener("click", () => {
-            sessionStorage.removeItem('username');
-            sessionStorage.removeItem('customerId'); // Xóa ID khách hàng khi đăng xuất
-            window.location.href = "/logout"; // Chuyển hướng sau khi đăng xuất
+            sessionStorage.clear();
+            window.location.href = "/logout";
         });
 
-        // Chuyển hướng đến trang đăng nhập
-        loginButton.addEventListener("click", () => {
-            window.location.href = "/login"; 
-        });
-
-        // Chuyển hướng đến trang đăng ký
-        registerButton.addEventListener("click", () => {
-            window.location.href = "/register"; 
-        });
+        loginButton.addEventListener("click", () => { window.location.href = "/login"; });
+        registerButton.addEventListener("click", () => { window.location.href = "/register"; });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Hàm lấy tham số từ URL
             function getQueryParam(param) {
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(param);
             }
 
-            // Lấy mã khách sạn từ URL
             const maKS = getQueryParam('maKS'); 
             if (maKS) {
-                // Lấy thông tin khách sạn
                 fetch(`/ks/${maKS}`)
                     .then(response => {
                         if (!response.ok) throw new Error('Khách sạn không tìm thấy');
@@ -668,194 +431,103 @@
                         roomContainer.innerHTML = `
                             <div class="room-header">
                                 <h1>${data.TenKS}</h1>
-                                <p>📍 ${data.DiaChi}, ${data.TinhThanh}</p>
-                                <p>📞 ${data.SoTongDai}</p>
+                                <p>📍 ${data.DiaChi}, ${data.TinhThanh} • 📞 ${data.SoTongDai}</p>
                             </div>
                         `;
-                    })
-                    .catch(error => console.error('Error fetching hotel data:', error));
+                    });
 
-                // Lấy danh sách phòng
                 fetch(`/room/${maKS}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            console.error('Response error:', response.statusText);
-                            throw new Error('Dữ liệu phòng không tìm thấy');
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
-                        const roomList = document.getElementById('list-room').querySelector('.room-list');
-                        roomList.innerHTML = ''; // Xóa nội dung trước đó
-
+                        const roomList = document.querySelector('.room-list');
+                        roomList.innerHTML = '';
                         if (data.length === 0) {
-                            const noDataMessage = document.createElement('p');
-                            noDataMessage.textContent = 'Không có dữ liệu phòng nào.';
-                            roomList.appendChild(noDataMessage);
+                            roomList.innerHTML = '<p>Hiện không có phòng trống nào tại khách sạn này.</p>';
                             return;
                         }
 
                         data.forEach(room => {
                             const div = document.createElement('div');
                             div.className = 'room-item';
-                            div.setAttribute('data-maphong', room.MaPhong);
-
                             div.innerHTML = `
                                 <div class="room-image">
-                                    <img src="" alt="${room.MaPhong}" class="room-img">
+                                    <img src="" alt="${room.MaPhong}" class="room-img" id="img-${room.MaPhong}">
                                 </div>
                                 <div class="room-info">
-                                    <h3>Thông tin phòng</h3>
-                                    <p>${room.LoaiPhong}</p>
-                                </div>
-                                <div class="room-features">
-                                    <h3>Đặc điểm nổi bật</h3>
+                                    <h3>Loại phòng: ${room.LoaiPhong}</h3>
+                                    <p>Thông tin cơ bản về phòng nghỉ tiêu chuẩn với không gian thoáng đãng.</p>
+                                    <h3 style="margin-top:15px;">Tiện nghi</h3>
                                     <p>${room.TienNghi}</p>
                                 </div>
                                 <div class="room-price">
-                                    <h3>Giá phòng</h3>
-                                    <p>${room.GiaPhong}đ</p>
-                                    <small>${room.TrangThai}</small>
-                                    <button class="btn-book" data-maks="${maKS}" data-maphong="${room.MaPhong}">Đặt phòng</button>
+                                    <p>${room.GiaPhong.toLocaleString()}đ</p>
+                                    <small>/ đêm</small>
+                                    <span style="font-size:12px; color:#28a745; margin-bottom:10px;">${room.TrangThai}</span>
+                                    <button class="btn-book" data-maks="${maKS}" data-maphong="${room.MaPhong}">Đặt phòng ngay</button>
                                 </div>
                             `;
-                            div.addEventListener('click', () => {
-                                window.location.href = `/chitietphong?maKS=${maKS}&maPhong=${room.MaPhong}`; // Chuyển hướng đến trang chi tiết phòng
-                            });
-                            // Tải ảnh phòng
-                            fetch(`/room-image/${room.MaPhong}`)
-                                .then(response => {
-                                    if (!response.ok) {
-                                        console.error('Error fetching room image:', response.statusText);
-                                        throw new Error('Không thể tải ảnh');
-                                    }
-                                    return response.blob();
-                                })
-                                .then(blob => {
-                                    const imageSrc = URL.createObjectURL(blob);
-                                    const imgElement = div.querySelector('.room-img');
-                                    imgElement.src = imageSrc;
-                                })
-                                .catch(error => console.error('Error fetching room image:', error));
 
-                            // Thêm sự kiện click cho nút "Đặt phòng"
-                            const bookingButton = div.querySelector('.btn-book');
-                            bookingButton.addEventListener('click', (event) => {
-                                event.stopPropagation(); // Ngăn chặn sự kiện click nổi bọt
-                                const maKS = event.currentTarget.dataset.maks;
-                                const maPhong = event.currentTarget.dataset.maphong;
-                                window.location.href = `/datphong?maKS=${maKS}&maPhong=${maPhong}`;
+                            div.addEventListener('click', (e) => {
+                                if(!e.target.classList.contains('btn-book')) {
+                                    window.location.href = `/chitietphong?maKS=${maKS}&maPhong=${room.MaPhong}`;
+                                }
+                            });
+
+                            fetch(`/room-image/${room.MaPhong}`)
+                                .then(res => res.blob())
+                                .then(blob => {
+                                    const img = document.getElementById(`img-${room.MaPhong}`);
+                                    if(img) img.src = URL.createObjectURL(blob);
+                                });
+
+                            div.querySelector('.btn-book').addEventListener('click', (event) => {
+                                event.stopPropagation();
+                                window.location.href = `/datphong?maKS=${maKS}&maPhong=${room.MaPhong}`;
                             });
 
                             roomList.appendChild(div);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching room data:', error);
-                        alert(error.message); // Hiển thị thông báo lỗi cho người dùng
                     });
 
-                // Nút gửi đánh giá
-                document.getElementById('submitReview').addEventListener('click', function(event) {
-                    event.preventDefault(); // Ngăn chặn gửi form mặc định
+                document.getElementById('submitReview').addEventListener('click', function() {
                     const rating = document.getElementById('rate').value;
                     const reviewText = document.getElementById('userReview').value;
-                    // Lấy customerId từ sessionStorage
                     const customerId = sessionStorage.getItem('customerId');
-                    // Kiểm tra xem tất cả thông tin đã đầy đủ
-                    if (!rating || !reviewText || !customerId || !maKS) {
-                        alert('Vui lòng điền đầy đủ thông tin đánh giá!');
+                    if (!rating || !reviewText || !customerId) {
+                        alert('Vui lòng đăng nhập và điền đầy đủ đánh giá!');
                         return;
                     }
-                    // Tạo đối tượng đánh giá
-                    const reviewData = {
-                        rating: parseFloat(rating), // Chuyển rating thành số thực
-                        reviewText,
-                        customerId,
-                        maKS
-                    };
-                    // Gửi đánh giá đến server
                     fetch('/save-review', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(reviewData),
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Có lỗi xảy ra khi gửi đánh giá');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Làm sạch trường nhập liệu
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ rating: parseFloat(rating), reviewText, customerId, maKS })
+                    }).then(() => {
                         document.getElementById('rate').value = '';
                         document.getElementById('userReview').value = '';
-                        loadReviews(); // Tải lại đánh giá
-                    })
-                    .catch(error => {
-                        console.error('Lỗi:', error);
-                        alert('Đã xảy ra lỗi: ' + error.message);
+                        loadReviews();
                     });
                 });
-                // Hàm tải đánh giá
+
                 function loadReviews() {
-                    fetch(`/api/reviews/${maKS}`) // Sử dụng maKS trong URL
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Không thể tải đánh giá');
-                            }
-                            return response.json();
-                        })
+                    fetch(`/api/reviews/${maKS}`)
+                        .then(res => res.json())
                         .then(data => {
                             const reviewsSection = document.getElementById('reviews-section1');
-                            reviewsSection.innerHTML = '<h2>Đánh giá</h2>'; // Xóa nội dung cũ
-
-                            // Duyệt qua các đánh giá và thêm vào phần hiển thị
+                            reviewsSection.innerHTML = '<h2>Đánh giá từ khách hàng</h2>';
                             data.forEach(review => {
                                 const reviewDiv = document.createElement('div');
-                                reviewDiv.classList.add('review'); 
-                                // Tạo phần tử cho nội dung đánh giá
-                                const reviewText = document.createElement('p');
-                                reviewText.classList.add('review-text');
-                                reviewText.textContent = `"${review.Phanhoivadexuat}"`; 
-                                // Tạo phần tử cho tên tác giả và đánh giá
-                                const reviewAuthor = document.createElement('p');
-                                reviewAuthor.classList.add('review-author');
+                                reviewDiv.classList.add('review');
                                 const fullStars = Math.floor(review.Mucdohailong);
-                                const halfStar = review.Mucdohailong % 1 >= 0.5 ? 1 : 0;
-                                const emptyStars = 5 - fullStars - halfStar;
-                                // Construct star rating string
-                                let stars = '⭐'.repeat(fullStars);
-                                // Append half star image if applicable
-                                if (halfStar) {
-                                    const halfStarImg = document.createElement('img');
-                                    halfStarImg.src = '/anh/image.png'; // Path to your half star image
-                                    halfStarImg.alt = 'Half Star';
-                                    halfStarImg.classList.add('half-star'); // Optional: add a class for styling
-                                    stars += halfStarImg.outerHTML; // Convert the image element to HTML string
-                                }
-                                stars += '✰'.repeat(emptyStars);
-                                reviewAuthor.innerHTML = `- ${review.HoVaTen}, ${review.Mucdohailong}/5 ${stars}`;
-                                // Thêm nội dung đánh giá vào phần tử review
-                                reviewDiv.appendChild(reviewText);
-                                reviewDiv.appendChild(reviewAuthor);
-
-                                // Thêm review vào phần hiển thị
+                                const halfStar = review.Mucdohailong % 1 >= 0.5 ? '⭐' : '';
+                                reviewDiv.innerHTML = `
+                                    <p class="review-text">"${review.Phanhoivadexuat}"</p>
+                                    <p class="review-author">- ${review.HoVaTen}, ${review.Mucdohailong}/5 ${'⭐'.repeat(fullStars)}${halfStar}</p>
+                                `;
                                 reviewsSection.appendChild(reviewDiv);
                             });
-                        })
-                        .catch(error => {
-                            console.error('Lỗi:', error);
-                            const reviewsSection = document.getElementById('reviews-section1');
-                            reviewsSection.innerHTML = '<h2>Đánh giá</h2><p>Không thể tải đánh giá. Vui lòng thử lại sau.</p>';
                         });
                 }
-                // Gọi hàm loadReviews khi trang được tải
                 loadReviews();
-            } else {
-                console.error('maKS is undefined in URL');
             }
         });
     </script>

@@ -1,328 +1,314 @@
 <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <link rel='shortcut icon' href='/anh/favicon.ico' />
-            <title>Login - A-Train Clone</title>
-            <style>
-                /* Tổng thể cho phần đăng ký */
-            .navbar {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 20px;
-                background-color: #ff385c;
-                color: white;
-            }
-            
-            .navbar .logo h1 {
-                font-size: 24px;
-                margin: 0; /* Remove default margin */
-            }
-            
-            .navbar nav ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                display: flex;
-            }
-            
-            .navbar nav ul li {
-                margin-left: 20px;
-            }
-            
-            .navbar nav ul li a {
-                color: white;
-                text-decoration: none;
-                font-size: 16px;
-            }
-            
-            /* Button styling */
-            .nav-buttons button {
-                background-color: white;
-                color: #ff385c;
-                border: 1px solid #ff385c;
-                padding: 8px 15px;
-                margin-left: 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s, color 0.3s;
-            }
-            
-            .nav-buttons button:hover {
-                background-color: #ff385c;
-                color: white;
-            }
-            
-            /* Body styling */
-            body {
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
-                margin: 0;
-                font-family: Arial, sans-serif;
-                background-color: #f7f7f7;
-                background-image: url(anh/anhnen.jpg);
-                background-attachment: fixed;
-                background-size: cover;
-                background-position: center;
-                line-height: 1.3;
-            }
-            
-            /* Login container styling */
-            .login-container {
-                flex-grow: 1;
-                background-color: rgba(255, 255, 255, 0.9);
-                padding: 40px;
-                border-radius: 10px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                max-width: 400px;
-                width: 90%;
-                text-align: center;
-                margin: 50px auto; /* Thêm margin-top và margin-bottom */
-            }
-            
-            .login-container h2 {
-                margin-bottom: 25px;
-                color: #333;
-                font-size: 1.8em;
-            }
-            
-            /* Input group styling */
-            .input-group {
-                margin-bottom: 20px;
-                text-align: left;
-            }
-            
-            .input-group label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: bold;
-                color: #333;
-            }
-            
-            .input-group input {
-                width: calc(100% - 20px);
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                font-size: 1em;
-                transition: border-color 0.3s;
-            }
-                    select{
-                        width: 100%;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        border-radius: 4px;
-                        font-size: 16px;
-                    }
-            .input-group input:focus {
-                border-color: #ff5a5f;
-                outline: none;
-            }
-            
-            /* Button styling */
-            button {
-                width: 100%;
-                padding: 12px;
-                background-color: #ff5a5f;
-                border: none;
-                border-radius: 5px;
-                color: white;
-                font-size: 1em;
-                cursor: pointer;
-                transition: background-color 0.3s, transform 0.2s;
-                margin-top: 15px;
-            }
-            
-            button:hover {
-                background-color: #e54a4f;
-                transform: translateY(-2px);
-            }
-            
-            .error-message {
-                color: red;
-                font-size: 14px;
-                margin-top: 5px;
-            }
-            
-            .login-link {
-                margin-top: 20px;
-                font-size: 0.9em;
-            }
-            
-            footer {
-                background-color: #f7f7f7;
-                padding: 40px 0;
-                border-top: 1px solid #eaeaea;
-                text-align: center;
-            }
-            
-            .footer-content {
-                display: flex;
-                justify-content: space-between;
-                max-width: 1200px;
-                margin: 0 auto;
-                flex-wrap: wrap;
-                gap: 20px;
-            }
-            
-            .footer-column h4 {
-                font-size: 18px;
-                color: #333;
-                margin-bottom: 10px;
-            }
-            
-            .footer-column img {
-                width: 60px;
-                height: auto;
-                margin-right: 10px;
-                object-fit: contain;
-            }
-            
-            /* Footer bottom styling */
-            .footer-bottom {
-                padding: 20px 0;
-                font-size: 14px;
-                color: #888;
-                border-top: 1px solid #ddd;
-            }
-            
-            /* Responsive adjustments */
-            @media (max-width: 600px) {
-                .navbar {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-            
-                .login-container {
-                    padding: 20px;
-                    max-width: 100%;
-                    margin: 20px auto; /* Giảm khoảng cách trên/dưới container */
-                }
-            
-                .footer-content {
-                    flex-direction: column;
-                    align-items: center;
-                }
-            
-                .footer-column {
-                    text-align: center;
-                    margin-bottom: 20px;
-                }
-            }
-            </style>
-        </head>
-        <body>
-            <header>
-                <div class="navbar">
-                    <div class="logo">
-                        <h1>A-Train</h1>
-                    </div>
-                </div>
-            </header>
-            <!-- Login Form -->
-            <div class="login-container">
-                <h2 id = "admin">Đăng nhập</h2>
-                <form id="adminloginForm">
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" placeholder="Nhập email của bạn" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">Mật khẩu</label>
-                        <input type="password" id="password" placeholder="Nhập mật khẩu" required>
-                    </div>
-                    <button type="submit" id="adminloginSubmit">Đăng nhập</button>
-                </form>
-                <button type="button" id="regbutton">Đăng kí</button>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Đăng nhập Nhân viên | Quản lý khách sạn</title>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 15px 5%;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        /* Container đăng nhập */
+        .login-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-container {
+            background-color: var(--white);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 26px;
+            font-weight: 700;
+            cursor: pointer; /* Cho sự kiện chuyển về trang /login */
+            transition: color 0.3s;
+        }
+
+        .login-container h2:hover {
+            color: var(--primary-color);
+        }
+
+        /* Input styling */
+        .input-group {
+            margin-bottom: 22px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box; /* Sửa lỗi width calc cũ */
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            outline: none;
+        }
+
+        /* Button styling */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 56, 92, 0.3);
+        }
+
+        #regbutton {
+            width: 100%;
+            padding: 12px;
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        #regbutton:hover {
+            background-color: #f0f0f0;
+            border-color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin: 8px 0;
+        }
+
+        .footer-column img {
+            height: 25px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .login-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Quản lý khách sạn</h1>
             </div>
-               <!-- Footer -->
+        </div>
+    </header>
+
+    <div class="login-section">
+        <div class="login-container">
+            <h2 id="admin" title="Chuyển sang đăng nhập khách">Đăng nhập Hệ thống</h2>
+            <form id="adminloginForm">
+                <div class="input-group">
+                    <label for="email">Email Công việc</label>
+                    <input type="email" id="email" placeholder="email@quanlykhachsan.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" placeholder="Nhập mật khẩu quản trị" required>
+                </div>
+                <button type="submit" id="adminloginSubmit">Đăng nhập Quản lý</button>
+            </form>
+            <button type="button" id="regbutton">Đăng ký tài khoản nội bộ</button>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-content">
             <div class="footer-column">
-                <h4>Hỗ trợ</h4>
-                <p>📞 Hotline: 1900 123 456</p>
-                <p>Hỗ trợ khách hàng: support@A-Train.com</p>
-                <p>Liên hệ hợp tác: partner@A-Train.com</p>
-                <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+                <h4>Hỗ trợ nội bộ</h4>
+                <p>📞 Hotline IT: 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế bảo mật dữ liệu</p>
             </div>
             <div class="footer-column">
-                <h4>Giới thiệu</h4>
+                <h4>Thông tin</h4>
                 <p>Về chúng tôi</p>
-                <p>Trang blog</p>
-                <p>Quy chế hoạt động website</p>
+                <p>Trang nội bộ</p>
+                <p>Quy chế hoạt động</p>
                 <p>Cơ hội nghề nghiệp</p>
-                <p>Dành cho đối tác</p>
             </div>
             <div class="footer-column">
                 <h4>Đối tác thanh toán</h4>
-                <img src="/anh/bankpay.svg" alt="BankPay" />
-                <img src="/anh/visa.svg" alt="Visa" />
+                <div style="display: flex;">
+                    <img src="/anh/bankpay.svg" alt="BankPay" />
+                    <img src="/anh/visa.svg" alt="Visa" />
+                </div>
             </div>
-            <div class="footer-column-app">
-                <h4>Tải ứng dụng</h4>
-                <img src="/anh/AppStore.svg" alt="App Store" />
-                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            <div class="footer-column">
+                <h4>Ứng dụng quản trị</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px; display: block; margin-bottom: 5px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px; display: block;"/>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật dữ liệu • Điều khoản hệ thống</p>
         </div>
     </footer>
-            <script>
-                // Gán sự kiện cho nút "Đăng kí"
-                document.getElementById('admin').addEventListener("click", function () {
-                    window.location.href = "/login"; 
-                });
-                document.getElementById('regbutton').addEventListener("click", function () {
-                    window.location.href = "/adminreg"; 
-                });
-                // Gán sự kiện cho biểu mẫu đăng nhập
-                document.getElementById('adminloginForm').addEventListener('submit', function(event) {
-                    event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu mẫu
-        
-                    // Lấy giá trị email và mật khẩu từ biểu mẫu
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-        
-                    // Gửi dữ liệu đến máy chủ
-                    fetch('/nvlogin', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
+
+    <script>
+        // Điều hướng ẩn cho tiêu đề h2
+        document.getElementById('admin').addEventListener("click", function () {
+            window.location.href = "/login"; 
+        });
+
+        // Điều hướng cho nút đăng ký
+        document.getElementById('regbutton').addEventListener("click", function () {
+            window.location.href = "/adminreg"; 
+        });
+
+        // Xử lý Form đăng nhập nhân viên
+        document.getElementById('adminloginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/nvlogin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        // Xử lý trạng thái không thành công
-                        return response.json().then(data => {
-                            throw new Error(data.message || 'Đăng nhập không thành công');
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    if (data.success) {
-                        // Lưu tên người dùng vào session và chuyển hướng
-                        sessionStorage.setItem('username', data.username);
-                        window.location.href = "/quanly";
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Đã xảy ra lỗi: ' + error.message);
-                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.message || 'Đăng nhập không thành công');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    sessionStorage.setItem('username', data.username);
+                    window.location.href = "/quanly";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi: ' + error.message);
             });
-            </script>
-        </body>
-        </html>
+        });
+    </script>
+</body>
+</html>

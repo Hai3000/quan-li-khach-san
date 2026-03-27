@@ -1,747 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel='shortcut icon' href='/anh/favicon.ico' />
-    <title>Kết quả tìm kiếm</title>
-    <!--<link rel="stylesheet" href="style.css">-->
-  <style>
-    /* Global styles */
-body {
-    background-image: url(anh/anhnen.jpg); /* Đường dẫn đến ảnh nền */
-    background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn */
-    background-size: cover; /* Đảm bảo ảnh phủ toàn bộ phần tử */
-    background-position: center; /* Căn giữa ảnh */
-    margin: 0; /* Bỏ khoảng cách mặc định */
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f7f7f7; /* Màu nền dự phòng */
-}
-.hero-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Đảm bảo ảnh bao phủ toàn bộ phần tử */
-    z-index: -1;
-}
-/* Màn hình nhỏ hơn 768px */
-@media (max-width: 767px) {
-    .hero-section {
-        padding: 60px 10px;
-        background-size: contain; /* Giữ nguyên tỷ lệ ảnh */
-        min-height: 50vh; /* Đảm bảo chiều cao cho màn hình nhỏ */
-    }
-}
-
-/* Màn hình từ 768px đến 991px */
-@media (min-width: 768px) and (max-width: 991px) {
-    .hero-section {
-        padding: 80px 20px;
-        background-size: cover;
-        min-height: 55vh;
-    }
-}
-
-/* Màn hình từ 992px đến 1200px */
-@media (min-width: 992px) and (max-width: 1199px) {
-    .hero-section {
-        padding: 100px 40px;
-        background-size: cover;
-        min-height: 60vh;
-    }
-}
-
-/* Màn hình lớn hơn 1200px */
-@media (min-width: 1200px) {
-    .hero-section {
-        padding: 150px 80px;
-        background-size: cover;
-        min-height: 70vh;
-    }
-}
-h1, h2 {
-    margin: 0;
-    padding: 0;
-}
-
-/* Navbar styling */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #ff385c;
-    color: white;
-}
-
-.navbar .logo h1 {
-    font-size: 24px;
-}
-
-.navbar nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.navbar nav ul li {
-    margin-left: 20px;
-}
-
-.navbar nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.nav-buttons button {
-    background-color: white;
-    color: #ff385c;
-    border: 1px solid #ff385c;
-    padding: 8px 15px;
-    margin-left: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.nav-buttons button:hover {
-    background-color: #ff385c;
-    color: white;
-}
-.logo a {
-    text-decoration: none; /* Loại bỏ gạch chân */
-    color: inherit; /* Giữ nguyên màu của tiêu đề */
-}
-/* Hero Section Styling */
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: #f7f7f7;
-    padding: 100px 20px;
-    background-image: url('/anh/anhnen.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-}
-
-.hero-section h2 {
-    font-size: 36px;
-    margin-bottom: 20px;
-}
-/* Hotel List Section */
-.hotel-list {
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.hotel-list h2 {
-    font-size: 32px;
-    margin-bottom: 40px;
-}
-
-.hotels {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
-.hotel {
-    background-color: #f7f7f7;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    width: 30%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.hotel:hover {
-    transform: translateY(-5px);
-}
-
-.hotel img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.hotel-info {
-    padding: 15px;
-}
-
-.hotel-info h3 {
-    margin: 10px 0;
-    font-size: 24px;
-}
-
-.hotel-info p {
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-.hotel-info p:nth-of-type(2) {
-    color: #ff385c;
-    font-weight: bold;
-}
-
-.hotel-info p:nth-of-type(3) {
-    color: #f59e0b;
-}
-a {
-    color: inherit; /* Màu giống với nội dung xung quanh */
-    text-decoration: none; /* Xóa bỏ gạch chân */
-}
-
-a:hover, a:visited {
-     /* Màu đỏ hoặc màu bạn muốn cho liên kết khi hover */
-    text-decoration: none; /* Thêm gạch chân khi hover nếu cần */
-}
-
-
-
-/* About Section */
-.about-section {
-    padding: 50px 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.about-section h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-}
-
-.about-section p {
-    font-size: 18px;
-    color: #555;
-}
-
-/* Services Section */
-.services-section {
-    padding: 50px 20px;
-    text-align: center;
-    background-color: #f7f7f7;
-}
-
-.services-section h2 {
-    font-size: 32px;
-    margin-bottom: 40px;
-}
-
-.services {
-    display: flex;
-    justify-content: space-around;
-}
-
-.service {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.service h3 {
-    font-size: 24px;
-    color: #ff385c;
-    margin-bottom: 10px;
-}
-
-/* Testimonials Section */
-.testimonials-section {
-    padding: 50px 20px;
-    text-align: center;
-    background-color: #fff;
-}
-
-.testimonials-section h2 {
-    font-size: 32px;
-    margin-bottom: 40px;
-}
-
-.testimonials {
-    display: flex;
-    justify-content: space-around;
-}
-
-.testimonial {
-    background-color: #f7f7f7;
-    padding: 20px;
-    border-radius: 10px;
-    width: 30%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.testimonial p {
-    font-size: 16px;
-    margin: 5px 0;
-}
-
-/* Contact Section */
-.contact-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 400px; /* Chiều cao full màn hình */
-    background-color: #f7f7f7;
-}
-
-.contact-section h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-}
-
-.contact-section form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-}
-
-.contact-section input,
-.contact-section textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.contact-section button {
-    padding: 10px 20px;
-    background-color: #ff385c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.contact-section button:hover {
-    background-color: #e31b4c;
-}
-
-/* Footer */
-footer {
-    background-color: #f7f7f7;
-    padding: 40px 0;
-    margin-top: 40px;
-    border-top: 1px solid #eaeaea;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-/* Đối tác thanh toán */
-.footer-column {
-    text-align: left;
-}
-
-.footer-column h4 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-/* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
-.footer-column div {
-    display: flex;
-    justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
-    align-items: center;
-    flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
-    gap: 10px; /* Khoảng cách giữa các logo */
-}
-
-.footer-column img {
-    width: 60px; /* Đặt kích thước chiều rộng cho các logo */
-    height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
-    margin-right: 10px; /* Khoảng cách giữa các logo */
-    object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
-}
-
-
-/* Footer Bottom */
-.footer-bottom {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 14px;
-    color: #888;
-    border-top: 1px solid #ddd;
-}
-/* Định dạng cơ bản cho .search-bar */
-.search-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Hai cột */
-    grid-template-areas: 
-        "location guests"
-        "checkin nights"
-        "checkout checkout"
-        "button button";
-    gap: 15px;
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Đặt các khu vực */
-.location { grid-area: location; }
-.guests { grid-area: guests; }
-.checkin { grid-area: checkin; }
-.nights { grid-area: nights; }
-.checkout { 
-    grid-area: checkout; 
-    text-align: center; /* Căn giữa nội dung */
-}
-button { grid-area: button; }
-
-/* Định dạng các trường nhập liệu */
-.search-bar label {
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.search-bar input[type="text"],
-.search-bar input[type="date"],
-.search-bar input[type="number"] {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-/* Nút Tìm kiếm */
-.search-bar button {
-    background-color: #ff385c;
-    color: white;
-    border: none;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: bold;
-    width: 100%;
-}
-
-.search-bar button:hover {
-    background-color: #d32f2f;
-}
-
-/* Responsive: Chuyển thành một cột */
-@media (max-width: 768px) {
-    .search-bar {
-        grid-template-columns: 1fr; /* Chuyển thành một cột */
-        grid-template-areas: 
-            "location"
-            "guests"
-            "checkin"
-            "nights"
-            "checkout"
-            "button";
-    }
-}
-
-/* Mặc định dành cho màn hình lớn hơn 1200px */
-@media (min-width: 1200px) {
-    .navbar {
-        padding: 20px 80px;
-    }
-
-    .hero-section {
-        padding: 150px 100px;
-        background-size: cover;
-    }
-
-    .hotel {
-        width: 28%;
-    }
-
-    .search-bar {
-        width: 50%;
-    }
-
-    .services, .testimonials {
-        flex-direction: row;
-    }
-
-    .service, .testimonial {
-        width: 30%;
-    }
-
-    .contact-section form {
-        width: 50%;
-    }
-}
-
-/* Màn hình từ 992px đến 1200px */
-@media (min-width: 992px) and (max-width: 1199px) {
-    .navbar {
-        padding: 20px 60px;
-    }
-
-    .hero-section {
-        padding: 120px 50px;
-        background-size: contain;
-    }
-
-    .hotel {
-        width: 45%;
-    }
-
-    .search-bar {
-        width: 60%;
-    }
-
-    .services, .testimonials {
-        flex-direction: row;
-    }
-
-    .service, .testimonial {
-        width: 45%;
-    }
-
-    .contact-section form {
-        width: 70%;
-    }
-}
-
-/* Màn hình từ 768px đến 991px */
-@media (min-width: 768px) and (max-width: 991px) {
-    .navbar {
-        padding: 15px 40px;
-    }
-
-    .hero-section {
-        padding: 100px 30px;
-    }
-
-    .hotel {
-        width: 90%;
-    }
-
-    .search-bar {
-        width: 70%;
-    }
-
-    .services, .testimonials {
-        flex-direction: column;
-    }
-
-    .service, .testimonial {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .contact-section form {
-        width: 90%;
-    }
-}
-
-/* Màn hình nhỏ hơn 768px */
-@media (max-width: 767px) {
-    .navbar {
-        flex-direction: column;
-        padding: 10px 20px;
-    }
-
-    .hero-section {
-        padding: 80px 20px;
-        text-align: center;
-        background-size: contain;
-    }
-
-    .hotel {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .search-bar {
-        width: 90%;
-        flex-direction: column;
-    }
-
-    .services, .testimonials {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .service, .testimonial {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .contact-section form {
-        width: 100%;
-    }
-}
-  </style>
+    <title>Kết quả tìm kiếm | Quản lý khách sạn</title>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Navbar đồng bộ trang chủ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #loginButton {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        /* Hero Section cho trang kết quả (nhỏ hơn trang chủ) */
+        .hero-mini {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/anh/anhnen.jpg') center/cover;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Hotel List Section */
+        .hotel-list {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 60vh;
+        }
+
+        .hotel-list h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .hotels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Thiết kế Card khách sạn mới */
+        .hotel {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .hotel:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Giả lập ảnh khách sạn nếu API chưa trả về ảnh */
+        .hotel::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 200px;
+            background: #ddd url('/anh/anhnen.jpg') center/cover;
+        }
+
+        .hotel-info {
+            padding: 20px;
+        }
+
+        .hotel-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
+
+        .hotel-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* Footer đồng bộ */
+        footer {
+            border-top: 1px solid #ddd;
+            padding: 60px 5% 20px;
+            background: var(--bg-light);
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { margin-bottom: 20px; font-size: 16px; }
+        .footer-column p { color: var(--text-gray); font-size: 14px; margin: 10px 0; }
+        .footer-column img { height: 30px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar nav { display: none; }
+            .hotels { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
     <header>
         <div class="navbar">
             <div class="logo">
                 <a href="index.html">
-                <h1>A-Train</h1>
-            </a>
+                    <h1>Quản lý khách sạn</h1>
+                </a>
             </div>
             <nav>
                 <ul>
                     <li><a href="#">Nơi ở</a></li>
                     <li><a href="#">Trải Nghiệm</a></li>
-                    <li><a href="#">Trải nghiệm trực tuyến</a></li>
+                    <li><a href="#">Trực tuyến</a></li>
                 </ul>
             </nav>
             <div class="nav-buttons">
                 <button id="registerButton">Đăng ký</button>
                 <button id="loginButton">Đăng nhập</button>
                 <button id="logoutButton" style="display: none;">Đăng xuất</button>
-                <span id="usernameDisplay" style="display: none;"></span>
+                <span id="usernameDisplay" style="display: none; font-weight: bold; cursor:pointer;"></span>
             </div>
         </div>
     </header>
-    <!-- Menu -->
-    <section class="hotel-list">
-        <h2 style="color: #eaeaea;">Danh sách các khách sạn</h2>
-        <div class="hotels" id="room-list"></div>
+
+    <section class="hero-mini">
+        <h2 id="searchTitle">Kết quả tìm kiếm phù hợp</h2>
     </section>
-        <!-- Footer -->
-        <footer>
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4>Hỗ trợ</h4>
-                    <p>📞 Hotline: 1900 123 456</p>
-                    <p>Hỗ trợ khách hàng: support@A-Train.com</p>
-                    <p>Liên hệ hợp tác: partner@A-Train.com</p>
-                    <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
-                </div>
-                <div class="footer-column">
-                    <h4>Giới thiệu</h4>
-                    <p>Về chúng tôi</p>
-                    <p>Trang blog</p>
-                    <p>Quy chế hoạt động website</p>
-                    <p>Cơ hội nghề nghiệp</p>
-                    <p>Dành cho đối tác</p>
-                </div>
-                <div class="footer-column">
-                    <h4>Đối tác thanh toán</h4>
-                    <img src="/anh/bankpay.svg" alt="BankPay" />
-                    <img src="/anh/visa.svg" alt="Visa" />
-                </div>
-                <div class="footer-column-app">
-                    <h4>Tải ứng dụng</h4>
-                    <img src="/anh/AppStore.svg" alt="App Store" />
-                    <img src="/anh/CHPlay.svg" alt="Google Play" />
-                </div>
+
+    <section class="hotel-list">
+        <div class="search-panel" style="margin-bottom: 20px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit,minmax(180px,1fr));">
+            <input id="q" type="text" placeholder="Tên khách sạn hoặc địa chỉ" style="padding: 10px;" />
+            <input id="tinhThanh" type="text" placeholder="Tỉnh/Thành phố" style="padding: 10px;" />
+            <input id="minPrice" type="number" min="0" placeholder="Giá từ (VNĐ)" style="padding: 10px;" />
+            <input id="maxPrice" type="number" min="0" placeholder="Đến (VNĐ)" style="padding: 10px;" />
+            <select id="sortBy" style="padding: 10px;">
+                <option value="priceAsc">Sắp xếp: Giá tăng dần</option>
+                <option value="priceDesc">Sắp xếp: Giá giảm dần</option>
+                <option value="city">Sắp xếp: Thành phố</option>
+            </select>
+            <button id="advancedSearchBtn" style="padding: 10px; background: #ff385c; color: #fff; border:none; border-radius:8px; cursor:pointer;">Tìm kiếm</button>
+        </div>
+        <h2 id="resultStatus">Đang tìm kiếm khách sạn tốt nhất cho bạn...</h2>
+        <div class="hotels" id="room-list">
             </div>
-            <div class="footer-bottom">
-                <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết khiếu nại</p>
             </div>
-        </footer>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về Quản lý khách sạn</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 120px; display: block;">
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 120px; display: block;">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const roomList = document.getElementById('room-list');
+            const resultStatus = document.getElementById('resultStatus');
             const loginButton = document.getElementById("loginButton");
             const registerButton = document.getElementById("registerButton");
             const logoutButton = document.getElementById("logoutButton");
             const usernameDisplay = document.getElementById("usernameDisplay");
+
             // Lấy thông tin vị trí từ URL
             const urlParams = new URLSearchParams(window.location.search);
-            const searchLocation = urlParams.get('tinhthanh'); // Đổi tên biến thành searchLocation
+            const searchLocation = urlParams.get('tinhthanh'); 
+
+            // Chuẩn bị tiêu đề tìm kiếm
+            const searchTitle = document.getElementById('searchTitle');
+            // Xử lý Session & Navbar
             const username = sessionStorage.getItem('username');
             if (username) {
-                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.textContent = `Xin chào, ${username}`;
                 usernameDisplay.style.display = 'inline';
                 logoutButton.style.display = 'inline';
                 loginButton.style.display = 'none';
                 registerButton.style.display = 'none';
 
-                // Redirect based on user role
                 const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
                 usernameDisplay.addEventListener("click", () => {
                     window.location.href = redirectPage;
                 });
-                } else {
-                    loginButton.style.display = 'inline';
-                    registerButton.style.display = 'inline';
-                }
+            } else {
+                loginButton.style.display = 'inline';
+                registerButton.style.display = 'inline';
+            }
 
-                // Đăng xuất
-                logoutButton.addEventListener("click", () => {
-                    sessionStorage.removeItem('username');
-                    sessionStorage.removeItem('customerId'); // Xóa ID khách hàng khi đăng xuất
-                    window.location.href = "/logout"; // Redirect after logout
-                });
+            // Đăng xuất
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                window.location.href = "/logout";
+            });
 
-            // Fetch và hiển thị danh sách khách sạn
-            if (searchLocation) {
-                fetch(`/api/search?tinhThanh=${encodeURIComponent(searchLocation)}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        roomList.innerHTML = ''; // Xóa nội dung trước đó
-                        if (data.length === 0) {
-                            roomList.innerHTML = '<p>Không tìm thấy khách sạn nào.</p>'; // Thông báo nếu không có kết quả
+            // Fetch và hiển thị danh sách khách sạn theo endpoint mới
+            async function fetchHotels(queryParams = {}) {
+                const query = new URLSearchParams(queryParams);
+                const url = `/api/search-advanced?${query.toString()}`;
+                resultStatus.textContent = 'Đang tìm kiếm khách sạn phù hợp...';
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000); // 15s
+                try {
+                    const response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeout);
+
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            roomList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717171;">Không có khách sạn nào phù hợp.</p>';
+                            resultStatus.textContent = 'Không có kết quả phù hợp';
                             return;
                         }
-                        data.forEach(room => {
-                            const hotelDiv = document.createElement('div');
-                            hotelDiv.className = 'hotel'; // Thêm class
-                            hotelDiv.setAttribute('data-maks', room.MaKS); // Set MaKS
-    
-                            hotelDiv.innerHTML = `
-                                <div class="hotel-info">
-                                    <h3>${room.TenKS}</h3>
-                                    <p>Địa chỉ: ${room.DiaChi}, ${room.TinhThanh}</p>
-                                </div>
-                            `;
-    
-                            // Sự kiện click để điều hướng đến chi tiết phòng
-                            hotelDiv.addEventListener('click', () => {
-                            const maKS = hotelDiv.getAttribute('data-maks');
-                            const username = sessionStorage.getItem('username'); // Lấy username từ sessionStorage
+                        const err = await response.json().catch(() => ({}));
+                        throw new Error(err.message || 'Network response was not ok');
+                    }
+                    const data = await response.json();
+                    roomList.innerHTML = '';
 
-                            if (username === 'Admin') {
-                                // Nếu username là Admin, chuyển hướng sang trang 404
-                                window.location.href = '/404'; // Đảm bảo rằng bạn đã có trang 404
+                    if (!Array.isArray(data) || data.length === 0) {
+                        roomList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717171;">Rất tiếc, không có khách sạn nào phù hợp.</p>';
+                        resultStatus.textContent = 'Không có kết quả phù hợp';
+                        return;
+                    }
+
+                    resultStatus.textContent = `Tìm thấy ${data.length} khách sạn phù hợp`;
+                    data.forEach(room => {
+                        const hotelDiv = document.createElement('div');
+                        hotelDiv.className = 'hotel';
+                        hotelDiv.setAttribute('data-maks', room.MaKS);
+                        hotelDiv.innerHTML = `
+                            <div class="hotel-info">
+                                <h3>${room.TenKS}</h3>
+                                <p>📍 ${room.TinhThanh}</p>
+                                <p style="color: #222; font-weight: bold;">Giá từ: ${room.GiaPhong ? room.GiaPhong.toLocaleString() + ' đ' : 'Chưa có giá'}</p>
+                                <p style="color: #222; font-weight: bold; margin-top:10px;">Địa chỉ: ${room.DiaChi || 'Chưa cập nhật'}</p>
+                            </div>`;
+
+                        hotelDiv.addEventListener('click', () => {
+                            const maKS = hotelDiv.getAttribute('data-maks');
+                            const currentUsername = sessionStorage.getItem('username');
+                            if (currentUsername === 'Admin') {
+                                window.location.href = '/404';
                             } else if (maKS) {
-                                // Nếu không phải Admin, chuyển hướng đến thông tin phòng
                                 window.location.href = `/thongtinphong1?maKS=${maKS}`;
                             }
                         });
-    
-                            roomList.appendChild(hotelDiv); // Thêm div khách sạn vào danh sách
-                        });
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
-            } else {
-                roomList.innerHTML = '<p>Vui lòng nhập vị trí để tìm kiếm khách sạn.</p>';
+                        roomList.appendChild(hotelDiv);
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    resultStatus.textContent = "Có lỗi xảy ra khi tìm kiếm: " + error.message;
+                }
             }
+
+            // Load từ query string (nếu có)
+            if (searchLocation) {
+                document.getElementById('tinhThanh').value = searchLocation;
+                searchTitle.textContent = `Bạn đang tìm khách sạn tại: ${searchLocation}`;
+                fetchHotels({ tinhThanh: searchLocation });
+            } else {
+                searchTitle.textContent = 'Bạn muốn đi thành phố nào?';
+                resultStatus.textContent = "Vui lòng nhập tỉnh/thành và bấm Tìm kiếm.";
+                roomList.innerHTML = '';
+            }
+
+            // Nút tìm kiếm nâng cao
+            document.getElementById('advancedSearchBtn').addEventListener('click', () => {
+                const q = document.getElementById('q').value.trim();
+                const tinhThanhInput = document.getElementById('tinhThanh').value.trim();
+                const minPrice = document.getElementById('minPrice').value;
+                const maxPrice = document.getElementById('maxPrice').value;
+                const sortBy = document.getElementById('sortBy').value;
+
+                const queryParams = {};
+                if (q) queryParams.q = q;
+                if (tinhThanhInput) queryParams.tinhThanh = tinhThanhInput;
+                if (minPrice) queryParams.minPrice = minPrice;
+                if (maxPrice) queryParams.maxPrice = maxPrice;
+                if (sortBy) queryParams.sortBy = sortBy;
+
+                fetchHotels(queryParams);
+            });
         });
     </script>
 </body>

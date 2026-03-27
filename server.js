@@ -1,11 +1,9 @@
 //File server này cực kì quan trọng, không được xóa
 var mysql = require('mysql');
 var express = require('express');
-var path = require('path'); // Thêm để xử lý đường dẫn
+var path = require('path');
+const fs = require('fs'); // Thêm để xử lý đường dẫn
 var app = express();
-const fs = require('fs');
-const crypto = require('crypto');
-const axios = require('axios');
 var port = 5000;
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -111,6 +109,32 @@ con.connect(function(error) {
         return;
     }
     console.log('Connected to the database as id ' + con.threadId); // Thông báo kết nối thành công
+
+    // Bổ sung cột tọa độ (nếu chưa có) để hỗ trợ tìm kiếm theo bán kính
+    function ensureColumn(columnName) {
+        const showColumnSql = `SHOW COLUMNS FROM KHACHSAN LIKE ?`;
+        con.query(showColumnSql, [columnName], (err, result) => {
+            if (err) {
+                console.error(`Lỗi kiểm tra cột ${columnName}:`, err.message);
+                return;
+            }
+            if (result.length === 0) {
+                const alterSql = `ALTER TABLE KHACHSAN ADD COLUMN ${columnName} DOUBLE NULL`;
+                con.query(alterSql, (alterErr) => {
+                    if (alterErr) {
+                        console.error(`Không thể thêm cột ${columnName}:`, alterErr.message);
+                    } else {
+                        console.log(`Đã thêm cột ${columnName} vào KHACHSAN`);
+                    }
+                });
+            } else {
+                console.log(`Cột ${columnName} đã tồn tại`);
+            }
+        });
+    }
+
+    ensureColumn('Latitude');
+    ensureColumn('Longitude');
 });
 // Route đăng ký
 app.post('/register', async function(req, res) {
@@ -233,34 +257,61 @@ app.post('/themphong', async function(req, res) {
 // Route để thêm khách sạn
 app.post('/themkhachsan', async function(req, res) {
     console.log('Received data:', req.body);
-    let { TenKS, DiaChi, TinhThanh, SoTongDai } = req.body;
+    let { TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, Latitude, Longitude } = req.body;
+
+    if (Number.isNaN(Number(GiaPhong)) || Number(GiaPhong) <= 0) {
+        return res.status(400).json({ error: 'Giá phòng phải là số dương.' });
+    }
+
     try {
         const checkHotelQuery = 'SELECT * FROM KHACHSAN WHERE TenKS = ?';
-        con.query(checkHotelQuery, [TenKS, DiaChi, TinhThanh], function(error, results) {
+        con.query(checkHotelQuery, [TenKS], function(error, results) {
             if (error) {
                 console.error('error checking:', error.stack);
                 return res.status(500).json({ error: 'Internal server error', error: error.message });
             }
 
-            // Nếu khách sạn đã tồn tại
             if (results.length > 0) {
                 return res.status(400).json({ error: 'Khách sạn đã tồn tại.' });
             }
+
             console.log('Tên khách sạn:', TenKS);
             console.log('Địa chỉ:', DiaChi);
             console.log('Tỉnh thành:', TinhThanh);
             console.log('Số tổng đài:', SoTongDai);
-            // Chèn khách sạn mới
+            console.log('Giá phòng (mặc định):', GiaPhong);
+
             const insertQuery = `
-                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai, Latitude, Longitude)
+                VALUES (?, ?, ?, ?, ?, ?)
             `;
-            con.query(insertQuery, [TenKS, DiaChi, TinhThanh, SoTongDai], function(error) {
+
+            con.query(insertQuery, [TenKS, DiaChi, TinhThanh, SoTongDai || null, Latitude || null, Longitude || null], function(error, result) {
                 if (error) {
                     console.error('error inserting data:', error.stack);
                     return res.status(500).json({ error: 'Thêm khách sạn thất bại', error: error.message });
                 }
-                return res.status(201).json({ message: 'Thêm khách sạn thành công' });
+
+                const hotelId = result.insertId;
+
+                // Tạo 1 phòng mặc định với giá khởi điểm khi thêm khách sạn
+                const defaultRoomQuery = `
+                    INSERT INTO PHONG (LoaiPhong, GiaPhong, TrangThai, TienNghi, MaKS, Hinhanh)
+                    VALUES (?, ?, ?, ?, ?, NULL)
+                `;
+
+                con.query(defaultRoomQuery, ['Standard', Number(GiaPhong), 'Trống', 'Tiêu chuẩn', hotelId], function(err) {
+                    if (err) {
+                        console.error('error inserting default room:', err.stack);
+                        // Khách sạn đã tạo, nhưng phòng mặc định chưa tạo được; vẫn trả thành công với cảnh báo
+                        return res.status(201).json({
+                            message: 'Thêm khách sạn thành công nhưng không tạo được phòng mặc định.',
+                            warning: err.message
+                        });
+                    }
+
+                    return res.status(201).json({ message: 'Thêm khách sạn và phòng khởi điểm thành công' });
+                });
             });
         });
     } catch (error) {
@@ -331,7 +382,13 @@ app.get('/rooms/:maPhong', async function(req, res) {
 //Route hiển thị khách sạn khi edit
 app.get('/editks/:maKS', async function(req, res) {
     const maKS = req.params.maKS;
-    const sql = 'SELECT * FROM KHACHSAN WHERE MaKS = ?';
+    const sql = `
+        SELECT h.*, MIN(p.GiaPhong) AS GiaPhong
+        FROM KHACHSAN h
+        LEFT JOIN PHONG p ON h.MaKS = p.MaKS
+        WHERE h.MaKS = ?
+        GROUP BY h.MaKS
+    `;
     con.query(sql, [maKS], (error, results) => {
         if (error) {
             console.error('error executing query:', error);
@@ -340,26 +397,83 @@ app.get('/editks/:maKS', async function(req, res) {
         if (results.length === 0) {
             return res.status(404).json({ message: 'Khách sạn không tìm thấy' });
         }
-        // Đảm bảo kết quả trả về là JSON
         res.json(results[0]);
     });
 });
-//Route tìm khách sạn
+//Route tìm khách sạn (cơ bản, vẫn hỗ trợ cũ)
 app.get('/api/search', async function(req, res) {
     const tinhThanh = req.query.tinhThanh; // Lấy TinhThanh từ query parameters
-    // Kiểm tra nếu tinhThanh không được cung cấp
     if (!tinhThanh) {
         return res.status(400).json({ message: 'Thiếu thông tin tỉnh thành' });
     }
-    const sql = 'SELECT * FROM KHACHSAN WHERE TinhThanh = ?'; // Lấy thông tin chi tiết theo TinhThanh
-    con.query(sql, [tinhThanh], (error, results) => {
+    const sql = 'SELECT * FROM KHACHSAN WHERE TinhThanh LIKE ?';
+    con.query(sql, [`%${tinhThanh}%`], (error, results) => {
         if (error) {
             return res.status(500).json({ message: error.message });
         }
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'Không tìm thấy khách sạn nào ở tỉnh thành này' });
+        // Không có kết quả thì trả mảng rỗng để frontend xử lý hợp lý
+        return res.json(results || []);
+    });
+});
+
+//Route tìm khách sạn đa tiêu chí (tên, tỉnh, giá, bán kính)
+app.get('/api/search-advanced', async function(req, res) {
+    const q = req.query.q ? req.query.q.trim() : '';
+    const tinhThanh = req.query.tinhThanh ? req.query.tinhThanh.trim() : '';
+    const minPrice = req.query.minPrice ? Number(req.query.minPrice) : null;
+    const maxPrice = req.query.maxPrice ? Number(req.query.maxPrice) : null;
+    const sortBy = req.query.sortBy ? req.query.sortBy.trim() : '';
+
+    const whereClauses = [];
+    const params = [];
+
+    if (q) {
+        whereClauses.push('(h.TenKS LIKE ? OR h.DiaChi LIKE ? OR h.TinhThanh LIKE ?)');
+        params.push(`%${q}%`, `%${q}%`, `%${q}%`);
+    }
+    if (tinhThanh) {
+        whereClauses.push('h.TinhThanh LIKE ?');
+        params.push(`%${tinhThanh}%`);
+    }
+
+    if (minPrice != null) {
+        whereClauses.push('p.GiaPhong >= ?');
+        params.push(minPrice);
+    }
+    if (maxPrice != null) {
+        whereClauses.push('p.GiaPhong <= ?');
+        params.push(maxPrice);
+    }
+
+    let sql = `
+        SELECT h.MaKS, h.TenKS, h.DiaChi, h.TinhThanh, h.SoTongDai, h.Latitude, h.Longitude, MIN(p.GiaPhong) AS GiaPhong
+        FROM KHACHSAN h
+        LEFT JOIN PHONG p ON h.MaKS = p.MaKS
+    `;
+
+    if (whereClauses.length > 0) {
+        sql += ' WHERE ' + whereClauses.join(' AND ');
+    }
+
+    sql += ' GROUP BY h.MaKS';
+
+    if (sortBy === 'priceDesc') {
+        sql += ' ORDER BY GiaPhong DESC, h.TinhThanh ASC';
+    } else if (sortBy === 'priceAsc') {
+        sql += ' ORDER BY GiaPhong ASC, h.TinhThanh ASC';
+    } else if (sortBy === 'city') {
+        sql += ' ORDER BY h.TinhThanh ASC, GiaPhong ASC';
+    } else {
+        sql += ' ORDER BY GiaPhong ASC, h.TinhThanh ASC';
+    }
+
+    con.query(sql, params, (error, results) => {
+        if (error) {
+            console.error('Lỗi API search-advanced:', error);
+            return res.status(500).json({ message: 'Lỗi khi tìm kiếm khách sạn', error: error.message });
         }
-        res.json(results); // Trả về danh sách khách sạn
+        // Trả về mảng kết quả (có thể empty) để frontend hiển thị ổn
+        return res.json(Array.isArray(results) ? results : []);
     });
 });
 //Route tìm phòng
@@ -406,7 +520,6 @@ app.get('/room/:maKS', (req, res) => {
     });
 });
 //Route lấy ảnh để giải mã
-const fs = require('fs');
 const path1 = require('path');
 const { error } = require('console');
 app.get('/room-image/:maPhong', (req, res) => {
@@ -505,9 +618,14 @@ app.post('/nvlogin', async function(req, res) {
         return res.status(200).json({ success: true, username: user.HoVaTen });
     });
 });
-// Route hiển thị danh sách khách sạn
+// Route hiển thị danh sách khách sạn (có thêm giá phòng tối thiểu)
 app.get('/api/rooms', (req, res) => {
-    const sql = 'SELECT MaKS, TenKS, DiaChi, TinhThanh FROM KHACHSAN'; // Thay 'items' bằng tên bảng của bạn
+    const sql = `
+        SELECT h.MaKS, h.TenKS, h.DiaChi, h.TinhThanh, h.SoTongDai, MIN(p.GiaPhong) AS GiaPhong
+        FROM KHACHSAN h
+        LEFT JOIN PHONG p ON h.MaKS = p.MaKS
+        GROUP BY h.MaKS
+    `;
     con.query(sql, (error, results) => {
         if (error) {
             return res.status(500).json({ message: error.message });
@@ -635,30 +753,79 @@ app.post('/chinhsuatt', async function(req, res) {
 //Route cập nhật thông tin khách sạn
 app.post('/chinhsuaks', async function(req, res) {
     console.log('Received data:', req.body);
-    let { TenKS, DiaChi, TinhThanh, SoTongDai, MaKS } = req.body; // Lấy tên khách sạn mới và mã khách sạn
+    let { TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, Latitude, Longitude, MaKS } = req.body;
+
+    const giaPhongNumber = Number(GiaPhong);
+    if (GiaPhong != null && (Number.isNaN(giaPhongNumber) || giaPhongNumber <= 0)) {
+        return res.status(400).json({ error: 'Giá phòng phải là số dương.' });
+    }
+
     try {
-        // Kiểm tra xem khách sạn có tồn tại không
         const checkHotelQuery = 'SELECT * FROM KHACHSAN WHERE MaKS = ?';
         con.query(checkHotelQuery, [MaKS], function(error, results) {
             if (error) {
                 console.error('error checking hotel:', error.stack);
                 return res.status(500).json({ error: 'Internal server error', error: error.message });
             }
-            // Nếu khách sạn không tồn tại
             if (results.length === 0) {
                 return res.status(404).json({ error: 'Khách sạn không tồn tại.' });
             }
-            // Nếu khách sạn tồn tại, cập nhật thông tin
+
             const updateQuery = `
-                UPDATE KHACHSAN SET TenKS = ?, DiaChi = ?, TinhThanh = ?, SoTongDai = ?
+                UPDATE KHACHSAN SET TenKS = ?, DiaChi = ?, TinhThanh = ?, SoTongDai = ?, Latitude = ?, Longitude = ?
                 WHERE MaKS = ?
             `;
-            con.query(updateQuery, [TenKS, DiaChi, TinhThanh, SoTongDai, MaKS], function(error) {
+
+            con.query(updateQuery, [TenKS, DiaChi, TinhThanh, SoTongDai || null, Latitude || null, Longitude || null, MaKS], function(error) {
                 if (error) {
                     console.error('error updating data:', error.stack);
                     return res.status(500).json({ error: 'Cập nhật thông tin khách sạn thất bại', error: error.message });
                 }
-                return res.status(200).json({ message: 'Cập nhật thông tin khách sạn thành công' });
+
+                if (GiaPhong == null) {
+                    return res.status(200).json({ message: 'Cập nhật thông tin khách sạn thành công' });
+                }
+
+                // Cập nhật giá phòng của các phòng hiện có hoặc tạo phòng mặc định nếu chưa có phòng
+                const findRoomQuery = 'SELECT MaPhong FROM PHONG WHERE MaKS = ? LIMIT 1';
+                con.query(findRoomQuery, [MaKS], function(findError, findResults) {
+                    if (findError) {
+                        console.error('error finding room:', findError.stack);
+                        return res.status(200).json({
+                            message: 'Cập nhật thông tin khách sạn thành công, nhưng lỗi tìm phòng.',
+                            warning: findError.message
+                        });
+                    }
+
+                    if (findResults.length > 0) {
+                        const updateRoomPriceQuery = 'UPDATE PHONG SET GiaPhong = ? WHERE MaKS = ?';
+                        con.query(updateRoomPriceQuery, [giaPhongNumber, MaKS], function(roomError) {
+                            if (roomError) {
+                                console.error('error updating room price:', roomError.stack);
+                                return res.status(200).json({
+                                    message: 'Cập nhật thông tin khách sạn thành công, nhưng chưa cập nhật giá phòng.',
+                                    warning: roomError.message
+                                });
+                            }
+                            return res.status(200).json({ message: 'Cập nhật thông tin khách sạn và giá phòng thành công' });
+                        });
+                    } else {
+                        const insertRoomQuery = `
+                            INSERT INTO PHONG (LoaiPhong, GiaPhong, TrangThai, TienNghi, MaKS, Hinhanh)
+                            VALUES (?, ?, ?, ?, ?, NULL)
+                        `;
+                        con.query(insertRoomQuery, ['Standard', giaPhongNumber, 'Trống', 'Tiêu chuẩn', MaKS], function(insertError) {
+                            if (insertError) {
+                                console.error('error inserting default room:', insertError.stack);
+                                return res.status(200).json({
+                                    message: 'Cập nhật thông tin khách sạn thành công, nhưng chưa tạo phòng giá mặc định.',
+                                    warning: insertError.message
+                                });
+                            }
+                            return res.status(200).json({ message: 'Cập nhật thông tin khách sạn và giá phòng thành công' });
+                        });
+                    }
+                });
             });
         });
     } catch (error) {

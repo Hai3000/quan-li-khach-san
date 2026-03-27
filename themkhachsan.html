@@ -1,320 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel='shortcut icon' href='/anh/favicon.ico' />
-    <title>Thêm khách sạn</title>
+    <title>Thêm Khách Sạn | Quản lý khách sạn</title>
     <style>
-        /* Navbar styling */
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        background-color: #ff385c;
-        color: white;
-    }
-    
-    .navbar .logo h1 {
-        font-size: 24px;
-        margin: 0; /* Remove default margin */
-    }
-    
-    .navbar nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-    
-    .navbar nav ul li {
-        margin-left: 20px;
-    }
-    
-    .navbar nav ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 16px;
-    }
-    
-    /* Button styling */
-    .nav-buttons button {
-        background-color: white;
-        color: #ff385c;
-        border: 1px solid #ff385c;
-        padding: 8px 15px;
-        margin-left: 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .nav-buttons button:hover {
-        background-color: #ff385c;
-        color: white;
-    }
-    .logo a {
-    text-decoration: none; /* Loại bỏ gạch chân */
-    color: inherit; /* Giữ nguyên màu của tiêu đề */
-}
-    
-    /* Body styling */
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #f7f7f7;
-        background-image: url(anh/anhnen.jpg);
-        background-attachment: fixed;
-        background-size: cover;
-        background-position: center;
-        line-height: 1.3;
-    }
-    
-    /* Login container styling */
-    .login-container {
-        flex-grow: 1;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-        margin: auto;
-        margin-top: 50px;
-        margin-bottom: 50px; /* Thêm margin-bottom để tạo khoảng cách với footer */
-    }
-    input[type="number"]::-webkit-inner-spin-button,
-            input[type="number"]::-webkit-outer-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
 
-            input[type="number"] {
-                -moz-appearance: textfield;
-                appearance: none; /* Ẩn nút cho Firefox */
-            }
-    .login-container h2 {
-        margin-bottom: 25px;
-        color: #333;
-        font-size: 1.8em;
-    }
-    
-    /* Input group styling */
-    .input-group {
-        margin-bottom: 20px;
-        text-align: left;
-    }
-    
-    .input-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #333;
-    }
-    
-    .input-group input {
-        width: calc(100% - 20px);
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 1em;
-        transition: border-color 0.3s;
-    }
-    
-    .input-group input:focus {
-        border-color: #ff5a5f;
-        outline: none;
-    }
-    
-    /* Button styling for submit */
-    button[type="submit"], button[type="button"] {
-        width: 100%;
-        padding: 12px;
-        background-color: #ff5a5f;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        font-size: 1em;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-    }
-    
-    button[type="submit"]:hover, button[type="button"]:hover {
-        background-color: #e54a4f;
-        transform: translateY(-2px);
-    }
-    
-    /* Registration button */
-    #regbutton {
-        margin-top: 15px;
-    }
-    
-    /* Footer styling */
-    footer {
-        background-color: #f7f7f7;
-        padding: 40px 0;
-        border-top: 1px solid #eaeaea;
-        text-align: center;
-    }
-    
-    .footer-content {
-        display: flex;
-        justify-content: space-between;
-        max-width: 1200px;
-        margin: 0 auto;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    
-    .footer-column h4 {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    
-    .footer-column img {
-        width: 60px;
-        height: auto;
-        margin-right: 10px;
-        object-fit: contain;
-    }
-    
-    /* Footer bottom styling */
-    .footer-bottom {
-        padding: 20px 0;
-        font-size: 14px;
-        color: #888;
-        border-top: 1px solid #ddd;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 600px) {
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+        }
+
         .navbar {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-    
-        .login-container {
-            padding: 20px;
-            max-width: 100%;
-        }
-    
-        .footer-content {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-    
-        .footer-column {
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar a { text-decoration: none; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* Form Container */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .login-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 100%;
             text-align: center;
-            margin-bottom: 20px;
+            box-sizing: border-box;
         }
-    }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #fafafa;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            outline: none;
+            background: var(--white);
+        }
+
+        /* Ẩn nút tăng/giảm số cho Số tổng đài */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] { -moz-appearance: textfield; }
+
+        /* Button styling */
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 56, 92, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-column h4 { font-size: 16px; margin-bottom: 15px; color: var(--text-dark); }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+        .app-badge {
+            display: block;
+            inline-size: 110px;
+            max-inline-size: 100%;
+            block-size: auto;
+            margin-bottom: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .navbar .logo h1 { font-size: 20px; }
+            .login-container { padding: 30px 20px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="navbar">
             <div class="logo">
-                <a href="QuanLy.html">
-                <h1>Quản lý A-Train</h1>
-            </a>
+                <a href="/quanly">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='/quanly'">Quay lại Dashboard</button>
             </div>
         </div>
     </header>
-    <!-- Add Hotel Form -->
-    <div class="login-container">
-        <h2>Thêm Khách Sạn</h2>
-        <form id="addHotelForm">
-            <div class="input-group">
-                <label for="hotelName">Tên Khách Sạn</label>
-                <input type="text" id="hotelName" placeholder="Nhập tên khách sạn" required>
-            </div>
-            <div class="input-group">
-                <label for="hotelAddress">Địa chỉ</label>
-                <input type="text" id="hotelAddress" placeholder="Nhập địa chỉ khách sạn" required>
-            </div>
-            <div class="input-group">
-                <label for="hotelCity">Tỉnh/Thành Phố</label>
-                <input type="text" id="hotelCity" placeholder="Nhập tỉnh/thành phố" required>
-            </div>
-            <div class="input-group">
-                <label for="totalRooms">Số Tổng Đài</label>
-                <input type="number" id="totalRooms" placeholder="Nhập số tổng dài" required>
-            </div>
-            <button type="submit" id="addHotelSubmit">Thêm Khách Sạn</button>
-        </form>
-    </div>
-        <!-- Footer -->
-        <footer>
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h4>Hỗ trợ</h4>
-                    <p>📞 Hotline: 1900 123 456</p>
-                    <p>Hỗ trợ khách hàng: support@A-Train.com</p>
-                    <p>Liên hệ hợp tác: partner@A-Train.com</p>
-                    <p>Cơ chế giải quyết tranh chấp, khiếu nại</p>
+
+    <main class="main-content">
+        <div class="login-container">
+            <h2>Thêm Khách Sạn Mới</h2>
+            <form id="addHotelForm">
+                <div class="input-group">
+                    <label for="hotelName">Tên Khách Sạn</label>
+                    <input type="text" id="hotelName" placeholder="Ví dụ: Grand Hotel" required>
                 </div>
-                <div class="footer-column">
-                    <h4>Giới thiệu</h4>
-                    <p>Về chúng tôi</p>
-                    <p>Trang blog</p>
-                    <p>Quy chế hoạt động website</p>
-                    <p>Cơ hội nghề nghiệp</p>
-                    <p>Dành cho đối tác</p>
+                <div class="input-group">
+                    <label for="hotelAddress">Địa chỉ</label>
+                    <input type="text" id="hotelAddress" placeholder="Số nhà, tên đường, phường/xã..." required>
                 </div>
-                <div class="footer-column">
-                    <h4>Đối tác thanh toán</h4>
+                <div class="input-group">
+                    <label for="hotelCity">Tỉnh/Thành Phố</label>
+                    <input type="text" id="hotelCity" placeholder="Ví dụ: Đà Nẵng" required>
+                </div>
+                <div class="input-group">
+                    <label for="hotelBasePrice">Giá phòng (VNĐ/đêm)</label>
+                    <input type="number" id="hotelBasePrice" placeholder="Ví dụ: 750000" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="totalRooms">Số điện thoại tổng đài</label>
+                    <input type="number" id="totalRooms" placeholder="Ví dụ: 02363xxxxxx" required>
+                </div>
+                <button type="submit" id="addHotelSubmit">Xác nhận Thêm Khách Sạn</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ kỹ thuật</h4>
+                <p>📞 Hotline IT: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+                <p>Cơ chế bảo mật dữ liệu nội bộ</p>
+            </div>
+            <div class="footer-column">
+                <h4>Hệ thống</h4>
+                <p>Về chúng tôi</p>
+                <p>Quy chế hoạt động</p>
+                <p>Cơ hội nghề nghiệp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán hỗ trợ</h4>
+                <div style="display: flex;">
                     <img src="/anh/bankpay.svg" alt="BankPay" />
                     <img src="/anh/visa.svg" alt="Visa" />
                 </div>
-                <div class="footer-column-app">
-                    <h4>Tải ứng dụng</h4>
-                    <img src="/anh/AppStore.svg" alt="App Store" />
-                    <img src="/anh/CHPlay.svg" alt="Google Play" />
-                </div>
             </div>
-            <div class="footer-bottom">
-                <p>Copyright © 2023 A-Train, Inc. • Điều khoản • Bảo mật • Quy định đăng tin • Sơ đồ trang web</p>
+            <div class="footer-column">
+                <h4>Ứng dụng quản trị</h4>
+                <img class="app-badge" src="/anh/AppStore.svg" alt="App Store" loading="lazy" />
+                <img class="app-badge" src="/anh/CHPlay.svg" alt="Google Play" loading="lazy" />
             </div>
-        </footer>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn • Điều khoản dịch vụ • Bảo mật thông tin</p>
+        </div>
+    </footer>
+
     <script>
-        document.getElementById('addHotelForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu mẫu
+        const form = document.getElementById('addHotelForm');
 
-            const hotelName = document.getElementById('hotelName').value;
-            const hotelAddress = document.getElementById('hotelAddress').value;
-            const hotelCity = document.getElementById('hotelCity').value;
-            const totalRooms = document.getElementById('totalRooms').value;
+        const formatPhone = value => value.replace(/\D/g, '');
 
-            // Gửi dữ liệu đến máy chủ
-            fetch('/themkhachsan', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    TenKS: hotelName,
-                    DiaChi: hotelAddress,
-                    TinhThanh: hotelCity,
-                    SoTongDai: totalRooms
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message); // Hiển thị thông báo
-                // Chuyển hướng nếu thêm khách sạn thành công
-                    window.location.href = '/quanly'; // Hoặc trang bạn muốn chuyển đến
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Đã xảy ra lỗi: ' + error.message); // Hiển thị lỗi
-            });
+        form.addEventListener('submit', async event => {
+            event.preventDefault();
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const hotelBasePrice = Number(form.hotelBasePrice.value);
+
+            if (Number.isNaN(hotelBasePrice) || hotelBasePrice <= 0) {
+                alert('Vui lòng nhập giá phòng hợp lệ (số dương).');
+                form.hotelBasePrice.focus();
+                return;
+            }
+
+            const payload = {
+                TenKS: form.hotelName.value.trim(),
+                DiaChi: form.hotelAddress.value.trim(),
+                TinhThanh: form.hotelCity.value.trim(),
+                GiaPhong: hotelBasePrice,
+                SoTongDai: formatPhone(form.totalRooms.value)
+            };
+
+            if (payload.SoTongDai.length < 8) {
+                alert('Vui lòng nhập số điện thoại tổng đài hợp lệ.');
+                form.totalRooms.focus();
+                return;
+            }
+
+            try {
+                const res = await fetch('/themkhachsan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const err = await res.text();
+                    throw new Error(err || 'Không thể thêm khách sạn.');
+                }
+
+                const data = await res.json();
+                alert(data.message || 'Thêm khách sạn thành công!');
+                window.location.href = '/quanly';
+            } catch (error) {
+                console.error('Lỗi addHotel:', error);
+                alert('Đã xảy ra lỗi: ' + (error.message || 'Vui lòng thử lại sau.'));
+            }
         });
     </script>
 </body>
