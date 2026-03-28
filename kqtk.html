@@ -225,8 +225,18 @@
         <div class="search-panel" style="margin-bottom: 20px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit,minmax(180px,1fr));">
             <input id="q" type="text" placeholder="Tên khách sạn hoặc địa chỉ" style="padding: 10px;" />
             <input id="tinhThanh" type="text" placeholder="Tỉnh/Thành phố" style="padding: 10px;" />
-            <input id="minPrice" type="number" min="0" placeholder="Giá từ (VNĐ)" style="padding: 10px;" />
-            <input id="maxPrice" type="number" min="0" placeholder="Đến (VNĐ)" style="padding: 10px;" />
+            <select id="minPrice" style="padding: 10px;">
+                <option value="">Giá từ (VNĐ)</option>
+                <option value="0">Từ 0 VNĐ</option>
+                <option value="1000000">Từ 1.000.000 VNĐ</option>
+                <option value="10000000">Từ 10.000.000 VNĐ</option>
+            </select>
+            <select id="maxPrice" style="padding: 10px;">
+                <option value="">Đến (VNĐ)</option>
+                <option value="500000">Đến 500.000 VNĐ</option>
+                <option value="10000000">Đến 10.000.000 VNĐ</option>
+                <option value="999999999">Trở về sau (10M+)</option>
+            </select>
             <select id="sortBy" style="padding: 10px;">
                 <option value="priceAsc">Sắp xếp: Giá tăng dần</option>
                 <option value="priceDesc">Sắp xếp: Giá giảm dần</option>
