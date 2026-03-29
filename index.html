@@ -298,8 +298,8 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#">Nơi ở</a></li>
-                    <li><a href="#">Trải Nghiệm</a></li>
+                    
+                    <li><a href="/traiNghiem">Trải Nghiệm</a></li>
                     <li><a href="#">Trực tuyến</a></li>
                 </ul>
             </nav>
@@ -449,8 +449,11 @@
                     data.forEach(room => {
                         const hotelDiv = document.createElement('div');
                         hotelDiv.className = 'hotel';
-                        // Lưu ý: CSS .hotel::before phía trên đang giả lập ảnh nền nếu bạn chưa có data.HinhAnh
+                        
+                        const imageStyle = room.HinhAnh ? `background-image: url('${room.HinhAnh}');` : '';
+                        
                         hotelDiv.innerHTML = `
+                            <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; ${imageStyle}"></div>
                             <div class="hotel-info">
                                 <h3>${room.TenKS}</h3>
                                 <p>${room.TinhThanh}</p>

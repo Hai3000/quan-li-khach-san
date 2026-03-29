@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Thêm Khách Sạn - Hệ Thống Quản Lý</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff385c;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 3px solid #ff385c;
+            padding-bottom: 15px;
+        }
+        h2 {
+            color: #333;
+            margin: 30px 0 15px 0;
+            border-left: 4px solid #ff385c;
+            padding-left: 15px;
+        }
+        h3 {
+            color: #555;
+            margin: 20px 0 10px 0;
+        }
+        .section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        .step {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff385c;
+            border-radius: 4px;
+        }
+        .step-number {
+            display: inline-block;
+            background: #ff385c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff385c;
+            font-weight: bold;
+        }
+        .highlight {
+            background: #fff5f7;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #ff385c;
+            margin: 15px 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        .warning {
+            background: #ffeaa7;
+            border-left: 4px solid #fdcb6e;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #ff385c;
+            color: white;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        .button-demo {
+            display: inline-block;
+            background: #ff385c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 10px 5px 10px 0;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        .button-demo:hover {
+            background: #e31b4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏨 Hướng Dẫn Thêm Khách Sạn Với Giới Thiệu và Slideshow</h1>
+
+        <div class="section">
+            <h2>📋 Tổng Quan Tính Năng</h2>
+            <p>Hệ thống cho phép bạn tạo một trang giới thiệu khách sạn hoàn chỉnh bao gồm:</p>
+            <ul class="feature-list">
+                <li>Thông tin cơ bản về khách sạn</li>
+                <li>Giới thiệu chi tiết và điểm nổi bật</li>
+                <li>Thư viện hình ảnh với slideshow tương tác</li>
+                <li>Phát video YouTube/Vimeo trực tiếp</li>
+                <li>Trang chi tiết khách sạn chuyên nghiệp</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 Hướng Dẫn Từng Bước</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <h3>Điền Thông Tin Cơ Bản</h3>
+                <p>Trong tab <strong>Thông Tin Cơ Bản</strong>, nhập:</p>
+                <ul class="feature-list">
+                    <li>Tên khách sạn</li>
+                    <li>Địa chỉ chi tiết</li>
+                    <li>Tỉnh/Thành phố</li>
+                    <li>Số điện thoại tổng đài</li>
+                    <li>Khoảng giá phòng (từ - đến)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <h3>Viết Giới Thiệu</h3>
+                <p>Trong tab <strong>Giới Thiệu</strong>:</p>
+                <ul class="feature-list">
+                    <li>Viết mô tả chi tiết về khách sạn</li>
+                    <li>Mô tả tiện ích, dịch vụ, môi trường</li>
+                    <li>Liệt kê các điểm nổi bật (mỗi dòng một điểm)</li>
+                    <li>Xem trước nội dung bên phải</li>
+                </ul>
+                <div class="highlight">
+                    <strong>💡 Mẹo:</strong> Viết các điểm nổi bật trên từng dòng riêng biệt, chúng sẽ được hiển thị dưới dạng danh sách bên dưới giới thiệu.
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <h3>Tải Lên Hình Ảnh</h3>
+                <p>Trong tab <strong>Hình Ảnh</strong>:</p>
+                <ul class="feature-list">
+                    <li><strong>Cách 1:</strong> Kéo thả ảnh vào vùng upload</li>
+                    <li><strong>Cách 2:</strong> Nhấp vào vùng để chọn ảnh từ máy tính</li>
+                    <li>Hỗ trợ: JPG, PNG, WebP (tối đa 5MB/ảnh)</li>
+                    <li>Mỗi khách sạn nên có 5-10 ảnh chất lượng cao</li>
+                    <li>Nhấp <strong>×</strong> để xóa ảnh nếu cần</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <h3>Thêm Video</h3>
+                <p>Trong tab <strong>Video</strong>:</p>
+                <ul class="feature-list">
+                    <li>Dán URL youtube hoặc Vimeo</li>
+                    <li>Ví dụ: <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code></li>
+                    <li>Hoặc: <code>https://youtu.be/dQw4w9WgXcQ</code></li>
+                    <li>Hoặc: <code>https://vimeo.com/76979871</code></li>
+                    <li>Nhấp nút "Thêm Video"</li>
+                    <li>Nhấp <strong>×</strong> để xóa video nếu cần</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <h3>Hoàn Thành</h3>
+                <p>Nhấp nút <strong>Xác nhận Thêm Khách Sạn</strong> ở cuối form để lưu toàn bộ dữ liệu.</p>
+                <div class="highlight">
+                    <strong>✅ Khi hoàn thành thành công:</strong>
+                    <ul class="feature-list">
+                        <li>Khách sạn được lưu vào cơ sở dữ liệu</li>
+                        <li>Hình ảnh được tải lên server</li>
+                        <li>Bạn được chuyển về Dashboard quản lý</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎨 Tính Năng Slideshow</h2>
+            <h3>Hình Ảnh Slideshow</h3>
+            <p>Khi xem trang chi tiết khách sạn, người dùng có thể:</p>
+            <ul class="feature-list">
+                <li>Xem ảnh lớn ở giữa màn hình</li>
+                <li>Sử dụng nút <strong>Trước</strong> và <strong>Sau</strong> để chuyển ảnh</li>
+                <li>Nhấp vào thumbnail bên dưới để chuyển nhanh</li>
+                <li>Xem số ảnh hiện tại (VD: 1/10)</li>
+            </ul>
+
+            <h3>Video Slideshow</h3>
+            <p>Xem video đã tải lên:</p>
+            <ul class="feature-list">
+                <li>Video lớn phát ở giữa màn hình</li>
+                <li>Danh sách video phát playlist bên dưới</li>
+                <li>Nhấp video nhỏ để chuyển sang video khác</li>
+                <li>Hỗ trợ kiểm soát phát từ YouTube/Vimeo player</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📱 Xem Trang Chi Tiết Khách Sạn</h2>
+            <p>Sau khi tạo khách sạn, bạn có thể xem trang chi tiết tại:</p>
+            <code>/chi-tiet-khach-san?id=ID_KHACH_SAN</code>
+            <p style="margin-top: 10px;">Trang này sẽ hiển thị:</p>
+            <ul class="feature-list">
+                <li>Thông tin cơ bản khách sạn</li>
+                <li>Giới thiệu đầy đủ</li>
+                <li>Danh sách hình ảnh slideshow</li>
+                <li>Video player tương tác</li>
+                <li>Giao diện responsive trên tất cả thiết bị</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Lưu Ý Quan Trọng:</strong>
+            <ul>
+                <li>Hình ảnh phải là tệp ảnh hợp lệ (JPG, PNG)</li>
+                <li>Tối đa 5MB cho mỗi ảnh</li>
+                <li>URL Video phải từ YouTube hoặc Vimeo</li>
+                <li>Thêm ít nhất một ảnh để khách sạn hiển thị chính xác</li>
+                <li>Điền đầy đủ thông tin giới thiệu để trang chi tiết đẹp hơn</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📊 Bảng So Sánh Định Dạng Video</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nền Tảng</th>
+                        <th>Ví Dụ URL</th>
+                        <th>Định Dạng Rút Gọn</th>
+                        <th>Hỗ Trợ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>YouTube</td>
+                        <td>https://www.youtube.com/watch?v=dQw4w9WgXcQ</td>
+                        <td>https://youtu.be/dQw4w9WgXcQ</td>
+                        <td>✓ Có</td>
+                    </tr>
+                    <tr>
+                        <td>YouTube Embed</td>
+                        <td>https://www.youtube.com/embed/dQw4w9WgXcQ</td>
+                        <td>-</td>
+                        <td>✓ Có</td>
+                    </tr>
+                    <tr>
+                        <td>Vimeo</td>
+                        <td>https://vimeo.com/76979871</td>
+                        <td>-</td>
+                        <td>✓ Có</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>❓ Câu Hỏi Thường Gặp</h2>
+            
+            <h3>Tôi có thể chỉnh sửa khách sạn sau khi tạo không?</h3>
+            <p>Hiện tại, bạn cần liên hệ quản trị viên để chỉnh sửa thông tin khách sạn. Tính năng chỉnh sửa đầy đủ sẽ được thêm vào sau.</p>
+            
+            <h3>Số lượng hình ảnh/video tối đa là bao nhiêu?</h3>
+            <p>Không có giới hạn cứng, nhưng khuyến cáo sử dụng 5-15 ảnh và 1-5 video để trang không quá nặng.</p>
+            
+            <h3>Định dạng ảnh nào được hỗ trợ?</h3>
+            <p>JPG, PNG, WebP, GIF - tối đa 5MB mỗi tệp.</p>
+            
+            <h3>Ảnh của tôi bị từ chối vì sao?</h3>
+            <p>Có thể do:</p>
+            <ul class="feature-list">
+                <li>Tệp không phải ảnh (không phải JPG, PNG, v.v.)</li>
+                <li>Tệp lớn hơn 5MB</li>
+                <li>Lỗi mạng khi tải lên</li>
+            </ul>
+            <p>Thử lại hoặc liên hệ hỗ trợ nếu lỗi vẫn xảy ra.</p>
+        </div>
+
+        <div class="section">
+            <h2>📞 Hỗ Trợ</h2>
+            <p>Nếu gặp bất kỳ vấn đề nào, vui lòng liên hệ:</p>
+            <p>
+                <strong>Hotline IT:</strong> 1900 123 456<br>
+                <strong>Email:</strong> support@quanlykhachsan.com
+            </p>
+        </div>
+    </div>
+</body>
+</html>

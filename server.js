@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var express = require('express');
 var path = require('path');
 const fs = require('fs'); // Thêm để xử lý đường dẫn
+const multer = require('multer'); // Thêm multer để xử lý file upload
 var app = express();
 var port = 5000;
 const bodyParser = require('body-parser');
@@ -22,6 +23,38 @@ app.use('/images', express.static('anh')); // Thư mục test
 app.use(express.static(__dirname, { // host the whole directory
     extensions: ["html", "htm", "gif", "png", "jpg"],
 }))
+
+// Setup uploads directory and multer
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Chỉ hỗ trợ file ảnh (JPG, PNG, WebP, GIF)'));
+        }
+    }
+});
+
+app.use('/uploads', express.static(uploadsDir));
+
 // Route cho trang đăng ký
 app.get('/register', function(req, res) {
     res.sendFile(path.join(__dirname, 'register.html')); // Đảm bảo đường dẫn đến file HTML đúng
@@ -94,6 +127,9 @@ app.get('/lichsudatphong', checkAuth, function(req, res) {
 app.get('/lichsudatphongkhachhang', checkAuth, function(req, res) {
     res.sendFile(path.join(__dirname, 'lsdp.html')); 
 });
+app.get('/chi-tiet-khach-san', function(req, res) {
+    res.sendFile(path.join(__dirname, 'chi-tiet-khach-san.html')); 
+});
 // Khởi tạo kết nối đến cơ sở dữ liệu
 var con = mysql.createConnection({
     host: "localhost",
@@ -111,7 +147,7 @@ con.connect(function(error) {
     console.log('Connected to the database as id ' + con.threadId); // Thông báo kết nối thành công
 
     // Bổ sung cột tọa độ (nếu chưa có) để hỗ trợ tìm kiếm theo bán kính
-    function ensureColumn(columnName) {
+    function ensureColumn(columnName, columnType = 'DOUBLE NULL') {
         const showColumnSql = `SHOW COLUMNS FROM KHACHSAN LIKE ?`;
         con.query(showColumnSql, [columnName], (err, result) => {
             if (err) {
@@ -119,7 +155,7 @@ con.connect(function(error) {
                 return;
             }
             if (result.length === 0) {
-                const alterSql = `ALTER TABLE KHACHSAN ADD COLUMN ${columnName} DOUBLE NULL`;
+                const alterSql = `ALTER TABLE KHACHSAN ADD COLUMN ${columnName} ${columnType}`;
                 con.query(alterSql, (alterErr) => {
                     if (alterErr) {
                         console.error(`Không thể thêm cột ${columnName}:`, alterErr.message);
@@ -133,8 +169,13 @@ con.connect(function(error) {
         });
     }
 
-    ensureColumn('Latitude');
-    ensureColumn('Longitude');
+    ensureColumn('Latitude', 'DOUBLE NULL');
+    ensureColumn('Longitude', 'DOUBLE NULL');
+    ensureColumn('GioiThieu', 'LONGTEXT NULL');
+    ensureColumn('DiemNoiBat', 'LONGTEXT NULL');
+    ensureColumn('HinhAnh', 'LONGTEXT NULL');
+    ensureColumn('Video', 'LONGTEXT NULL');
+    ensureColumn('GiaPhongMax', 'DECIMAL(10,2) NULL');
 });
 // Route đăng ký
 app.post('/register', async function(req, res) {
@@ -255,9 +296,11 @@ app.post('/themphong', async function(req, res) {
     }
 });
 // Route để thêm khách sạn
-app.post('/themkhachsan', async function(req, res) {
+app.post('/themkhachsan', upload.any(), async function(req, res) {
     console.log('Received data:', req.body);
-    let { TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, Latitude, Longitude } = req.body;
+    console.log('Uploaded files:', req.files);
+    
+    let { TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, GiaPhongMax, Latitude, Longitude, GioiThieu, DiemNoiBat, Videos } = req.body;
 
     if (Number.isNaN(Number(GiaPhong)) || Number(GiaPhong) <= 0) {
         return res.status(400).json({ error: 'Giá phòng phải là số dương.' });
@@ -275,18 +318,49 @@ app.post('/themkhachsan', async function(req, res) {
                 return res.status(400).json({ error: 'Khách sạn đã tồn tại.' });
             }
 
+            // Process uploaded images
+            const imageUrls = [];
+            if (req.files && req.files.length > 0) {
+                req.files.forEach(file => {
+                    imageUrls.push(`/uploads/${file.filename}`);
+                });
+            }
+
+            // Parse videos JSON
+            let videosArray = [];
+            try {
+                videosArray = Videos ? JSON.parse(Videos) : [];
+            } catch (e) {
+                console.warn('Error parsing videos:', e);
+            }
+
             console.log('Tên khách sạn:', TenKS);
             console.log('Địa chỉ:', DiaChi);
             console.log('Tỉnh thành:', TinhThanh);
             console.log('Số tổng đài:', SoTongDai);
-            console.log('Giá phòng (mặc định):', GiaPhong);
+            console.log('Giá phòng:', GiaPhong);
+            console.log('Image URLs:', imageUrls);
+            console.log('Videos:', videosArray);
 
             const insertQuery = `
-                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai, Latitude, Longitude)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, GiaPhongMax, Latitude, Longitude, GioiThieu, DiemNoiBat, HinhAnh, Video)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
 
-            con.query(insertQuery, [TenKS, DiaChi, TinhThanh, SoTongDai || null, Latitude || null, Longitude || null], function(error, result) {
+            con.query(insertQuery, [
+                TenKS, 
+                DiaChi, 
+                TinhThanh, 
+                SoTongDai || null, 
+                GiaPhong || null, 
+                GiaPhongMax || null,
+                Latitude || null, 
+                Longitude || null,
+                GioiThieu || null,
+                DiemNoiBat || null,
+                JSON.stringify(imageUrls),
+                JSON.stringify(videosArray)
+            ], function(error, result) {
                 if (error) {
                     console.error('error inserting data:', error.stack);
                     return res.status(500).json({ error: 'Thêm khách sạn thất bại', error: error.message });
@@ -310,7 +384,10 @@ app.post('/themkhachsan', async function(req, res) {
                         });
                     }
 
-                    return res.status(201).json({ message: 'Thêm khách sạn và phòng khởi điểm thành công' });
+                    return res.status(201).json({ 
+                        message: 'Thêm khách sạn và phòng khởi điểm thành công',
+                        hotelId: hotelId
+                    });
                 });
             });
         });
@@ -363,6 +440,42 @@ app.get('/ks/:maKS', async function(req, res) {
             return res.status(404).json({ message: 'Khách sạn không tìm thấy' });
         }
         res.json(results[0]); // Trả về thông tin khách sạn
+    });
+});
+
+// Route API lấy chi tiết khách sạn với hình ảnh và video
+app.get('/api/khachsan/:id', async function(req, res) {
+    const id = req.params.id;
+    const sql = 'SELECT * FROM KHACHSAN WHERE MaKS = ?';
+    con.query(sql, [id], (error, results) => {
+        if (error) {
+            console.error('Database error:', error);
+            return res.status(500).json({ message: 'Lỗi server' });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Khách sạn không tìm thấy' });
+        }
+        const hotel = results[0];
+        // Parse JSON fields if they exist
+        try {
+            hotel.images = hotel.HinhAnh ? JSON.parse(hotel.HinhAnh) : [];
+            hotel.videos = hotel.Video ? JSON.parse(hotel.Video) : [];
+            hotel.highlights = hotel.DiemNoiBat || '';
+            hotel.gioithieu = hotel.GioiThieu || '';
+            
+            // Map to English keys for frontend
+            hotel.ten = hotel.TenKS;
+            hotel.diachi = hotel.DiaChi;
+            hotel.tinhthanh = hotel.TinhThanh;
+            hotel.sotongdai = hotel.SoTongDai;
+            hotel.giaphong = hotel.GiaPhong;
+            hotel.giaphoongmax = hotel.GiaPhongMax;
+        } catch (e) {
+            console.warn('Error parsing JSON fields:', e);
+            hotel.images = [];
+            hotel.videos = [];
+        }
+        res.json(hotel);
     });
 });
 //Route thông tin chi tiết phòng
@@ -1047,6 +1160,24 @@ app.post('/save-review', (req, res) => {
         res.status(201).json({ message: 'Đánh giá đã được lưu thành công!' });
     });
 });
+//Route hiển thị tất cả đánh giá từ tất cả khách sạn
+app.get('/api/reviews/all', (req, res) => {
+    const sql = `
+        SELECT d.UserID, d.MaKS, k.HoVaTen, d.Mucdohailong, d.Phanhoivadexuat, ks.TenKS
+        FROM DANHGIA d
+        JOIN KHACHHANG k ON d.UserID = k.UserID
+        JOIN KHACHSAN ks ON d.MaKS = ks.MaKS
+        ORDER BY d.MaKS DESC
+    `;
+    con.query(sql, (error, results) => {
+        if (error) {
+            console.error('Lỗi khi tải tất cả đánh giá:', error);
+            return res.status(500).json({ message: 'Có lỗi xảy ra khi tải đánh giá.', error: error.message });
+        }
+        res.status(200).json(results);
+    });
+});
+
 //Route hiển thị đánh giá
 app.get('/api/reviews/:maKS', (req, res) => {
     const { maKS } = req.params; // Lấy mã khách sạn từ params

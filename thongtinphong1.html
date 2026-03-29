@@ -276,9 +276,204 @@
 
         .half-star { width: 16px; height: 16px; vertical-align: middle; margin: 0 2px 3px; }
 
+        /* Introduction Section */
+        .introduction-section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px auto;
+            max-width: 1200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .introduction-text {
+            font-size: 16px;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .highlight-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Image Gallery Section */
+        .gallery-section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px auto;
+            max-width: 1200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .main-image-container {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 15px;
+            border-radius: 25px;
+            z-index: 10;
+        }
+
+        .image-control-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .image-control-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .image-counter {
+            color: white;
+            padding: 8px 15px;
+            background: rgba(255, 56, 92, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .thumbnail-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .thumbnail {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Video Section */
+        .video-section {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px auto;
+            max-width: 1200px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .video-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-playlist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .video-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .video-item:hover,
+        .video-item.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         @media (max-width: 768px) {
             .room-item { grid-template-columns: 1fr; }
             .room-price { border-left: none; padding-left: 0; border-top: 1px solid #eee; padding-top: 15px; text-align: left; }
+            .introduction-section, .gallery-section, .video-section {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            .thumbnail-gallery, .video-playlist {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
         }
     </style>
 </head>
@@ -290,8 +485,8 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#">Nơi ở</a></li>
-                    <li><a href="#">Trải Nghiệm</a></li>
+                    <li><a href="#list-room">Nơi ở</a></li>
+                    <li><a href="#" id="experienceLink">Trải Nghiệm</a></li>
                 </ul>
             </nav>
             <div class="nav-buttons">
@@ -308,6 +503,36 @@
             <div class="room-header">
                 <h1>Đang tải thông tin khách sạn...</h1>
             </div>
+        </div>
+
+        <!-- Introduction Section -->
+        <div id="introduction-section" class="introduction-section" style="display: none;">
+            <h2 class="section-title">Giới Thiệu</h2>
+            <p class="introduction-text" id="intro-text"></p>
+            <div id="highlights-container"></div>
+        </div>
+
+        <!-- Image Gallery Section -->
+        <div id="gallery-section" class="gallery-section" style="display: none;">
+            <h2 class="section-title">Hình Ảnh</h2>
+            <div class="main-image-container">
+                <img id="mainImage" class="main-image" src="" alt="Hình ảnh khách sạn">
+                <div class="image-controls">
+                    <button class="image-control-btn" id="prevImageBtn">← Trước</button>
+                    <div class="image-counter"><span id="imageCounter">1</span>/<span id="totalImages">1</span></div>
+                    <button class="image-control-btn" id="nextImageBtn">Sau →</button>
+                </div>
+            </div>
+            <div class="thumbnail-gallery" id="thumbnailGallery"></div>
+        </div>
+
+        <!-- Video Section -->
+        <div id="video-section" class="video-section" style="display: none;">
+            <h2 class="section-title">Video</h2>
+            <div class="video-container">
+                <iframe id="mainVideo" src="" allowfullscreen="" allow="autoplay"></iframe>
+            </div>
+            <div class="video-playlist" id="videoPlaylist"></div>
         </div>
 
         <div id="list-room">
@@ -419,7 +644,14 @@
                 return urlParams.get(param);
             }
 
-            const maKS = getQueryParam('maKS'); 
+            let hotelName = ''; // Lưu tên khách sạn
+            const maKS = getQueryParam('maKS');
+
+            // Xử lý link Trải Nghiệm
+            const experienceLink = document.getElementById('experienceLink');
+            if (experienceLink && maKS) {
+                experienceLink.href = `/traiNghiem?maKS=${maKS}`;
+            } 
             if (maKS) {
                 fetch(`/ks/${maKS}`)
                     .then(response => {
@@ -427,6 +659,7 @@
                         return response.json();
                     })
                     .then(data => {
+                        hotelName = data.TenKS; // Lưu tên khách sạn
                         const roomContainer = document.getElementById('room-container');
                         roomContainer.innerHTML = `
                             <div class="room-header">
@@ -434,10 +667,24 @@
                                 <p>📍 ${data.DiaChi}, ${data.TinhThanh} • 📞 ${data.SoTongDai}</p>
                             </div>
                         `;
+                        
+                        // Load hotel details with introduction, images, videos
+                        loadHotelDetails(maKS);
+                        
+                        // Load đánh giá sau khi lấy được tên khách sạn
+                        loadReviews();
+                    })
+                    .catch(err => {
+                        console.error('Lỗi tải khách sạn:', err);
+                        const roomContainer = document.getElementById('room-container');
+                        roomContainer.innerHTML = '<p style="color: red;">Lỗi tải thông tin khách sạn. Vui lòng thử lại.</p>';
                     });
 
                 fetch(`/room/${maKS}`)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) throw new Error('Không thể tải danh sách phòng');
+                        return response.json();
+                    })
                     .then(data => {
                         const roomList = document.querySelector('.room-list');
                         roomList.innerHTML = '';
@@ -474,11 +721,15 @@
                             });
 
                             fetch(`/room-image/${room.MaPhong}`)
-                                .then(res => res.blob())
+                                .then(res => {
+                                    if (!res.ok) throw new Error('Không thể tải ảnh phòng');
+                                    return res.blob();
+                                })
                                 .then(blob => {
                                     const img = document.getElementById(`img-${room.MaPhong}`);
                                     if(img) img.src = URL.createObjectURL(blob);
-                                });
+                                })
+                                .catch(err => console.error('Lỗi tải ảnh:', err));
 
                             div.querySelector('.btn-book').addEventListener('click', (event) => {
                                 event.stopPropagation();
@@ -487,6 +738,11 @@
 
                             roomList.appendChild(div);
                         });
+                    })
+                    .catch(err => {
+                        console.error('Lỗi tải phòng:', err);
+                        const roomList = document.querySelector('.room-list');
+                        roomList.innerHTML = '<p style="color: red;">Lỗi tải danh sách phòng. Vui lòng thử lại.</p>';
                     });
 
                 document.getElementById('submitReview').addEventListener('click', function() {
@@ -501,19 +757,35 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ rating: parseFloat(rating), reviewText, customerId, maKS })
-                    }).then(() => {
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error('Lỗi lưu đánh giá');
+                        return res.json();
+                    })
+                    .then(() => {
                         document.getElementById('rate').value = '';
                         document.getElementById('userReview').value = '';
                         loadReviews();
+                    })
+                    .catch(err => {
+                        console.error('Lỗi lưu đánh giá:', err);
+                        alert('Lỗi khi lưu đánh giá. Vui lòng thử lại.');
                     });
                 });
 
                 function loadReviews() {
                     fetch(`/api/reviews/${maKS}`)
-                        .then(res => res.json())
+                        .then(res => {
+                            if (!res.ok) throw new Error('Không thể tải đánh giá');
+                            return res.json();
+                        })
                         .then(data => {
                             const reviewsSection = document.getElementById('reviews-section1');
                             reviewsSection.innerHTML = '<h2>Đánh giá từ khách hàng</h2>';
+                            if (!data || data.length === 0) {
+                                reviewsSection.innerHTML += '<p>Chưa có đánh giá nào.</p>';
+                                return;
+                            }
                             data.forEach(review => {
                                 const reviewDiv = document.createElement('div');
                                 reviewDiv.classList.add('review');
@@ -521,13 +793,143 @@
                                 const halfStar = review.Mucdohailong % 1 >= 0.5 ? '⭐' : '';
                                 reviewDiv.innerHTML = `
                                     <p class="review-text">"${review.Phanhoivadexuat}"</p>
-                                    <p class="review-author">- ${review.HoVaTen}, ${review.Mucdohailong}/5 ${'⭐'.repeat(fullStars)}${halfStar}</p>
+                                    <p class="review-author">- ${review.HoVaTen}, ${hotelName} | ${review.Mucdohailong}/5 ${'⭐'.repeat(fullStars)}${halfStar}</p>
                                 `;
                                 reviewsSection.appendChild(reviewDiv);
                             });
+                        })
+                        .catch(err => {
+                            console.error('Lỗi tải đánh giá:', err);
+                            const reviewsSection = document.getElementById('reviews-section1');
+                            reviewsSection.innerHTML = '<h2>Đánh giá từ khách hàng</h2><p style="color: red;">Lỗi tải đánh giá.</p>';
                         });
                 }
-                loadReviews();
+
+                // Load hotel details with introduction, images, videos
+                function loadHotelDetails(id) {
+                    fetch(`/api/khachsan/${id}`)
+                        .then(res => {
+                            if (!res.ok) throw new Error('Không thể tải chi tiết khách sạn');
+                            return res.json();
+                        })
+                        .then(hotel => {
+                            // Introduction Section
+                            if (hotel.gioithieu) {
+                                const introSection = document.getElementById('introduction-section');
+                                introSection.style.display = 'block';
+                                document.getElementById('intro-text').textContent = hotel.gioithieu;
+
+                                // Highlights
+                                const highlights = (hotel.highlights || '').split('\n').filter(h => h.trim());
+                                if (highlights.length > 0) {
+                                    const highlightsContainer = document.getElementById('highlights-container');
+                                    highlightsContainer.innerHTML = '<h3 style="font-size: 18px; margin-bottom: 15px; color: var(--text-dark);">Điểm Nổi Bật</h3>' +
+                                        '<div class="highlights">' +
+                                        highlights.map(h => `<div class="highlight-item">✓ ${h}</div>`).join('') +
+                                        '</div>';
+                                }
+                            }
+
+                            // Image Gallery
+                            const images = hotel.images || [];
+                            if (images.length > 0) {
+                                const gallerySection = document.getElementById('gallery-section');
+                                gallerySection.style.display = 'block';
+                                
+                                document.getElementById('totalImages').textContent = images.length;
+                                window.hotelImages = images;
+                                window.currentImageIndex = 0;
+
+                                // Set first image
+                                document.getElementById('mainImage').src = images[0];
+                                document.getElementById('imageCounter').textContent = '1';
+
+                                // Create thumbnails
+                                const thumbnailGallery = document.getElementById('thumbnailGallery');
+                                thumbnailGallery.innerHTML = images.map((img, i) => `
+                                    <div class="thumbnail ${i === 0 ? 'active' : ''}" onclick="changeHotelImage(${i})">
+                                        <img src="${img}" alt="Thumbnail ${i + 1}">
+                                    </div>
+                                `).join('');
+
+                                // Event listeners for navigation
+                                document.getElementById('prevImageBtn').addEventListener('click', prevHotelImage);
+                                document.getElementById('nextImageBtn').addEventListener('click', nextHotelImage);
+                            }
+
+                            // Video Section
+                            const videos = hotel.videos || [];
+                            if (videos.length > 0) {
+                                const videoSection = document.getElementById('video-section');
+                                videoSection.style.display = 'block';
+                                
+                                window.hotelVideos = videos;
+                                window.currentVideoIndex = 0;
+
+                                // Set first video
+                                document.getElementById('mainVideo').src = getVideoEmbedUrl(videos[0]);
+
+                                // Create video playlist
+                                const videoPlaylist = document.getElementById('videoPlaylist');
+                                videoPlaylist.innerHTML = videos.map((video, i) => `
+                                    <div class="video-item ${i === 0 ? 'active' : ''}" onclick="changeHotelVideo(${i})">
+                                        <iframe src="${getVideoEmbedUrl(video)}" allowfullscreen=""></iframe>
+                                    </div>
+                                `).join('');
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Lỗi tải chi tiết khách sạn:', err);
+                        });
+                }
+
+                // Helper function to get video embed URL
+                function getVideoEmbedUrl(videoUrl) {
+                    // YouTube
+                    const youtubeMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+                    if (youtubeMatch) {
+                        return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=0`;
+                    }
+                    
+                    // Vimeo
+                    const vimeoMatch = videoUrl.match(/vimeo\.com\/(\d+)/);
+                    if (vimeoMatch) {
+                        return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+                    }
+                    
+                    return videoUrl;
+                }
+
+                // Image slideshow functions
+                window.changeHotelImage = function(index) {
+                    window.currentImageIndex = index;
+                    document.getElementById('mainImage').src = window.hotelImages[index];
+                    document.getElementById('imageCounter').textContent = index + 1;
+                    
+                    document.querySelectorAll('.thumbnail').forEach((t, i) => {
+                        t.classList.toggle('active', i === index);
+                    });
+                }
+
+                window.prevHotelImage = function() {
+                    window.currentImageIndex = (window.currentImageIndex - 1 + window.hotelImages.length) % window.hotelImages.length;
+                    window.changeHotelImage(window.currentImageIndex);
+                }
+
+                window.nextHotelImage = function() {
+                    window.currentImageIndex = (window.currentImageIndex + 1) % window.hotelImages.length;
+                    window.changeHotelImage(window.currentImageIndex);
+                }
+
+                // Video slideshow functions
+                window.changeHotelVideo = function(index) {
+                    window.currentVideoIndex = index;
+                    document.getElementById('mainVideo').src = getVideoEmbedUrl(window.hotelVideos[index]);
+                    
+                    document.querySelectorAll('.video-item').forEach((v, i) => {
+                        v.classList.toggle('active', i === index);
+                    });
+                }
             }
         });
     </script>
