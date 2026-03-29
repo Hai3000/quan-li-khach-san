@@ -499,28 +499,6 @@
                         <label for="totalRooms">Số điện thoại tổng đài</label>
                         <input type="number" id="totalRooms" placeholder="Ví dụ: 02363xxxxxx" required>
                     </div>
-
-                    <!-- Phần giá từ đến -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <label for="priceFrom">Giá từ (VNĐ)</label>
-                            <select id="priceFrom" required style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; background: #fafafa; cursor: pointer;">
-                                <option value="">-- Chọn giá từ --</option>
-                                <option value="0">Từ 0 VNĐ</option>
-                                <option value="1000000">Từ 1.000.000 VNĐ</option>
-                                <option value="10000000">Từ 10.000.000 VNĐ</option>
-                            </select>
-                        </div>
-                        <div class="input-group" style="margin-bottom: 0;">
-                            <label for="priceTo">Đến (VNĐ)</label>
-                            <select id="priceTo" required style="width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; box-sizing: border-box; background: #fafafa; cursor: pointer;">
-                                <option value="">-- Chọn giá đến --</option>
-                                <option value="500000">Đến 500.000 VNĐ</option>
-                                <option value="10000000">Đến 10.000.000 VNĐ</option>
-                                <option value="999999999">Trở về sau (10M+)</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Tab 2: Introduction -->
@@ -740,12 +718,12 @@
             }
 
             // Check if video already exists
-            if (videos.some(v => v.id === videoData.id)) {
+            if (videos.some(v => v === url)) {
                 alert('Video này đã được thêm');
                 return;
             }
 
-            videos.push(videoData);
+            videos.push(url);
             videoInput.value = '';
             renderVideos();
         });
@@ -758,9 +736,9 @@
         });
 
         function renderVideos() {
-            videoList.innerHTML = videos.map((video, index) => `
+            videoList.innerHTML = videos.map((url, index) => `
                 <div class="video-item">
-                    <iframe src="${getEmbedUrl(video)}" allowfullscreen="" allow="autoplay"></iframe>
+                    <iframe src="${getEmbedUrl({ id: extractVideoId(url).id, platform: extractVideoId(url).platform })}" allowfullscreen="" allow="autoplay"></iframe>
                     <button class="video-item-delete" type="button" onclick="deleteVideo(${index})">×</button>
                 </div>
             `).join('');
@@ -793,18 +771,7 @@
                 return;
             }
 
-            const priceFrom = Number(form.priceFrom.value);
-            const priceTo = Number(form.priceTo.value);
 
-            if (isNaN(priceFrom) || isNaN(priceTo) || priceFrom < 0 || priceTo < 0) {
-                alert('Vui lòng chọn giá từ và đến hợp lệ.');
-                return;
-            }
-
-            if (priceFrom >= priceTo) {
-                alert('Giá từ phải nhỏ hơn giá đến.');
-                return;
-            }
 
             if (!form.hotelIntro.value.trim()) {
                 alert('Vui lòng nhập giới thiệu khách sạn');
@@ -817,8 +784,7 @@
             formData.append('TenKS', form.hotelName.value.trim());
             formData.append('DiaChi', form.hotelAddress.value.trim());
             formData.append('TinhThanh', form.hotelCity.value.trim());
-            formData.append('GiaPhong', priceFrom);
-            formData.append('GiaPhongMax', priceTo);
+
             formData.append('SoTongDai', formatPhone(form.totalRooms.value));
             formData.append('GioiThieu', form.hotelIntro.value.trim());
             formData.append('DiemNoiBat', form.hotelHighlights.value.trim());
