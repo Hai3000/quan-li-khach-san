@@ -300,11 +300,7 @@ app.post('/themkhachsan', upload.any(), async function(req, res) {
     console.log('Received data:', req.body);
     console.log('Uploaded files:', req.files);
     
-    let { TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, GiaPhongMax, Latitude, Longitude, GioiThieu, DiemNoiBat, Videos } = req.body;
-
-    if (Number.isNaN(Number(GiaPhong)) || Number(GiaPhong) <= 0) {
-        return res.status(400).json({ error: 'Giá phòng phải là số dương.' });
-    }
+    let { TenKS, DiaChi, TinhThanh, SoTongDai, Latitude, Longitude, GioiThieu, DiemNoiBat, Videos } = req.body;
 
     try {
         const checkHotelQuery = 'SELECT * FROM KHACHSAN WHERE TenKS = ?';
@@ -338,13 +334,12 @@ app.post('/themkhachsan', upload.any(), async function(req, res) {
             console.log('Địa chỉ:', DiaChi);
             console.log('Tỉnh thành:', TinhThanh);
             console.log('Số tổng đài:', SoTongDai);
-            console.log('Giá phòng:', GiaPhong);
             console.log('Image URLs:', imageUrls);
             console.log('Videos:', videosArray);
 
             const insertQuery = `
-                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai, GiaPhong, GiaPhongMax, Latitude, Longitude, GioiThieu, DiemNoiBat, HinhAnh, Video)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO KHACHSAN (TenKS, DiaChi, TinhThanh, SoTongDai, Latitude, Longitude, GioiThieu, DiemNoiBat, HinhAnh, Video)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
 
             con.query(insertQuery, [
@@ -352,8 +347,6 @@ app.post('/themkhachsan', upload.any(), async function(req, res) {
                 DiaChi, 
                 TinhThanh, 
                 SoTongDai || null, 
-                GiaPhong || null, 
-                GiaPhongMax || null,
                 Latitude || null, 
                 Longitude || null,
                 GioiThieu || null,
@@ -368,13 +361,13 @@ app.post('/themkhachsan', upload.any(), async function(req, res) {
 
                 const hotelId = result.insertId;
 
-                // Tạo 1 phòng mặc định với giá khởi điểm khi thêm khách sạn
+                // Tạo 1 phòng mặc định khi thêm khách sạn
                 const defaultRoomQuery = `
                     INSERT INTO PHONG (LoaiPhong, GiaPhong, TrangThai, TienNghi, MaKS, Hinhanh)
                     VALUES (?, ?, ?, ?, ?, NULL)
                 `;
 
-                con.query(defaultRoomQuery, ['Standard', Number(GiaPhong), 'Trống', 'Tiêu chuẩn', hotelId], function(err) {
+                con.query(defaultRoomQuery, ['Standard', 0, 'Trống', 'Tiêu chuẩn', hotelId], function(err) {
                     if (err) {
                         console.error('error inserting default room:', err.stack);
                         // Khách sạn đã tạo, nhưng phòng mặc định chưa tạo được; vẫn trả thành công với cảnh báo
