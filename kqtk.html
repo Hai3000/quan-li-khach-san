@@ -353,7 +353,21 @@
                         hotelDiv.className = 'hotel';
                         hotelDiv.setAttribute('data-maks', room.MaKS);
                         
-                        const imageStyle = room.HinhAnh ? `background-image: url('${room.HinhAnh}');` : '';
+                        // Parse HinhAnh JSON and get first image
+                        let imageUrl = '/anh/anhnen.jpg';
+                        if (room.HinhAnh) {
+                            try {
+                                const images = JSON.parse(room.HinhAnh);
+                                if (Array.isArray(images) && images.length > 0) {
+                                    imageUrl = images[0];
+                                }
+                            } catch (e) {
+                                // If HinhAnh is a string URL, use it directly
+                                imageUrl = room.HinhAnh;
+                            }
+                        }
+                        
+                        const imageStyle = `background-image: url('${imageUrl}');`;
                         
                         hotelDiv.innerHTML = `
                             <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; ${imageStyle}"></div>

@@ -255,6 +255,18 @@
                     <input type="number" id="totalRooms" placeholder="Nhập số điện thoại liên lạc" required>
                 </div>
 
+                <div class="input-group">
+                    <label for="hotelImages">Hình ảnh khách sạn</label>
+                    <input type="file" id="hotelImages" multiple accept="image/*" style="padding: 8px 0;">
+                    <small style="color: var(--text-gray); display: block; margin-top: 5px;">Chọn một hoặc nhiều hình ảnh (JPG, PNG, WebP, GIF). Kích thước tối đa: 10MB mỗi file</small>
+                </div>
+
+                <div id="imagePreviewContainer" style="display: none; margin-bottom: 20px;">
+                    <h4 style="color: var(--text-dark); margin-bottom: 12px;">Xem trước hình ảnh:</h4>
+                    <div id="imagePreviews" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px;"></div>
+                    <button type="button" id="clearImagesBtn" style="margin-top: 10px; padding: 8px 15px; background-color: var(--danger-color); color: white; border: none; border-radius: 6px; cursor: pointer;">Xóa tất cả hình ảnh</button>
+                </div>
+
                 <div class="button-group">
                     <button type="submit" id="addHotelSubmit">Lưu thay đổi khách sạn</button>
                     <button type="button" id="deleteHotelButton">Xóa khách sạn khỏi hệ thống</button>
@@ -300,9 +312,56 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-    
-        const maKS = getQueryParam('maKS'); 
-    
+        
+        const maKS = getQueryParam('maKS');
+        let selectedFiles = [];
+
+        // Handle image file selection
+        document.getElementById('hotelImages').addEventListener('change', function(e) {
+            selectedFiles = Array.from(e.target.files);
+            updateImagePreview();
+        });
+
+        function updateImagePreview() {
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            const previewsDiv = document.getElementById('imagePreviews');
+            previewsDiv.innerHTML = '';
+
+            if (selectedFiles.length > 0) {
+                previewContainer.style.display = 'block';
+                selectedFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.style.cssText = 'position: relative; border-radius: 8px; overflow: hidden;';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" style="width: 100%; height: 100px; object-fit: cover;">
+                            <button type="button" class="remove-img-btn" data-index="${index}" style="position: absolute; top: 2px; right: 2px; background: rgba(220, 53, 69, 0.8); color: white; border: none; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-size: 16px; padding: 0; display: flex; align-items: center; justify-content: center;">×</button>
+                        `;
+                        previewsDiv.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        document.getElementById('imagePreviews').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-img-btn')) {
+                const index = parseInt(e.target.dataset.index);
+                selectedFiles.splice(index, 1);
+                updateImagePreview();
+            }
+        });
+
+        document.getElementById('clearImagesBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            selectedFiles = [];
+            document.getElementById('hotelImages').value = '';
+            updateImagePreview();
+        });
+
         if (maKS) {
             fetch(`/editks/${maKS}`)
                 .then(response => {
@@ -340,17 +399,23 @@
             }
 
             if (maKS) {
+                // Use FormData to send form data with files
+                const formData = new FormData();
+                formData.append('TenKS', hotelName);
+                formData.append('DiaChi', hotelAddress);
+                formData.append('TinhThanh', hotelCity);
+                formData.append('GiaPhong', hotelPrice);
+                formData.append('SoTongDai', totalRooms);
+                formData.append('MaKS', maKS);
+
+                // Add selected image files
+                selectedFiles.forEach(file => {
+                    formData.append('hotelImages', file);
+                });
+
                 fetch('/chinhsuaks', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        TenKS: hotelName,
-                        DiaChi: hotelAddress,
-                        TinhThanh: hotelCity,
-                        GiaPhong: hotelPrice,
-                        SoTongDai: totalRooms,
-                        MaKS: maKS
-                    })
+                    body: formData
                 })
                 .then(response => {
                     if (!response.ok) return response.text().then(text => { throw new Error(text); });
@@ -358,7 +423,7 @@
                 })
                 .then(data => {
                     alert(data.message);
-                    if (data.message === "Cập nhật thông tin khách sạn thành công") {
+                    if (data.message.includes('thành công')) {
                         window.location.href = '/dsks123';
                     }
                 })
