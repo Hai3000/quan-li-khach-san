@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Chi Tiết Khách Sạn | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header/Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar a { text-decoration: none; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background: var(--bg-light);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hotel-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: start;
+        }
+
+        .hotel-info {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .hotel-info h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .info-icon {
+            font-size: 24px;
+            min-width: 30px;
+            color: var(--primary-color);
+        }
+
+        .info-text h3 {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .info-text p {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .price-range {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .price-range h3 {
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .price-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Introduction Section */
+        .introduction-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .introduction-text {
+            font-size: 16px;
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .highlight-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .highlight-item strong {
+            color: var(--text-dark);
+        }
+
+        /* Image Gallery Section */
+        .gallery-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .main-image-container {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 15px;
+            border-radius: 25px;
+        }
+
+        .image-control-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .image-control-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .image-counter {
+            color: white;
+            padding: 8px 15px;
+            background: rgba(255, 56, 92, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .thumbnail-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .thumbnail {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Video Section */
+        .video-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .video-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-playlist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .video-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .video-item:hover,
+        .video-item.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            z-index: 10;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 { 
+            font-size: 16px; 
+            margin-bottom: 15px; 
+            color: var(--text-dark); 
+        }
+
+        .footer-column p { 
+            font-size: 14px; 
+            color: var(--text-gray); 
+            margin: 8px 0; 
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hotel-header {
+                grid-template-columns: 1fr;
+            }
+
+            .highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .thumbnail-gallery,
+            .video-playlist {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .hotel-info h1 {
+                font-size: 24px;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        .error {
+            background: #fde5e6;
+            color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        /* Image Upload Section */
+        .image-upload-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+            background: #fafafa;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .input-group input[type="file"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            outline: none;
+            background: var(--white);
+        }
+
+        .input-group small {
+            color: var(--text-gray);
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        #imagePreviewContainer {
+            margin-bottom: 20px;
+        }
+
+        #imagePreviewContainer h4 {
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        #imagePreviews {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        #imagePreviews img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--bg-light);
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-save {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-clear {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-clear:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/trangchu">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.history.back()">← Quay lại</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="mainContent">
+        <div class="loading">Đang tải thông tin khách sạn...</div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ kỹ thuật</h4>
+                <p>📞 Hotline IT: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+            </div>
+            <div class="footer-column">
+                <h4>Hệ thống</h4>
+                <p>Về chúng tôi</p>
+                <p>Quy chế hoạt động</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn • Điều khoản dịch vụ • Bảo mật thông tin</p>
+        </div>
+    </footer>
+
+    <script>
+        // Get hotel ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const hotelId = urlParams.get('id');
+
+        if (!hotelId) {
+            document.getElementById('mainContent').innerHTML = '<div class="error">Không tìm thấy ID khách sạn</div>';
+        } else {
+            loadHotelDetails(hotelId);
+        }
+
+        async function loadHotelDetails(id) {
+            try {
+                const response = await fetch(`/api/khachsan/${id}`);
+                if (!response.ok) throw new Error('Không thể tải dữ liệu');
+                
+                const hotel = await response.json();
+                console.log('Hotel data from API:', hotel); // DEBUG: Log dữ liệu từ API
+                renderHotelDetails(hotel);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('mainContent').innerHTML = 
+                    `<div class="error">Lỗi: ${error.message}</div>`;
+            }
+        }
+
+        function renderHotelDetails(hotel) {
+            const mainContent = document.getElementById('mainContent');
+            
+            // Handle case-sensitive field names and parse videos
+            let videos = [];
+            if (hotel.videos) {
+                if (typeof hotel.videos === 'string') {
+                    try {
+                        videos = JSON.parse(hotel.videos);
+                    } catch (e) {
+                        console.error('Lỗi parse videos:', e);
+                        videos = [];
+                    }
+                } else if (Array.isArray(hotel.videos)) {
+                    videos = hotel.videos;
+                }
+            }
+            
+            const images = hotel.images || hotel.Anh || [];
+            const highlights = (hotel.highlights || hotel.DiemNoiBat || '').split('\n').filter(h => h.trim());
+
+            console.log('Processed videos:', videos); // DEBUG: Log videos đã xử lý
+            console.log('Processed images:', images); // DEBUG: Log images đã xử lý
+
+            let htmlContent = `
+                <!-- Hotel Header Info -->
+                <div class="hotel-header">
+                    <div class="hotel-info">
+                        <h1>${hotel.ten || 'Khách Sạn'}</h1>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">📍</div>
+                            <div class="info-text">
+                                <h3>Địa Chỉ</h3>
+                                <p>${hotel.diachi || 'N/A'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">🏙️</div>
+                            <div class="info-text">
+                                <h3>Tỉnh/Thành Phố</h3>
+                                <p>${hotel.tinhthanh || 'N/A'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-icon">📞</div>
+                            <div class="info-text">
+                                <h3>Số Điện Thoại</h3>
+                                <p>${hotel.sotongdai || 'N/A'}</p>
+                            </div>
+                        </div>
+
+                        <div class="price-range">
+                            <h3>Giá Phòng</h3>
+                            <div class="price-text">
+                                ${new Intl.NumberFormat('vi-VN').format(hotel.giaphong || 0)} - 
+                                ${new Intl.NumberFormat('vi-VN').format(hotel.giaphoongmax || 0)} VNĐ
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; justify-content: center; background: var(--white); padding: 30px; border-radius: 15px; box-shadow: var(--shadow);">
+                        <img src="${images.length > 0 ? images[0] : '/anh/anhnen.jpg'}" alt="${hotel.ten}" style="width: 100%; height: auto; border-radius: 10px; max-height: 400px; object-fit: cover;">
+                    </div>
+                </div>
+            `;
+
+            // Introduction Section
+            if (hotel.gioithieu) {
+                htmlContent += `
+                    <div class="introduction-section">
+                        <h2 class="section-title">Giới Thiệu</h2>
+                        <p class="introduction-text">${hotel.gioithieu}</p>
+                        ${highlights.length > 0 ? `
+                            <h3 style="margin-top: 25px; margin-bottom: 15px; color: var(--text-dark);">Điểm Nổi Bật</h3>
+                            <div class="highlights">
+                                ${highlights.map(h => `<div class="highlight-item">✓ ${h}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            // Image Gallery Section
+            if (images.length > 0) {
+                htmlContent += `
+                    <div class="gallery-section">
+                        <h2 class="section-title">Hình Ảnh</h2>
+                        <div class="main-image-container">
+                            <img id="mainImage" class="main-image" src="${images[0]}" alt="Hình ảnh khách sạn">
+                            <div class="image-controls">
+                                <button class="image-control-btn" id="prevImageBtn">← Trước</button>
+                                <div class="image-counter"><span id="imageCounter">1</span>/${images.length}</div>
+                                <button class="image-control-btn" id="nextImageBtn">Sau →</button>
+                            </div>
+                        </div>
+                        <div class="thumbnail-gallery" id="thumbnailGallery">
+                            ${images.map((img, i) => `
+                                <div class="thumbnail ${i === 0 ? 'active' : ''}" onclick="changeImage(${i})">
+                                    <img src="${img}" alt="Thumbnail ${i + 1}">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Video Section
+            if (videos.length > 0) {
+                const firstVideoEmbed = getVideoEmbedUrl(videos[0]);
+                htmlContent += `
+                    <div class="video-section">
+                        <h2 class="section-title">Video</h2>
+                        <div class="video-container">
+                            <iframe id="mainVideo" src="${firstVideoEmbed}" allowfullscreen="" allow="autoplay"></iframe>
+                        </div>
+                        <div class="video-playlist" id="videoPlaylist">
+                            ${videos.map((video, i) => `
+                                <div class="video-item ${i === 0 ? 'active' : ''}" onclick="changeVideo(${i})">
+                                    <iframe src="${getVideoEmbedUrl(video)}" allowfullscreen=""></iframe>
+                                    <div class="video-play-icon">▶</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Image Upload Section
+            htmlContent += `
+                <div class="image-upload-section">
+                    <h2 class="section-title">Cập Nhật Hình Ảnh</h2>
+                    <form id="imageUploadForm">
+                        <div class="input-group">
+                            <label for="hotelImages">Hình ảnh khách sạn</label>
+                            <input type="file" id="hotelImages" multiple accept="image/*" style="padding: 8px 0;">
+                            <small style="color: var(--text-gray); display: block; margin-top: 5px;">Chọn một hoặc nhiều hình ảnh (JPG, PNG, WebP, GIF). Kích thước tối đa: 10MB mỗi file</small>
+                        </div>
+
+                        <div id="imagePreviewContainer" style="display: none; margin-bottom: 20px;">
+                            <h4>Xem trước hình ảnh:</h4>
+                            <div id="imagePreviews"></div>
+                            <button type="button" id="clearImagesBtn" class="btn-clear">Xóa tất cả hình ảnh</button>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" class="btn-save">Lưu hình ảnh</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            mainContent.innerHTML = htmlContent;
+
+            // Setup event listeners
+            window.hotelImages = images;
+            window.hotelVideos = videos;
+            window.currentImageIndex = 0;
+            window.currentVideoIndex = 0;
+
+            if (document.getElementById('prevImageBtn')) {
+                document.getElementById('prevImageBtn').addEventListener('click', prevImage);
+            }
+            if (document.getElementById('nextImageBtn')) {
+                document.getElementById('nextImageBtn').addEventListener('click', nextImage);
+            }
+
+            // Image upload form handlers
+            const imageInput = document.getElementById('hotelImages');
+            const imagePreviews = document.getElementById('imagePreviews');
+            const clearImagesBtn = document.getElementById('clearImagesBtn');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imageUploadForm = document.getElementById('imageUploadForm');
+
+            let selectedImages = [];
+
+            imageInput.addEventListener('change', (e) => {
+                selectedImages = Array.from(e.target.files);
+                updateImagePreview();
+            });
+
+            function updateImagePreview() {
+                imagePreviews.innerHTML = '';
+                if (selectedImages.length > 0) {
+                    imagePreviewContainer.style.display = 'block';
+                    selectedImages.forEach((file, index) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            imagePreviews.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                } else {
+                    imagePreviewContainer.style.display = 'none';
+                }
+            }
+
+            clearImagesBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                selectedImages = [];
+                imageInput.value = '';
+                imagePreviewContainer.style.display = 'none';
+                imagePreviews.innerHTML = '';
+            });
+
+            imageUploadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (selectedImages.length === 0) {
+                    alert('Vui lòng chọn ít nhất một hình ảnh');
+                    return;
+                }
+
+                const formData = new FormData();
+                selectedImages.forEach(file => {
+                    formData.append('images', file);
+                });
+                formData.append('hotelId', hotelId);
+
+                try {
+                    const response = await fetch('/api/khachsan/' + hotelId + '/images', {
+                        method: 'PUT',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Cập nhật hình ảnh thất bại');
+                    }
+
+                    alert('Lưu hình ảnh thành công!');
+                    selectedImages = [];
+                    imageInput.value = '';
+                    imagePreviewContainer.style.display = 'none';
+                    imagePreviews.innerHTML = '';
+                    
+                    // Reload hotel details
+                    loadHotelDetails(hotelId);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Lỗi: ' + error.message);
+                }
+            });
+        }
+
+        function getVideoEmbedUrl(videoUrl) {
+            // YouTube
+            const youtubeMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+            if (youtubeMatch) {
+                return `https://www.youtube.com/embed/${youtubeMatch[1]}?autoplay=0`;
+            }
+            
+            // Vimeo
+            const vimeoMatch = videoUrl.match(/vimeo\.com\/(\d+)/);
+            if (vimeoMatch) {
+                return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+            }
+            
+            return videoUrl;
+        }
+
+        function changeImage(index) {
+            window.currentImageIndex = index;
+            document.getElementById('mainImage').src = window.hotelImages[index];
+            document.getElementById('imageCounter').textContent = index + 1;
+            
+            document.querySelectorAll('.thumbnail').forEach((t, i) => {
+                t.classList.toggle('active', i === index);
+            });
+        }
+
+        function prevImage() {
+            window.currentImageIndex = (window.currentImageIndex - 1 + window.hotelImages.length) % window.hotelImages.length;
+            changeImage(window.currentImageIndex);
+        }
+
+        function nextImage() {
+            window.currentImageIndex = (window.currentImageIndex + 1) % window.hotelImages.length;
+            changeImage(window.currentImageIndex);
+        }
+
+        function changeVideo(index) {
+            window.currentVideoIndex = index;
+            document.getElementById('mainVideo').src = getVideoEmbedUrl(window.hotelVideos[index]);
+            
+            document.querySelectorAll('.video-item').forEach((v, i) => {
+                v.classList.toggle('active', i === index);
+            });
+        }
+
+        window.changeImage = changeImage;
+        window.changeVideo = changeVideo;
+        window.prevImage = prevImage;
+        window.nextImage = nextImage;
+    </script>
+</body>
+</html>

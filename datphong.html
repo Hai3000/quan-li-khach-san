@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Đặt phòng | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --success-color: #28a745;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .nav-buttons { display: flex; align-items: center; gap: 10px; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        #loginButton { background: var(--primary-color); color: white; border: none; }
+
+        /* Booking Form Container */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .form-container {
+            background-color: var(--white);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            box-sizing: border-box;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+        }
+
+        /* Readonly inputs */
+        .form-group input[readonly] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+            font-weight: 500;
+            color: #555;
+        }
+
+        #totalPrice {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary-color);
+            background: #fff8f9;
+            border: 1px solid #ffe6e9;
+        }
+
+        .error-message {
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Layout rows for small fields */
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group { flex: 1; }
+
+        /* Submit Button */
+        input[type="submit"] {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(255, 56, 92, 0.3);
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 60px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { margin-bottom: 15px; font-size: 16px; }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .navbar nav { display: none; }
+            .form-container { padding: 30px 20px; }
+            .form-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/trangchu" style="text-decoration: none;"><h1>Quản lý khách sạn</h1></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="#">Trải Nghiệm</a></li>
+                    <li><a href="#">Trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+                <span id="usernameDisplay" style="display: none; font-weight: bold; cursor: pointer;"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="form-container">
+            <h2>Chi tiết đặt phòng</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="hotel">Cơ sở khách sạn:</label>
+                    <input type="text" id="hotel" name="hotel" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="room">Loại phòng lựa chọn:</label>
+                    <input type="text" id="room" name="room" required readonly>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkindate">Ngày nhận phòng:</label>
+                        <input type="date" id="checkindate" name="checkindate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkoutdate">Ngày trả phòng:</label>
+                        <input type="date" id="checkoutdate" name="checkoutdate" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="numberOfNights">Tổng số đêm:</label>
+                        <input type="number" id="numberOfNights" name="numberOfNights" required readonly>
+                        <span id="nightError" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberOfPeople">Số lượng người:</label>
+                        <input type="number" id="numberOfPeople" name="numberOfPeople" required min="1" max="4" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalPrice">Thành tiền dự tính:</label>
+                    <input type="text" id="totalPrice" name="totalPrice" readonly placeholder="0 VNĐ">
+                </div>
+
+                <input type="submit" value="Xác nhận và Thanh toán">
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ 24/7</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thông tin</h4>
+                <p>Về chúng tôi</p>
+                <p>Quy chế hoạt động</p>
+                <p>Chính sách bảo mật</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán hỗ trợ</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng di động</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px;"/>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Tất cả quyền được bảo lưu • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const nightError = document.getElementById("nightError");
+            const username = sessionStorage.getItem('username');
+    
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+                
+                const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
+                usernameDisplay.addEventListener("click", () => { window.location.href = redirectPage; });
+            }
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                window.location.href = "/logout";
+            });
+    
+            const getQueryParam = (param) => {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            };
+    
+            const maPhong = getQueryParam('maPhong'); 
+            const maKS = getQueryParam('maKS');
+    
+            let roomPrice = 0;
+            fetch(`/data/hotelandroom/${maKS}/${maPhong}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('hotel').value = data.TenKS;
+                    document.getElementById('room').value = data.LoaiPhong;
+                    roomPrice = data.GiaPhong;
+                })
+                .catch(error => console.error('Error:', error));
+    
+            const checkinDateInput = document.getElementById('checkindate');
+            const checkoutDateInput = document.getElementById('checkoutdate');
+            const numberOfNightsInput = document.getElementById('numberOfNights');
+            const numberOfPeopleInput = document.getElementById('numberOfPeople');
+            const totalPriceInput = document.getElementById('totalPrice');
+    
+            const today = new Date().toISOString().split("T")[0];
+            checkinDateInput.setAttribute("min", today);
+    
+            const calculateNights = () => {
+                const checkinDate = new Date(checkinDateInput.value);
+                const checkoutDate = new Date(checkoutDateInput.value);
+                if (checkinDateInput.value && checkoutDateInput.value && checkoutDate > checkinDate) {
+                    const timeDiff = checkoutDate - checkinDate;
+                    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                    numberOfNightsInput.value = daysDiff;
+                    nightError.textContent = daysDiff > 4 ? 'Số đêm tối đa là 4' : '';
+                    updateTotalPrice();
+                } else {
+                    numberOfNightsInput.value = 0;
+                    totalPriceInput.value = '0 VNĐ';
+                    nightError.textContent = '';
+                }
+            };
+    
+            checkinDateInput.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                if (checkinDate) {
+                    const minCheckout = new Date(checkinDate);
+                    minCheckout.setDate(minCheckout.getDate() + 1);
+                    checkoutDateInput.setAttribute("min", minCheckout.toISOString().split("T")[0]);
+                }
+                calculateNights();
+            });
+    
+            const updateTotalPrice = () => {
+                const nights = parseInt(numberOfNightsInput.value, 10);
+                const people = parseInt(numberOfPeopleInput.value, 10);
+                const total = roomPrice * nights * people;
+                totalPriceInput.value = total > 0 ? total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : '0 VNĐ';
+            };
+    
+            checkoutDateInput.addEventListener('change', calculateNights);
+            numberOfPeopleInput.addEventListener('change', updateTotalPrice);
+    
+            document.getElementById('bookingForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const nights = parseInt(numberOfNightsInput.value, 10);
+                const people = parseInt(numberOfPeopleInput.value, 10);
+                const checkinTime = checkinDateInput.value;
+                const checkoutTime = checkoutDateInput.value;
+                const customerId = sessionStorage.getItem('customerId');
+    
+                if (!checkinTime || !checkoutTime || nights <= 0 || nights > 4) {
+                    alert('Vui lòng kiểm tra lại thời gian đặt phòng (tối đa 4 đêm)!');
+                    return;
+                }
+                if (!customerId) {
+                    alert('Vui lòng đăng nhập để thực hiện đặt phòng!');
+                    window.location.href = '/login';
+                    return;
+                }
+    
+                const bookingInfo = { maPhong, numberOfNights: nights, numberOfPeople: people, checkinTime, checkoutTime, customerId };
+    
+                try {
+                    const response = await fetch('/save-booking', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bookingInfo),
+                    });
+    
+                    if (response.ok) {
+                        const data = await response.json();
+                        alert('Ghi nhận thông tin đặt phòng thành công!');
+                        window.location.href = `/payment?maPhong=${maPhong}&maDatPhong=${data.bookingId}&customerId=${customerId}`;
+                    } else {
+                        const err = await response.json();
+                        throw new Error(err.message || 'Đặt phòng thất bại');
+                    }
+                } catch (error) {
+                    alert('Lỗi: ' + error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

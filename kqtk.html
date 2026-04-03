@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Kết quả tìm kiếm | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Navbar đồng bộ trang chủ */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #loginButton {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        /* Hero Section cho trang kết quả (nhỏ hơn trang chủ) */
+        .hero-mini {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/anh/anhnen.jpg') center/cover;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Hotel List Section */
+        .hotel-list {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 60vh;
+        }
+
+        .hotel-list h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .hotels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Thiết kế Card khách sạn mới */
+        .hotel {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .hotel:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Giả lập ảnh khách sạn nếu API chưa trả về ảnh */
+        .hotel::before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 200px;
+            background: #ddd url('/anh/anhnen.jpg') center/cover;
+        }
+
+        .hotel-info {
+            padding: 20px;
+        }
+
+        .hotel-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
+
+        .hotel-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* Footer đồng bộ */
+        footer {
+            border-top: 1px solid #ddd;
+            padding: 60px 5% 20px;
+            background: var(--bg-light);
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { margin-bottom: 20px; font-size: 16px; }
+        .footer-column p { color: var(--text-gray); font-size: 14px; margin: 10px 0; }
+        .footer-column img { height: 30px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar nav { display: none; }
+            .hotels { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="http://localhost:5000/traiNghiem">Trải Nghiệm</a></li>
+                    <li><a href="#">Trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+                <span id="usernameDisplay" style="display: none; font-weight: bold; cursor:pointer;"></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-mini">
+        <h2 id="searchTitle">Kết quả tìm kiếm phù hợp</h2>
+    </section>
+
+    <section class="hotel-list">
+        <div class="search-panel" style="margin-bottom: 20px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit,minmax(180px,1fr));">
+            <input id="q" type="text" placeholder="Tên khách sạn hoặc địa chỉ" style="padding: 10px;" />
+            <input id="tinhThanh" type="text" placeholder="Tỉnh/Thành phố" style="padding: 10px;" />
+            <select id="minPrice" style="padding: 10px;">
+                <option value="">Giá từ (VNĐ)</option>
+                <option value="0">Từ 0 VNĐ</option>
+                <option value="1000000">Từ 1.000.000 VNĐ</option>
+                <option value="10000000">Từ 10.000.000 VNĐ</option>
+            </select>
+            <select id="maxPrice" style="padding: 10px;">
+                <option value="">Đến (VNĐ)</option>
+                <option value="500000">Đến 500.000 VNĐ</option>
+                <option value="10000000">Đến 10.000.000 VNĐ</option>
+                <option value="999999999">Trở về sau (10M+)</option>
+            </select>
+            <select id="sortBy" style="padding: 10px;">
+                <option value="priceAsc">Sắp xếp: Giá tăng dần</option>
+                <option value="priceDesc">Sắp xếp: Giá giảm dần</option>
+                <option value="city">Sắp xếp: Thành phố</option>
+            </select>
+            <button id="advancedSearchBtn" style="padding: 10px; background: #ff385c; color: #fff; border:none; border-radius:8px; cursor:pointer;">Tìm kiếm</button>
+        </div>
+        <h2 id="resultStatus">Đang tìm kiếm khách sạn tốt nhất cho bạn...</h2>
+        <div class="hotels" id="room-list">
+            </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về Quản lý khách sạn</p>
+                <p>Trang blog</p>
+                <p>Quy chế hoạt động</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 120px; display: block;">
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 120px; display: block;">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const roomList = document.getElementById('room-list');
+            const resultStatus = document.getElementById('resultStatus');
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+
+            // Lấy thông tin vị trí từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchLocation = urlParams.get('tinhthanh'); 
+
+            // Chuẩn bị tiêu đề tìm kiếm
+            const searchTitle = document.getElementById('searchTitle');
+            // Xử lý Session & Navbar
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+
+                const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
+                usernameDisplay.addEventListener("click", () => {
+                    window.location.href = redirectPage;
+                });
+            } else {
+                loginButton.style.display = 'inline';
+                registerButton.style.display = 'inline';
+            }
+
+            // Đăng xuất
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                window.location.href = "/logout";
+            });
+
+            // Fetch và hiển thị danh sách khách sạn theo endpoint mới
+            async function fetchHotels(queryParams = {}) {
+                const query = new URLSearchParams(queryParams);
+                const url = `/api/search-advanced?${query.toString()}`;
+                resultStatus.textContent = 'Đang tìm kiếm khách sạn phù hợp...';
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000); // 15s
+                try {
+                    const response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeout);
+
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            roomList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717171;">Không có khách sạn nào phù hợp.</p>';
+                            resultStatus.textContent = 'Không có kết quả phù hợp';
+                            return;
+                        }
+                        const err = await response.json().catch(() => ({}));
+                        throw new Error(err.message || 'Network response was not ok');
+                    }
+                    const data = await response.json();
+                    roomList.innerHTML = '';
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        roomList.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #717171;">Rất tiếc, không có khách sạn nào phù hợp.</p>';
+                        resultStatus.textContent = 'Không có kết quả phù hợp';
+                        return;
+                    }
+
+                    resultStatus.textContent = `Tìm thấy ${data.length} khách sạn phù hợp`;
+                    data.forEach(room => {
+                        const hotelDiv = document.createElement('div');
+                        hotelDiv.className = 'hotel';
+                        hotelDiv.setAttribute('data-maks', room.MaKS);
+                        
+                        // Parse HinhAnh JSON and get first image
+                        let imageUrl = '/anh/anhnen.jpg';
+                        if (room.HinhAnh) {
+                            try {
+                                const images = JSON.parse(room.HinhAnh);
+                                if (Array.isArray(images) && images.length > 0) {
+                                    imageUrl = images[0];
+                                }
+                            } catch (e) {
+                                // If HinhAnh is a string URL, use it directly
+                                imageUrl = room.HinhAnh;
+                            }
+                        }
+                        
+                        const imageStyle = `background-image: url('${imageUrl}');`;
+                        
+                        hotelDiv.innerHTML = `
+                            <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; ${imageStyle}"></div>
+                            <div class="hotel-info">
+                                <h3>${room.TenKS}</h3>
+                                <p>📍 ${room.TinhThanh}</p>
+                                <p style="color: #222; font-weight: bold;">Giá từ: ${room.GiaPhong ? room.GiaPhong.toLocaleString() + ' đ' : 'Chưa có giá'}</p>
+                                <p style="color: #222; font-weight: bold; margin-top:10px;">Địa chỉ: ${room.DiaChi || 'Chưa cập nhật'}</p>
+                            </div>`;
+
+                        hotelDiv.addEventListener('click', () => {
+                            const maKS = hotelDiv.getAttribute('data-maks');
+                            const currentUsername = sessionStorage.getItem('username');
+                            if (currentUsername === 'Admin') {
+                                window.location.href = '/404';
+                            } else if (maKS) {
+                                window.location.href = `/thongtinphong1?maKS=${maKS}`;
+                            }
+                        });
+                        roomList.appendChild(hotelDiv);
+                    });
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    resultStatus.textContent = "Có lỗi xảy ra khi tìm kiếm: " + error.message;
+                }
+            }
+
+            // Load từ query string (nếu có)
+            if (searchLocation) {
+                document.getElementById('tinhThanh').value = searchLocation;
+                searchTitle.textContent = `Bạn đang tìm khách sạn tại: ${searchLocation}`;
+                fetchHotels({ tinhThanh: searchLocation });
+            } else {
+                searchTitle.textContent = 'Bạn muốn đi thành phố nào?';
+                resultStatus.textContent = "Vui lòng nhập tỉnh/thành và bấm Tìm kiếm.";
+                roomList.innerHTML = '';
+            }
+
+            // Nút tìm kiếm nâng cao
+            document.getElementById('advancedSearchBtn').addEventListener('click', () => {
+                const q = document.getElementById('q').value.trim();
+                const tinhThanhInput = document.getElementById('tinhThanh').value.trim();
+                const minPrice = document.getElementById('minPrice').value;
+                const maxPrice = document.getElementById('maxPrice').value;
+                const sortBy = document.getElementById('sortBy').value;
+
+                const queryParams = {};
+                if (q) queryParams.q = q;
+                if (tinhThanhInput) queryParams.tinhThanh = tinhThanhInput;
+                if (minPrice) queryParams.minPrice = minPrice;
+                if (maxPrice) queryParams.maxPrice = maxPrice;
+                if (sortBy) queryParams.sortBy = sortBy;
+
+                fetchHotels(queryParams);
+            });
+        });
+    </script>
+</body>
+</html>

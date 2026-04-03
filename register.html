@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Thành Viên | Quản lý khách sạn</title>
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 15px 5%;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        /* Container đăng ký */
+        .register-section {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-container { /* Giữ class name cũ để tương thích CSS nếu cần, nhưng style mới */
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* Input group styling */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            outline: none;
+            background: var(--white);
+        }
+
+        /* Ẩn nút tăng/giảm CCCD */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Error message */
+        .error-message {
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Button styling */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 56, 92, 0.3);
+        }
+
+        #logbutton {
+            width: 100%;
+            padding: 12px;
+            background: none;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+
+        #logbutton:hover {
+            background-color: #f0f0f0;
+            border-color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin: 8px 0;
+        }
+
+        .footer-column img {
+            height: 25px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .login-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Quản lý khách sạn</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="register-section">
+        <div class="login-container">
+            <h2>Đăng ký tài khoản</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="regname">Họ và tên</label>
+                    <input type="text" id="regname" placeholder="Nhập họ và tên" required maxlength="50">
+                    <span id="nameError" class="error-message"></span>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <div class="input-group" style="flex: 2;">
+                        <label for="regdate">Ngày sinh</label>
+                        <input type="date" id="regdate" required>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="regsex">Giới tính</label>
+                        <select id="regsex" required style="width: 100%;">
+                            <option value="">Chọn</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                </div>
+                <span id="dateError" class="error-message" style="margin-top: -10px; margin-bottom: 10px;"></span>
+
+                <div class="input-group">
+                    <label for="reglocate">Địa chỉ thường trú</label>
+                    <input type="text" id="reglocate" placeholder="Nhập địa chỉ" required>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label for="regphone">Số điện thoại</label>
+                        <input type="tel" id="regphone" placeholder="09xxxxxxx" required>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="regid">Số CCCD</label>
+                        <input type="number" id="regid" placeholder="12 số" required>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <span id="phoneError" class="error-message"></span>
+                    <span id="cccdError" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="regemail">Email</label>
+                    <input type="email" id="regemail" placeholder="example@gmail.com" required>
+                    <span id="emailError" class="error-message"></span>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="input-group" style="flex: 1;">
+                        <label for="regpassword">Mật khẩu</label>
+                        <input type="password" id="regpassword" placeholder="Tối thiểu 8 ký tự" required minlength="8" maxlength="15">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label for="confirmpassword">Xác nhận</label>
+                        <input type="password" id="confirmpassword" placeholder="Nhập lại mật khẩu" required minlength="8" maxlength="15">
+                    </div>
+                </div>
+                <span id="passwordError" class="error-message" style="margin-top: -10px;"></span>
+
+                <button type="submit" id="regSubmit">Đăng ký thành viên</button>
+            </form>
+            <button type="button" id="logbutton">Bạn đã có tài khoản? Đăng nhập</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Về chúng tôi</h4>
+                <p>Giới thiệu thương hiệu</p>
+                <p>Quy chế hoạt động</p>
+                <p>Cơ hội nghề nghiệp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán</h4>
+                <div style="display: flex; gap: 10px;">
+                    <img src="/anh/bankpay.svg" alt="BankPay" />
+                    <img src="/anh/visa.svg" alt="Visa" />
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px; display: block; margin-bottom: 5px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px; display: block;"/>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Quy định đăng tin</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('logbutton').addEventListener("click", function () {
+            window.location.href = "/login"; 
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            const name = document.getElementById('regname').value;
+            const date = document.getElementById('regdate').value;
+            const sex = document.getElementById('regsex').value;
+            const locate = document.getElementById('reglocate').value;
+            const phone = document.getElementById('regphone').value;
+            const id = document.getElementById('regid').value;
+            const email = document.getElementById('regemail').value;
+            const password = document.getElementById('regpassword').value;
+            const confirmPassword = document.getElementById('confirmpassword').value;
+
+            let isValid = true;
+
+            // Kiểm tra số điện thoại
+            const phoneRegex = /^0\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                isValid = false;
+                document.getElementById('phoneError').textContent = 'SĐT không hợp lệ (10 số)!';
+            } else {
+                document.getElementById('phoneError').textContent = '';
+            }
+
+            // Kiểm tra tên
+            if (name.trim() === "Admin") {
+                isValid = false;
+                document.getElementById('nameError').textContent = 'Tên không được là Admin!';
+            } else {
+                document.getElementById('nameError').textContent = '';
+            }
+
+            // Kiểm tra email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                isValid = false;
+                document.getElementById('emailError').textContent = 'Email không hợp lệ!';
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            // Kiểm tra độ tuổi (18+)
+            const birthDate = new Date(date);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            const dayDifference = today.getDate() - birthDate.getDate();
+            if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+                age--;
+            }
+
+            if (age < 18) {
+                isValid = false;
+                document.getElementById('dateError').textContent = 'Bạn phải từ 18 tuổi trở lên!';
+            } else {
+                document.getElementById('dateError').textContent = '';
+            }
+
+            // Kiểm tra CCCD
+            const cccdRegex = /^(\d{9}|\d{12})$/;
+            if (!cccdRegex.test(id)) {
+                isValid = false;
+                document.getElementById('cccdError').textContent = 'Số CCCD/Hộ chiếu không hợp lệ!';
+            } else {
+                document.getElementById('cccdError').textContent = '';
+            }
+
+            // Kiểm tra mật khẩu
+            if (password !== confirmPassword) {
+                isValid = false;
+                document.getElementById('passwordError').textContent = 'Mật khẩu xác nhận không khớp!';
+            } else {
+                document.getElementById('passwordError').textContent = '';
+            }
+
+            if (!isValid) return;
+
+            // Gửi dữ liệu
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    regname: name, regdate: date, regsex: sex,
+                    reglocate: locate, regphone: phone, regid: id,
+                    regemail: email, regpassword: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.message === "User registered successfully") {
+                    window.location.href = '/login';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Đã xảy ra lỗi hệ thống.');
+            });
+        });
+    </script>
+</body>
+</html>

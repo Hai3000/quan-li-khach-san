@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Chi tiết phòng | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo a { text-decoration: none; }
+
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-buttons { display: flex; align-items: center; gap: 10px; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        #loginButton { background: var(--primary-color); color: white; border: none; }
+
+        /* Detail Container */
+        .room-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .room-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .room-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .room-price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .room-price-header p {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .btn-book-header {
+            padding: 14px 28px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(255, 56, 92, 0.2);
+        }
+
+        .btn-book-header:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Gallery */
+        .room-images {
+            margin-bottom: 40px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Features Section */
+        .room-features {
+            padding: 30px;
+            background: #fff8f9;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid #ffe6e9;
+        }
+
+        .room-features h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .room-features h2::before {
+            content: "✨";
+        }
+
+        #roomFeatures {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+
+        /* Policy Section */
+        .policy-section {
+            background-color: var(--bg-light);
+            padding: 60px 20px;
+            border-radius: 30px;
+            margin-bottom: 50px;
+        }
+
+        .policy-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 28px;
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .policy-item {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .policy-item h3 {
+            font-size: 17px;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+
+        .policy-item p {
+            font-size: 15px;
+            color: var(--text-gray);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #eee;
+            padding: 60px 5% 20px;
+            background: var(--white);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { font-size: 16px; margin-bottom: 15px; }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 28px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 768px) {
+            .navbar nav { display: none; }
+            .main-image { height: 300px; }
+            .room-price-header { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .btn-book-header { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/trangchu">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="#">Trải Nghiệm</a></li>
+                    <li><a href="#">Trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <span id="usernameDisplay" style="display: none; font-weight: bold; margin-right: 15px;"></span>
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="room-container">
+        <div class="room-header">
+            <h1 id="roomTitle">Đang tải thông tin phòng...</h1>
+            <div class="room-price-header">
+                <p id="roomPrice">Giá: --- đ / đêm</p>
+                <button class="btn-book-header" id="bookingButton">Đặt phòng ngay</button>
+            </div>
+        </div>
+
+        <div class="room-images">
+            <div class="main-image">
+                <img src="/anh/default.png" alt="Hình ảnh phòng" id="mainImage">
+            </div>
+        </div>
+        
+        <div class="room-features">
+            <h2>Tiện nghi & Dịch vụ đi kèm</h2>
+            <p id="roomFeatures">Đang cập nhật danh sách tiện nghi của phòng...</p>
+        </div>
+
+        <div class="policy-section">
+            <h2>Chính sách nhận - trả phòng</h2>
+            <div class="policy-grid">
+                <div class="policy-item">
+                    <h3>🕒 Theo giờ</h3>
+                    <p>Mở cửa phục vụ từ 7:00 sáng hàng ngày.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>🌙 Qua đêm</h3>
+                    <p>Thời gian tính từ 22:00 đến 10:00 sáng hôm sau.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>📅 Theo ngày</h3>
+                    <p>Check-in: 14:00 | Check-out: 12:00 trưa.</p>
+                </div>
+                <div class="policy-item">
+                    <h3>❌ Hủy phòng</h3>
+                    <p>Hủy phòng miễn phí trước 01 tiếng so với giờ nhận.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ khách hàng</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết tranh chấp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Về chúng tôi</h4>
+                <p>Giới thiệu hệ thống</p>
+                <p>Trang blog du lịch</p>
+                <p>Cơ hội nghề nghiệp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán an toàn</h4>
+                <img src="/anh/bankpay.svg" alt="Banking" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Sơ đồ trang web</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = sessionStorage.getItem('username'); 
+            const logoutButton = document.getElementById("logoutButton");
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const bookingButton = document.getElementById("bookingButton");
+
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+            }
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                window.location.href = "/logout";
+            });
+
+            loginButton.addEventListener("click", () => { window.location.href = "/login"; });
+            registerButton.addEventListener("click", () => { window.location.href = "/register"; });
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            function loadRoomInfo() {
+                const maPhong = getQueryParam('maPhong');  
+
+                fetch(`/room-details?maPhong=${maPhong}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Không thể tải thông tin');
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('roomTitle').textContent = data.LoaiPhong;
+                        document.getElementById('roomPrice').textContent = `Giá: ${data.GiaPhong.toLocaleString()} đ / đêm`;
+                        document.getElementById('roomFeatures').textContent = data.TienNghi || 'Phòng đầy đủ tiện nghi tiêu chuẩn.';
+                    })
+                    .catch(error => console.error('Error:', error));
+
+                fetch(`/room-image/${maPhong}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Không thể tải ảnh');
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const imageSrc = URL.createObjectURL(blob);
+                        document.getElementById('mainImage').src = imageSrc;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching image:', error);
+                        document.getElementById('mainImage').alt = "Không có hình ảnh mô tả";
+                    });
+            }
+
+            loadRoomInfo();
+
+            bookingButton.addEventListener('click', () => {
+                const maPhong = getQueryParam('maPhong'); 
+                const maKS = getQueryParam('maKS');
+                window.location.href = `/datphong?maKS=${maKS}&maPhong=${maPhong}`;
+            });
+        });
+    </script>
+</body>
+</html>
