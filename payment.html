@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Thanh toán | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            background-image: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        #loginButton {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        /* Payment Container */
+        .payment-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .payment-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .payment-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+        }
+
+        .form-group input[readonly] {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: not-allowed;
+        }
+
+        /* Transfer Info Box */
+        .transfer-box {
+            background-color: #fff8f9;
+            border: 1px dashed var(--primary-color);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .transfer-box p {
+            margin: 8px 0;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .transfer-box strong {
+            color: var(--text-dark);
+        }
+
+        /* Submit Button */
+        input[type="submit"] {
+            width: 100%;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { margin-bottom: 15px; font-size: 16px; }
+        .footer-column p { color: var(--text-gray); font-size: 14px; margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .navbar nav { display: none; }
+            .payment-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/trangchu" style="text-decoration: none;"><h1>Quản lý khách sạn</h1></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Nơi ở</a></li>
+                    <li><a href="#">Trải nghiệm</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <span id="usernameDisplay" style="font-weight: bold; margin-right: 10px;"></span>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="payment-wrapper">
+        <div class="payment-container">
+            <h2>Thanh toán trực tuyến</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="paymentMethod">Phương thức thanh toán</label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="banking">Chuyển khoản Ngân hàng (Banking)</option>
+                        <option value="visa">Thẻ quốc tế (Visa/Mastercard)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Số thẻ / Số tài khoản của bạn</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="Nhập dãy số thẻ" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bankName">Ngân hàng thực hiện</label>
+                    <select id="bankName" name="bankName" required>
+                        <option value="Vietcombank">Vietcombank</option>
+                        <option value="Techcombank">Techcombank</option>
+                        <option value="BIDV">BIDV</option>
+                        <option value="VietinBank">VietinBank</option>
+                        <option value="MB Bank">MB Bank</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalAmount">Tổng số tiền thanh toán</label>
+                    <input type="text" id="totalAmount" name="totalAmount" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentDate">Ngày thực hiện giao dịch</label>
+                    <input type="date" id="paymentDate" name="paymentDate" readonly/>
+                </div>
+
+                <div class="transfer-box">
+                    <p style="margin-top:0; font-weight: bold; color: var(--primary-color);">Thông tin đích đến:</p>
+                    <p>Số tài khoản: <strong>3741111040607</strong></p>
+                    <p>Ngân hàng: <strong>MB Bank (Quân Đội)</strong></p>
+                    <p>Chủ tài khoản: <strong>Hồ Trần Anh Quang</strong></p>
+                </div>
+
+                <input type="submit" value="Xác nhận Thanh toán">
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ khách hàng</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết khiếu nại</p>
+            </div>
+            <div class="footer-column">
+                <h4>Về chúng tôi</h4>
+                <p>Câu chuyện thương hiệu</p>
+                <p>Quy chế hoạt động</p>
+                <p>Cơ hội nghề nghiệp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác thanh toán</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Tải ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px;"/>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const totalAmountInput = document.getElementById('totalAmount');
+            const username = sessionStorage.getItem('username');
+    
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}!`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+            } else {
+                loginButton.style.display = 'inline';
+                registerButton.style.display = 'inline';
+            }
+    
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem('username');
+                sessionStorage.removeItem('customerId');
+                window.location.href = "/logout";
+            });
+    
+            const paymentDateInput = document.getElementById('paymentDate');
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            paymentDateInput.value = formattedDate;
+    
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+    
+            const maDatPhong = getQueryParam('maDatPhong');
+            const maPhong = getQueryParam('maPhong');
+            const customerId = getQueryParam('customerId');
+    
+            Promise.all([
+                fetch(`/data/booking-details/${maDatPhong}`),
+                fetch(`/data/price/${maPhong}`)
+            ])
+            .then(async ([bookingResponse, priceResponse]) => {
+                if (!bookingResponse.ok || !priceResponse.ok) {
+                    throw new Error('Dữ liệu không khả dụng');
+                }
+                const bookingData = await bookingResponse.json();
+                const priceData = await priceResponse.json();
+                const { SoDem, SoNguoi } = bookingData;
+                const pricePerNight = priceData.GiaPhong;
+                const totalAmount = pricePerNight * SoDem * SoNguoi;
+                totalAmountInput.value = totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    
+            document.getElementById('paymentForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                const cardNumber = document.getElementById('cardNumber').value;
+                const paymentDate = paymentDateInput.value;
+    
+                if (!cardNumber.match(/^\d{10,20}$/)) {
+                    alert('Số thẻ hoặc tài khoản không hợp lệ!');
+                    return;
+                }
+    
+                const paymentInfo = {
+                    customerId: customerId,
+                    maDatPhong: maDatPhong,
+                    phuongThucThanhToan: paymentMethod,
+                    ngayThanhToan: paymentDate
+                };
+    
+                fetch('/save-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentInfo),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Thanh toán thành công! Cảm ơn bạn đã sử dụng dịch vụ.');
+                        window.location.href = '/trangchu';
+                    } else {
+                        throw new Error('Giao dịch bị từ chối');
+                    }
+                })
+                .catch(error => {
+                    alert('Lỗi thanh toán: ' + error.message);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

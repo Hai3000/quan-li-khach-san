@@ -1,0 +1,499 @@
+/* Global styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f7f7f7;
+}
+
+h1, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+/* Hero Section Styling */
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #f7f7f7;
+    padding: 100px 20px;
+    background-image: url('/anh/anhnen.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.hero-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input,
+.search-bar select {
+    flex: 1;
+    padding: 10px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    margin-left: 5px;
+    background-color: #ff385c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #e31b4c;
+}
+
+/* Hotel List Section */
+.hotel-list {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.hotel-list h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.hotels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.hotel {
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.hotel:hover {
+    transform: translateY(-5px);
+}
+
+.hotel img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.hotel-info {
+    padding: 15px;
+}
+
+.hotel-info h3 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+
+.hotel-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.hotel-info p:nth-of-type(2) {
+    color: #ff385c;
+    font-weight: bold;
+}
+
+.hotel-info p:nth-of-type(3) {
+    color: #f59e0b;
+}
+a {
+    color: inherit; /* Màu giống với nội dung xung quanh */
+    text-decoration: none; /* Xóa bỏ gạch chân */
+}
+
+a:hover, a:visited {
+     /* Màu đỏ hoặc màu bạn muốn cho liên kết khi hover */
+    text-decoration: none; /* Thêm gạch chân khi hover nếu cần */
+}
+
+
+
+/* About Section */
+.about-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.about-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Services Section */
+.services-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #f7f7f7;
+}
+
+.services-section h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.services {
+    display: flex;
+    justify-content: space-around;
+}
+
+.service {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service h3 {
+    font-size: 24px;
+    color: #ff385c;
+    margin-bottom: 10px;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.testimonials-section h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.testimonials {
+    display: flex;
+    justify-content: space-around;
+}
+
+.testimonial {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Contact Section */
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px; /* Chiều cao full màn hình */
+    background-color: #f7f7f7;
+}
+
+.contact-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.contact-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+.contact-section input,
+.contact-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact-section button {
+    padding: 10px 20px;
+    background-color: #ff385c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-section button:hover {
+    background-color: #e31b4c;
+}
+
+/* Footer */
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eaeaea;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Đối tác thanh toán */
+.footer-column {
+    text-align: left;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
+.footer-column div {
+    display: flex;
+    justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
+    align-items: center;
+    flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
+    gap: 10px; /* Khoảng cách giữa các logo */
+}
+
+.footer-column img {
+    width: 60px; /* Đặt kích thước chiều rộng cho các logo */
+    height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa các logo */
+    object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
+}
+
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}
+
+/* Mặc định dành cho màn hình lớn hơn 1200px */
+@media (min-width: 1200px) {
+    .navbar {
+        padding: 20px 80px;
+    }
+
+    .hero-section {
+        padding: 150px 100px;
+        background-size: cover;
+    }
+
+    .hotel {
+        width: 28%;
+    }
+
+    .search-bar {
+        width: 50%;
+    }
+
+    .services, .testimonials {
+        flex-direction: row;
+    }
+
+    .service, .testimonial {
+        width: 30%;
+    }
+
+    .contact-section form {
+        width: 50%;
+    }
+}
+
+/* Màn hình từ 992px đến 1200px */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .navbar {
+        padding: 20px 60px;
+    }
+
+    .hero-section {
+        padding: 120px 50px;
+        background-size: contain;
+    }
+
+    .hotel {
+        width: 45%;
+    }
+
+    .search-bar {
+        width: 60%;
+    }
+
+    .services, .testimonials {
+        flex-direction: row;
+    }
+
+    .service, .testimonial {
+        width: 45%;
+    }
+
+    .contact-section form {
+        width: 70%;
+    }
+}
+
+/* Màn hình từ 768px đến 991px */
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar {
+        padding: 15px 40px;
+    }
+
+    .hero-section {
+        padding: 100px 30px;
+    }
+
+    .hotel {
+        width: 90%;
+    }
+
+    .search-bar {
+        width: 70%;
+    }
+
+    .services, .testimonials {
+        flex-direction: column;
+    }
+
+    .service, .testimonial {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .contact-section form {
+        width: 90%;
+    }
+}
+
+/* Màn hình nhỏ hơn 768px */
+@media (max-width: 767px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+
+    .hero-section {
+        padding: 80px 20px;
+        text-align: center;
+        background-size: contain;
+    }
+
+    .hotel {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .search-bar {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .services, .testimonials {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .service, .testimonial {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .contact-section form {
+        width: 100%;
+    }
+}

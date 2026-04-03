@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Bảng điều khiển | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 20px 5%;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        /* Mode Selection Section */
+        .selection-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .selection-container h2 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .mode-wrapper {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* Mode Card Styling */
+        .mode-card {
+            background: var(--white);
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            padding: 50px 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary-color);
+        }
+
+        .mode-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .mode-card h3 {
+            font-size: 24px;
+            margin: 0;
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .mode-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-column h4 {
+            font-size: 16px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin: 8px 0;
+        }
+
+        .footer-column img {
+            height: 25px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .mode-wrapper { flex-direction: column; align-items: center; }
+            .selection-container h2 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Quản lý khách sạn</h1>
+            </div>
+        </div>
+    </header>
+
+    <section class="selection-container">
+        <h2>Vui lòng chọn chế độ truy cập</h2>
+        
+        <div class="mode-wrapper">
+            <div class="mode-card" onclick="document.getElementById('cus').click()">
+                <span class="mode-icon">🏨</span>
+                <h3 id="cus">Chế độ khách</h3>
+                <p>Xem danh sách phòng và thực hiện đặt phòng trực tuyến.</p>
+            </div>
+
+            <div class="mode-card" onclick="document.getElementById('adm').click()">
+                <span class="mode-icon">⚙️</span>
+                <h3 id="adm">Chế độ Admin</h3>
+                <p>Quản lý dữ liệu, doanh thu và cấu hình hệ thống khách sạn.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>📞 Hotline: 1900 123 456</p>
+                <p>support@quanlykhachsan.com</p>
+                <p>Cơ chế giải quyết tranh chấp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về chúng tôi</p>
+                <p>Quy chế hoạt động</p>
+                <p>Cơ hội nghề nghiệp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán</h4>
+                <div style="display: flex;">
+                    <img src="/anh/bankpay.svg" alt="BankPay" />
+                    <img src="/anh/visa.svg" alt="Visa" />
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px;"/>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn, Inc. • Bảo mật • Điều khoản • Sơ đồ trang web</p>
+        </div>
+    </footer>
+
+    <script>
+        const cus = document.getElementById("cus");
+        const adm = document.getElementById("adm");
+        
+        // Giữ nguyên sự kiện click vào text để tương thích script cũ
+        cus.addEventListener("click", function (e) {
+            e.stopPropagation(); // Ngăn chặn sự kiện nổi bọt lên card
+            window.location.href = "/trangchu";
+        });
+        
+        adm.addEventListener("click", function (e) {
+            e.stopPropagation();
+            window.location.href = "/quanly";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+/* Reset margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+.logo a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu của tiêu đề */
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+.room-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.room-header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.room-header h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.room-header p {
+    font-size: 18px;
+    color: #555;
+}
+
+.room-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.room-rating span {
+    font-size: 16px;
+    color: #f59e0b;
+    margin-right: 10px;
+}
+
+.room-rating a {
+    font-size: 16px;
+    color: #ff385c;
+    text-decoration: none;
+}
+
+.room-rating a:hover {
+    text-decoration: underline;
+}
+
+/* Image gallery */
+
+.room-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.main-image img {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Thumbnails */
+.thumbnail-images {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 10px;
+    width: 190px; /* Giảm chiều rộng của khối thumbnails */
+}
+
+.thumbnail-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px; /* Giảm bo tròn cho ảnh nhỏ */
+    cursor: pointer;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail-images img:hover {
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+/* Styling for the room list section */
+.room-list {
+    margin-top: 50px;
+    padding: 0 20px;
+}
+
+.room-list h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: left;
+}
+
+/* Styling for each room item */
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #eaeaea;
+    align-items: center;
+    flex-wrap: wrap; /* Đảm bảo bố cục tốt trên màn hình nhỏ */
+    max-width: 1100px; /* Đặt độ rộng tối đa cho room item */
+    margin: 0 auto; /* Căn giữa trên màn hình */
+    gap: 10px; /* Giảm khoảng cách giữa các phần tử */
+}
+
+.room-image {
+    flex: 0 0 180px; /* Giảm kích thước ảnh để các phần gần nhau hơn */
+    margin-right: 10px; /* Giảm khoảng cách giữa ảnh và nội dung */
+}
+
+.room-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room-info {
+    flex: 1;
+    margin-right: 10px; /* Giảm khoảng cách giữa thông tin và đặc điểm */
+}
+
+.room-info h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px; /* Giảm khoảng cách dưới tiêu đề */
+}
+
+.room-info p {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.room-info a {
+    font-size: 16px;
+    color: #ff385c;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 5px; /* Giảm khoảng cách trên của link */
+}
+
+.room-info a:hover {
+    text-decoration: underline;
+}
+
+.room-features {
+    flex: 1;
+}
+
+.room-features h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.room-features p {
+    font-size: 16px;
+    color: #666;
+}
+
+.room-price {
+    text-align: right;
+    flex: 0 0 150px; /* Giảm kích thước phần giá để tiết kiệm không gian */
+}
+
+.room-price h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px; /* Giảm khoảng cách dưới tiêu đề giá */
+}
+
+.room-price p {
+    font-size: 22px;
+    color: #ff385c;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.room-price del {
+    font-size: 16px;
+    color: #888;
+    margin-left: 5px;
+}
+
+.room-price .btn-book {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 8px 15px; /* Giảm kích thước nút */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.room-price .btn-book:hover {
+    background-color: #ff3e30;
+}
+
+/* Chính sách nhận - trả phòng */
+.policy-section {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.policy-section h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.policy-item h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.policy-item p {
+    font-size: 16px;
+    color: #666;
+}
+
+
+
+
+/* Footer */
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eaeaea;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Đối tác thanh toán */
+.footer-column {
+    text-align: left;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
+.footer-column div {
+    display: flex;
+    justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
+    align-items: center;
+    flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
+    gap: 10px; /* Khoảng cách giữa các logo */
+}
+
+.footer-column img {
+    width: 60px; /* Đặt kích thước chiều rộng cho các logo */
+    height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa các logo */
+    object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
+}
+
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+    }
+
+    
+}
+
+
+/* Tiện nghi */
+.facilities-section {
+    padding: 40px 20px;
+    background-color: #f9f9f9;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.facilities-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.facilities-list {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.facilities-list li {
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #555;
+}
+
+/* Đánh giá */
+.reviews-section {
+    padding: 40px 20px;
+    background-color: #fff;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.review {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-text {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.review-author {
+    font-size: 16px;
+    color: #888;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .facilities-list {
+        grid-template-columns: 1fr;
+    }
+
+    .review {
+        width: 100%;
+    }
+}
+
+
+
+
+

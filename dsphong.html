@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Quản lý danh sách phòng | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo a { text-decoration: none; }
+
+        /* Filter / Search Bar */
+        .search-container {
+            background: var(--white);
+            padding: 20px 5%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .location { flex: 1; }
+
+        .search-bar label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+        }
+
+        .search-bar select {
+            width: 100%;
+            height: 45px;
+            padding: 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fafafa;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar select:focus { border-color: var(--primary-color); }
+
+        .search-bar button {
+            height: 45px;
+            padding: 0 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-bar button:hover { background-color: var(--secondary-color); transform: translateY(-2px); }
+
+        /* Room List Section */
+        .hotel-list {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hotel-list h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .hotels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Room Card Styling */
+        .hotel {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .hotel:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .room-image-container {
+            width: 100%;
+            height: 200px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+
+        .room-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hotel-info {
+            padding: 20px;
+        }
+
+        .hotel-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: var(--text-dark);
+        }
+
+        .hotel-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .price-tag {
+            font-size: 18px;
+            color: var(--primary-color) !important;
+            font-weight: 800;
+            margin-top: 10px !important;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #e8f5e9;
+            color: #2e7d32;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 50px 5% 20px;
+            border-top: 1px solid #eee;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { font-size: 16px; margin-bottom: 15px; }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 768px) {
+            .search-bar { flex-direction: column; align-items: stretch; }
+            .hotels { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/quanly">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='/quanly'">Quay lại Dashboard</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <div class="search-bar">
+            <div class="location">
+                <label for="locationInput">Lọc danh sách theo khách sạn</label>
+                <select id="locationInput" name="locationInput">
+                    <option value="">Đang tải danh sách khách sạn...</option>
+                </select>
+            </div>
+            <button id="searchButton">🔍 Tìm kiếm phòng</button>
+        </div>
+    </div>
+
+    <section class="hotel-list">
+        <h2 id="listTitle">Danh sách tất cả các phòng</h2>
+        <div class="hotels" id="room-list">
+            <p style="text-align: center; grid-column: 1/-1; color: var(--text-gray);">Đang tải dữ liệu phòng...</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ kỹ thuật</h4>
+                <p>📞 Hotline IT: 1900 123 456</p>
+                <p>📧 it-support@quanlykhachsan.com</p>
+            </div>
+            <div class="footer-column">
+                <h4>Hệ thống</h4>
+                <p>Về chúng tôi</p>
+                <p>Quy chế hoạt động</p>
+                <p>Bảo mật nội bộ</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán hỗ trợ</h4>
+                <img src="/anh/bankpay.svg" alt="BankPay" />
+                <img src="/anh/visa.svg" alt="Visa" />
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng di động</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" />
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn • Hệ thống quản trị nội bộ chuyên nghiệp</p>
+        </div>
+    </footer>
+
+    <script>
+        const searchButton = document.getElementById("searchButton");
+        const hotelSelect = document.getElementById('locationInput');
+        const roomList = document.getElementById('room-list');
+        const listTitle = document.getElementById('listTitle');
+    
+        // 1. Lấy danh sách khách sạn cập nhật dropdown
+        fetch(`/dsks`)
+            .then(response => response.json())
+            .then(hotels => {
+                hotelSelect.innerHTML = '<option value="">-- Tất cả khách sạn --</option>';
+                if (Array.isArray(hotels) && hotels.length > 0) {
+                    hotels.forEach(hotel => {
+                        const option = document.createElement('option');
+                        option.value = hotel.MaKS;
+                        option.textContent = hotel.TenKS;
+                        hotelSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching hotels:', error));
+    
+        // 2. Hàm tạo mẫu hiển thị cho mỗi phòng (Template)
+        function renderRoom(room) {
+            const roomDiv = document.createElement('div');
+            roomDiv.className = 'hotel';
+            roomDiv.setAttribute('data-maphong', room.MaPhong);
+
+            roomDiv.innerHTML = `
+                <div class="room-image-container">
+                    <img src="" alt="Room ${room.MaPhong}" class="room-img" id="img-${room.MaPhong}">
+                </div>
+                <div class="hotel-info">
+                    <span class="status-badge">${room.TrangThai || 'Sẵn sàng'}</span>
+                    <h3>${room.LoaiPhong}</h3>
+                    <p><strong>Tiện nghi:</strong> ${room.TienNghi}</p>
+                    <p class="price-tag">${room.GiaPhong.toLocaleString()} VNĐ <span style="font-size:12px; color:#717171;">/ đêm</span></p>
+                    <p style="font-size:11px; margin-top:10px;">Mã phòng: ${room.MaPhong}</p>
+                </div>
+            `;
+
+            // Tải ảnh cho phòng
+            fetch(`/room-image/${room.MaPhong}`)
+                .then(res => res.blob())
+                .then(blob => {
+                    const imgElement = document.getElementById(`img-${room.MaPhong}`);
+                    if(imgElement) imgElement.src = URL.createObjectURL(blob);
+                })
+                .catch(() => {
+                    const imgElement = document.getElementById(`img-${room.MaPhong}`);
+                    if(imgElement) imgElement.alt = "Ảnh chưa cập nhật";
+                });
+
+            // Sự kiện click để chỉnh sửa
+            roomDiv.addEventListener('click', () => {
+                window.location.href = `/editPhong?maPhong=${encodeURIComponent(room.MaPhong)}`;
+            });
+
+            return roomDiv;
+        }
+
+        // 3. Hàm fetch phòng theo MaKS
+        function fetchRooms(maKS) {
+            const url = maKS ? `/api/searchroom?maKS=${encodeURIComponent(maKS)}` : '/api/phong';
+            listTitle.textContent = maKS ? `Danh sách phòng của khách sạn #${maKS}` : "Danh sách tất cả các phòng";
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    roomList.innerHTML = '';
+                    if (data.length === 0) {
+                        roomList.innerHTML = '<p style="grid-column:1/-1; text-align:center;">Không tìm thấy phòng nào.</p>';
+                        return;
+                    }
+                    data.forEach(room => {
+                        roomList.appendChild(renderRoom(room));
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    roomList.innerHTML = '<p>Có lỗi xảy ra khi tải dữ liệu.</p>';
+                });
+        }
+    
+        // 4. Sự kiện khi bấm nút tìm kiếm
+        searchButton.addEventListener('click', () => {
+            fetchRooms(hotelSelect.value);
+        });
+    
+        // 5. Khởi tạo khi trang tải xong
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchMaKS = urlParams.get('maKS');
+            
+            // Tải dữ liệu ban đầu
+            fetchRooms(searchMaKS);
+        });
+    </script>
+</body>
+</html>

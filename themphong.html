@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Thêm Phòng Mới | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/anh/anhnen.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        header {
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .navbar a { text-decoration: none; }
+
+        .nav-buttons button {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        /* Container chính */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .login-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            max-width: 550px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Form styling */
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            outline: none;
+            background: var(--white);
+        }
+
+        /* Input đặc biệt */
+        .form-group input[readonly] {
+            background-color: #eee;
+            cursor: not-allowed;
+            color: #666;
+        }
+
+        .form-group input[type="file"] {
+            padding: 8px;
+            background: var(--white);
+        }
+
+        /* Ẩn nút tăng giảm số */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] { -moz-appearance: textfield; }
+
+        /* Button submit */
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 56, 92, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            padding: 40px 5% 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 { font-size: 16px; margin-bottom: 15px; color: var(--text-dark); }
+        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
+        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 600px) {
+            .login-container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/quanly">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='/quanly'">Quay lại Dashboard</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="login-container">
+            <h2>Cấu hình thêm phòng mới</h2>
+            <form id="addroomForm">
+                <div class="form-group">
+                    <label for="hotel">Chọn khách sạn hệ thống</label>
+                    <select id="hotel" name="hotel" required>
+                        <option value="">Đang tải danh sách khách sạn...</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="roomtype">Loại phòng</label>
+                        <input type="text" id="roomtype" name="roomtype" placeholder="Ví dụ: Deluxe King" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="hotelid">Mã khách sạn</label>
+                        <input type="text" id="hotelid" name="hotelid" placeholder="Tự động" required readonly>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="roomprice">Giá phòng (VNĐ/Đêm)</label>
+                        <input type="number" id="roomprice" name="roomprice" placeholder="Nhập giá" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="roomtt">Trạng thái hiện tại</label>
+                        <input type="text" id="roomtt" name="roomtt" placeholder="Thường để trống" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomacs">Tiện nghi đi kèm (Max 50 ký tự)</label>
+                    <input type="text" id="roomacs" name="roomacs" placeholder="Wifi, AC, Bồn tắm, Mini Bar..." required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="roomimg">Hình ảnh đại diện phòng</label>
+                    <input type="file" id="roomimg" name="roomimg" accept="image/*" required>
+                    <small style="color: var(--text-gray); font-size: 11px;">Hỗ trợ định dạng: JPG, PNG, WEBP</small>
+                </div>
+
+                <button type="submit" id="addroomSubmit">Xác nhận Lưu phòng</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ kỹ thuật</h4>
+                <p>📞 IT Support: 1900 123 456</p>
+                <p>📧 support@quanlykhachsan.com</p>
+            </div>
+            <div class="footer-column">
+                <h4>Hệ thống</h4>
+                <p>Cơ chế bảo mật</p>
+                <p>Quy chế hoạt động nội bộ</p>
+            </div>
+            <div class="footer-column">
+                <h4>Đối tác liên kết</h4>
+                <div style="display: flex;">
+                    <img src="/anh/bankpay.svg" alt="BankPay" />
+                    <img src="/anh/visa.svg" alt="Visa" />
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Ứng dụng quản lý</h4>
+                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px; display: block; margin-bottom: 5px;"/>
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px; display: block;"/>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn • Hệ thống quản trị nội bộ • Bảo mật thông tin</p>
+        </div>
+    </footer>
+
+    <script>
+        // Lấy danh sách khách sạn khi tải trang
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(`/dsks`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch hotels');
+                    return response.json();
+                })
+                .then(hotels => {
+                    const hotelSelect = document.getElementById('hotel');
+                    hotelSelect.innerHTML = '<option value="">-- Chọn khách sạn --</option>';
+                    hotels.forEach(hotel => {
+                        const option = document.createElement('option');
+                        option.value = hotel.MaKS;
+                        option.textContent = hotel.TenKS;
+                        hotelSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching hotels:', error));
+        });
+    
+        // Tự động cập nhật mã khách sạn khi chọn
+        document.getElementById('hotel').addEventListener('change', function() {
+            document.getElementById('hotelid').value = this.value || '';
+        });
+    
+        // Xử lý gửi form
+        document.getElementById('addroomForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const roomImgInput = document.getElementById('roomimg');
+            const data = {
+                roomtype: document.getElementById('roomtype').value,
+                roomprice: document.getElementById('roomprice').value,
+                roomtt: document.getElementById('roomtt').value,
+                roomacs: document.getElementById('roomacs').value,
+                hotelid: document.getElementById('hotelid').value,
+                roomimg: null
+            };
+    
+            if (roomImgInput.files.length > 0) {
+                const file = roomImgInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onloadend = function() {
+                    data.roomimg = reader.result;
+                    sendData(data);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                sendData(data);
+            }
+    
+            function sendData(data) {
+                fetch('/themphong', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Giao dịch máy chủ thất bại');
+                    return response.json();
+                })
+                .then(responseData => {
+                    alert(responseData.message);
+                    if (responseData.message === "Thêm phòng thành công") {
+                        window.location.href = '/quanly';
+                    }
+                })
+                .catch(error => {
+                    alert('Đã xảy ra lỗi: ' + error.message);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Quản lý khách sạn | Đặt phòng trực tuyến</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 24px; /* Giảm nhẹ size để phù hợp với cụm từ dài hơn */
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .navbar nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            background: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #loginButton {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .nav-buttons button:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.75) contrast(1.1);
+        }
+
+        .hero-section h2 {
+            font-size: 42px;
+            margin-bottom: 30px;
+            color: #e8d9b8;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.5), 0 0 20px rgba(232, 217, 184, 0.3);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 700px;
+            color: var(--text-dark);
+        }
+
+        .location {
+            flex: 1;
+            text-align: left;
+            padding: 5px 15px;
+        }
+
+        .location label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .location select {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: var(--text-gray);
+            background: transparent;
+        }
+
+        #searchButton {
+            background: #d4a574;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
+        }
+
+        #searchButton:hover {
+            background: #c59464;
+            box-shadow: 0 6px 16px rgba(212, 165, 116, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Hotel List */
+        .hotel-list {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hotel-list h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .hotels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .hotel {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .hotel:hover {
+            transform: translateY(-5px);
+        }
+
+        .hotel-info {
+            padding: 12px 0;
+        }
+
+        .hotel-info h3 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .hotel-info p {
+            color: var(--text-gray);
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        /* Services Section */
+        .services-section {
+            background: var(--bg-light);
+            padding: 60px 5%;
+        }
+
+        .services {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .service {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #ddd;
+            padding: 60px 5% 20px;
+            background: var(--bg-light);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-column p {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .footer-column p:hover { text-decoration: underline; }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar nav { display: none; }
+            .hero-section h2 { font-size: 28px; }
+            .search-bar { flex-direction: column; border-radius: 20px; width: 85%; }
+            #searchButton { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1>Quản lý khách sạn</h1>
+            </div>
+            <nav>
+                <ul>
+                    
+                    <li><a href="/traiNghiem">Trải Nghiệm</a></li>
+                    <li><a href="#">Trực tuyến</a></li>
+                </ul>
+            </nav>
+            <div class="nav-buttons">
+                <button id="registerButton">Đăng ký</button>
+                <button id="loginButton">Đăng nhập</button>
+                <button id="logoutButton" style="display: none;">Đăng xuất</button>
+                <span id="usernameDisplay" style="display: none; font-weight: bold; cursor:pointer;"></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <img src="/anh/anhnen.jpg" alt="Background" class="hero-image">
+        <h2>Trải nghiệm kỳ nghỉ tuyệt vời</h2>
+        <div class="search-bar">
+            <div class="location">
+                <label>Địa điểm</label>
+                <select id="locationInput" name="locationInput">
+                    <option value="">Bạn muốn đi đâu?</option>
+                </select>
+            </div>
+            <button id="searchButton">Tìm kiếm</button>
+        </div>
+    </section>
+
+    <section class="hotel-list">
+        <h2>Khám phá các điểm đến phổ biến</h2>
+        <div class="hotels" id="room-list">
+            </div>
+    </section>
+
+    <section class="services-section" style="background: #fff; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+            <h2>Về chúng tôi</h2>
+            <p style="color: var(--text-gray); font-size: 18px;">
+                Quản lý khách sạn giúp bạn tìm kiếm những nơi lưu trú độc đáo ở khắp nơi trên thế giới, từ những căn hộ sang trọng đến những homestay bình dân.
+            </p>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="services">
+            <div class="service">
+                <h3 style="color: var(--primary-color);">Thuê phòng</h3>
+                <p>Đa dạng lựa chọn từ căn hộ sang trọng đến homestay ấm cúng.</p>
+            </div>
+            <div class="service">
+                <h3 style="color: var(--primary-color);">Bản sắc địa phương</h3>
+                <p>Trải nghiệm văn hóa và ẩm thực cùng người dân bản địa.</p>
+            </div>
+            <div class="service">
+                <h3 style="color: var(--primary-color);">Đảm bảo uy tín</h3>
+                <p>Hơn 1 triệu đánh giá xác thực từ cộng đồng khách du lịch.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Hỗ trợ</h4>
+                <p>Trung tâm trợ giúp</p>
+                <p>📞 1900 123 456</p>
+                <p>Cơ chế giải quyết tranh chấp</p>
+            </div>
+            <div class="footer-column">
+                <h4>Giới thiệu</h4>
+                <p>Về Quản lý khách sạn</p>
+                <p>Cơ hội nghề nghiệp</p>
+                <p>Nhà đầu tư</p>
+            </div>
+            <div class="footer-column">
+                <h4>Thanh toán</h4>
+                <div style="display: flex; gap: 10px;">
+                    <img src="/anh/visa.svg" alt="Visa" style="width: 40px;">
+                    <img src="/anh/bankpay.svg" alt="Bank" style="width: 40px;">
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Tải ứng dụng</h4>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <img src="/anh/AppStore.svg" alt="App Store" style="width: 120px;">
+                    <img src="/anh/CHPlay.svg" alt="Play Store" style="width: 120px;">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Quản lý khách sạn • Điều khoản • Bảo mật • Quy định đăng tin</p>
+        </div>
+    </footer>
+
+    <script>
+        async function loadTinhThanh() {
+            try {
+                const res = await fetch("/dstinh");
+                const data = await res.json();
+                const select = document.getElementById("locationInput");
+                data.forEach(item => {
+                    const option = document.createElement("option");
+                    option.value = item.TinhThanh;
+                    option.textContent = item.TinhThanh;
+                    select.appendChild(option);
+                });
+            } catch (err) { console.error(err); }
+        }
+        loadTinhThanh();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginButton = document.getElementById("loginButton");
+            const registerButton = document.getElementById("registerButton");
+            const logoutButton = document.getElementById("logoutButton");
+            const usernameDisplay = document.getElementById("usernameDisplay");
+            const searchButton = document.getElementById("searchButton");
+            const roomList = document.getElementById('room-list');
+            const locationInput = document.getElementById('locationInput');
+
+            const username = sessionStorage.getItem('username');
+            if (username) {
+                usernameDisplay.textContent = `Xin chào, ${username}`;
+                usernameDisplay.style.display = 'inline';
+                logoutButton.style.display = 'inline';
+                loginButton.style.display = 'none';
+                registerButton.style.display = 'none';
+                const redirectPage = username === "Admin" ? "/quanly" : "/ttkh";
+                usernameDisplay.addEventListener("click", () => { window.location.href = redirectPage; });
+            }
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                window.location.href = "/logout";
+            });
+
+            searchButton.addEventListener('click', () => {
+                const location = locationInput.value.trim();
+                if (location) {
+                    window.location.href = `/kqtk?tinhthanh=${encodeURIComponent(location)}`;
+                } else {
+                    alert('Vui lòng chọn địa điểm.');
+                }
+            });
+
+            fetch('/api/rooms')
+                .then(response => response.json())
+                .then(data => {
+                    roomList.innerHTML = '';
+                    data.forEach(room => {
+                        const hotelDiv = document.createElement('div');
+                        hotelDiv.className = 'hotel';
+                        
+                        // Parse HinhAnh JSON and get first image
+                        let imageUrl = '/anh/anhnen.jpg';
+                        if (room.HinhAnh) {
+                            try {
+                                const images = JSON.parse(room.HinhAnh);
+                                if (Array.isArray(images) && images.length > 0) {
+                                    imageUrl = images[0];
+                                }
+                            } catch (e) {
+                                // If HinhAnh is a string URL, use it directly
+                                imageUrl = room.HinhAnh;
+                            }
+                        }
+                        
+                        const imageStyle = `background-image: url('${imageUrl}');`;
+                        
+                        hotelDiv.innerHTML = `
+                            <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; ${imageStyle}"></div>
+                            <div class="hotel-info">
+                                <h3>${room.TenKS}</h3>
+                                <p>${room.TinhThanh}</p>
+                                <p style="color: #222; font-weight: bold;">Địa chỉ: ${room.DiaChi}</p>
+                            </div>
+                        `;
+                        hotelDiv.addEventListener('click', () => {
+                            window.location.href = `/thongtinphong1?maKS=${room.MaKS}`;
+                        });
+                        roomList.appendChild(hotelDiv);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

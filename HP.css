@@ -1,0 +1,145 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f7f7f7;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff385c;
+    color: white;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+}
+
+.navbar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar nav ul li {
+    margin-left: 20px;
+}
+
+.navbar nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-buttons button {
+    background-color: white;
+    color: #ff385c;
+    border: 1px solid #ff385c;
+    padding: 8px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons button:hover {
+    background-color: #ff385c;
+    color: white;
+}
+
+/* Danh sách đặt phòng */
+.booking-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.booking-item {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.booking-item h2 {
+    font-size: 24px;
+    color: #ff385c;
+    margin-bottom: 15px;
+}
+
+.booking-item p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.booking-item p strong {
+    color: #333;
+}
+/* Footer */
+footer {
+    background-color: #f7f7f7;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 1px solid #eaeaea;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Đối tác thanh toán */
+.footer-column {
+    text-align: left;
+}
+
+.footer-column h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Đặt các ảnh nằm hàng ngang và chỉnh kích cỡ */
+.footer-column div {
+    display: flex;
+    justify-content: flex-start; /* Căn chỉnh trái, có thể đổi thành center để căn giữa */
+    align-items: center;
+    flex-wrap: wrap; /* Cho phép logo tự động xuống hàng nếu không đủ không gian */
+    gap: 10px; /* Khoảng cách giữa các logo */
+}
+
+.footer-column img {
+    width: 60px; /* Đặt kích thước chiều rộng cho các logo */
+    height: auto; /* Đảm bảo tỷ lệ ảnh không bị méo */
+    margin-right: 10px; /* Khoảng cách giữa các logo */
+    object-fit: contain; /* Giữ nguyên tỉ lệ, đảm bảo không cắt ảnh */
+}
+
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #ddd;
+}
+.logo a {
+    text-decoration: none; /* Loại bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu của tiêu đề */
+}

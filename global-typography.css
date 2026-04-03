@@ -1,0 +1,531 @@
+/* ========================================
+   LUXURY HOTEL TYPOGRAPHY SYSTEM
+   ======================================== */
+
+/* Import Google Fonts - Elegant & Professional */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lato:wght@300;400;500;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+/* ========================================
+   GLOBAL FONT CONFIGURATION
+   ======================================== */
+
+:root {
+    /* Luxury Color Palette */
+    --primary-color: #1a472a;        /* Deep Forest Green */
+    --secondary-color: #b8860b;      /* Gold */
+    --accent-color: #d4af37;         /* Light Gold */
+    --text-dark: #1a1a1a;            /* Almost Black */
+    --text-gray: #5a5a5a;            /* Warm Gray */
+    --text-light: #8a8a8a;           /* Light Gray */
+    --bg-light: #f9f7f4;             /* Off-white Cream */
+    --white: #ffffff;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    /* Font Families */
+    --font-display: 'Playfair Display', 'Cormorant Garamond', serif;
+    --font-body: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    
+    /* Font Sizes */
+    --fs-h1: 3.5rem;     /* 56px */
+    --fs-h2: 2.8rem;     /* 45px */
+    --fs-h3: 2.2rem;     /* 35px */
+    --fs-h4: 1.8rem;     /* 28px */
+    --fs-h5: 1.5rem;     /* 24px */
+    --fs-h6: 1.2rem;     /* 19px */
+    --fs-body: 1rem;     /* 16px */
+    --fs-small: 0.95rem; /* 15px */
+    --fs-tiny: 0.875rem; /* 14px */
+    
+    /* Letter Spacing */
+    --ls-normal: 0.5px;
+    --ls-title: 1px;
+    --ls-wide: 2px;
+    
+    /* Line Heights */
+    --lh-tight: 1.2;
+    --lh-normal: 1.6;
+    --lh-relaxed: 1.8;
+}
+
+/* ========================================
+   BASE ELEMENTS
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-normal);
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    letter-spacing: var(--ls-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   HEADINGS - Elegant & Prestigious
+   ======================================== */
+
+h1, .h1 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-title);
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+
+h2, .h2 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-title);
+    color: var(--text-dark);
+    margin-bottom: 1.2rem;
+    margin-top: 2rem;
+}
+
+h3, .h3 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-title);
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+h4, .h4 {
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    font-weight: 600;
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-normal);
+    color: var(--text-dark);
+    margin-bottom: 0.8rem;
+    margin-top: 1.2rem;
+}
+
+h5, .h5 {
+    font-family: var(--font-body);
+    font-size: var(--fs-h5);
+    font-weight: 700;
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-normal);
+    color: var(--text-dark);
+    margin-bottom: 0.8rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+h6, .h6 {
+    font-family: var(--font-body);
+    font-size: var(--fs-h6);
+    font-weight: 700;
+    line-height: var(--lh-normal);
+    letter-spacing: var(--ls-wide);
+    color: var(--secondary-color);
+    margin-bottom: 0.6rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   PARAGRAPHS & TEXT
+   ======================================== */
+
+p {
+    margin-bottom: 1.5rem;
+    line-height: var(--lh-relaxed);
+    color: var(--text-gray);
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+small, .small {
+    font-size: var(--fs-small);
+    line-height: var(--lh-normal);
+    color: var(--text-light);
+}
+
+.text-muted {
+    color: var(--text-light);
+}
+
+.text-secondary {
+    color: var(--secondary-color);
+}
+
+/* ========================================
+   LISTS
+   ======================================== */
+
+ul, ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    line-height: var(--lh-relaxed);
+    color: var(--text-gray);
+}
+
+/* ========================================
+   LINKS
+   ======================================== */
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+}
+
+a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* ========================================
+   BUTTONS - Premium Style
+   ======================================== */
+
+button, .btn {
+    font-family: var(--font-body);
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-light);
+}
+
+.btn-primary:hover {
+    background-color: #0f2d1a;
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #a07603;
+    transform: translateY(-2px);
+}
+
+.btn-light {
+    background-color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-light:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* ========================================
+   FORMS
+   ======================================== */
+
+input, textarea, select {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-normal);
+    color: var(--text-dark);
+    padding: 10px 14px;
+    border: 1px solid #d4d4d4;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+}
+
+label {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--text-dark);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-normal);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* ========================================
+   NAVBAR / HEADER
+   ======================================== */
+
+.navbar, header {
+    font-family: var(--font-body);
+    letter-spacing: 0.5px;
+}
+
+.navbar h1, header h1, .logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--fs-h3);
+    letter-spacing: var(--ls-normal);
+    margin: 0;
+}
+
+.navbar a, header a {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: var(--ls-normal);
+    text-transform: uppercase;
+}
+
+/* ========================================
+   CARDS & CONTAINERS
+   ======================================== */
+
+.card, .card-container {
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.card:hover, .card-container:hover {
+    box-shadow: var(--shadow);
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h5);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--text-dark);
+}
+
+.card-text {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    color: var(--text-gray);
+    line-height: var(--lh-relaxed);
+}
+
+/* ========================================
+   SECTIONS & CTA
+   ======================================== */
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.section-subtitle {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    color: var(--text-gray);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+
+table {
+    font-family: var(--font-body);
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--fs-tiny);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-normal);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    border: none;
+}
+
+td {
+    font-size: var(--fs-body);
+    color: var(--text-dark);
+    padding: 12px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* ========================================
+   RESPONSIVE TYPOGRAPHY
+   ======================================== */
+
+@media (max-width: 768px) {
+    :root {
+        --fs-h1: 2.5rem;
+        --fs-h2: 2rem;
+        --fs-h3: 1.5rem;
+        --fs-h4: 1.3rem;
+        --fs-h5: 1.2rem;
+    }
+
+    h1, .h1 {
+        margin-bottom: 1rem;
+    }
+
+    h2, .h2 {
+        margin-bottom: 0.8rem;
+        margin-top: 1.5rem;
+    }
+
+    button, .btn {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --fs-h1: 2rem;
+        --fs-h2: 1.5rem;
+        --fs-h3: 1.2rem;
+        --fs-body: 0.95rem;
+    }
+
+    h1, .h1 {
+        margin-bottom: 0.8rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    button, .btn {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wide);
+}
+
+.text-gold {
+    color: var(--secondary-color);
+}
+
+.text-primary {
+    color: var(--primary-color);
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-body {
+    font-family: var(--font-body);
+}
+
+.fw-light {
+    font-weight: 300;
+}
+
+.fw-normal {
+    font-weight: 400;
+}
+
+.fw-medium {
+    font-weight: 500;
+}
+
+.fw-bold {
+    font-weight: 700;
+}
+
+.line-height-tight {
+    line-height: var(--lh-tight);
+}
+
+.line-height-normal {
+    line-height: var(--lh-normal);
+}
+
+.line-height-relaxed {
+    line-height: var(--lh-relaxed);
+}
