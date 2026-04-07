@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,9 @@
     <link rel='shortcut icon' href='/anh/favicon.ico' />
     <title>Quản lý khách sạn | Đặt phòng trực tuyến</title>
     <link rel='stylesheet' href='/global-typography.css'>
+
+    <script src="/socket.io/socket.io.js"></script>
+
     <style>
         :root {
             --primary-color: #ff385c;
@@ -32,7 +36,7 @@
             top: 0;
             z-index: 1000;
             background: var(--white);
-            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
         }
 
         .navbar {
@@ -47,7 +51,7 @@
         .logo h1 {
             color: var(--primary-color);
             margin: 0;
-            font-size: 24px; /* Giảm nhẹ size để phù hợp với cụm từ dài hơn */
+            font-size: 24px;
             font-weight: 800;
             letter-spacing: -1px;
         }
@@ -95,7 +99,7 @@
         }
 
         .nav-buttons button:hover {
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-color: var(--text-dark);
         }
 
@@ -114,8 +118,10 @@
 
         .hero-image {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             z-index: -1;
             filter: brightness(0.75) contrast(1.1);
@@ -125,7 +131,7 @@
             font-size: 42px;
             margin-bottom: 30px;
             color: #e8d9b8;
-            text-shadow: 0 3px 12px rgba(0,0,0,0.5), 0 0 20px rgba(232, 217, 184, 0.3);
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(232, 217, 184, 0.3);
             font-weight: 600;
             letter-spacing: 1px;
         }
@@ -247,7 +253,7 @@
             flex: 1;
             min-width: 250px;
             max-width: 350px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         /* Footer */
@@ -277,7 +283,9 @@
             cursor: pointer;
         }
 
-        .footer-column p:hover { text-decoration: underline; }
+        .footer-column p:hover {
+            text-decoration: underline;
+        }
 
         .footer-bottom {
             text-align: center;
@@ -290,13 +298,37 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar nav { display: none; }
-            .hero-section h2 { font-size: 28px; }
-            .search-bar { flex-direction: column; border-radius: 20px; width: 85%; }
-            #searchButton { width: 100%; }
+            .navbar nav {
+                display: none;
+            }
+
+            .hero-section h2 {
+                font-size: 28px;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                border-radius: 20px;
+                width: 85%;
+            }
+
+            #searchButton {
+                width: 100%;
+            }
+        }
+
+        /* SCROLLBAR CHO CHAT */
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 10px;
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="navbar">
@@ -305,14 +337,13 @@
             </div>
             <nav>
                 <ul>
-                    
                     <li><a href="/traiNghiem">Trải Nghiệm</a></li>
                     <li><a href="#">Trực tuyến</a></li>
                 </ul>
             </nav>
             <div class="nav-buttons">
-                <button id="registerButton">Đăng ký</button>
-                <button id="loginButton">Đăng nhập</button>
+                <button id="registerButton" onclick="window.location.href='/register'">Đăng ký</button>
+                <button id="loginButton" onclick="window.location.href='/login'">Đăng nhập</button>
                 <button id="logoutButton" style="display: none;">Đăng xuất</button>
                 <span id="usernameDisplay" style="display: none; font-weight: bold; cursor:pointer;"></span>
             </div>
@@ -336,14 +367,15 @@
     <section class="hotel-list">
         <h2>Khám phá các điểm đến phổ biến</h2>
         <div class="hotels" id="room-list">
-            </div>
+        </div>
     </section>
 
     <section class="services-section" style="background: #fff; text-align: center;">
         <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
             <h2>Về chúng tôi</h2>
             <p style="color: var(--text-gray); font-size: 18px;">
-                Quản lý khách sạn giúp bạn tìm kiếm những nơi lưu trú độc đáo ở khắp nơi trên thế giới, từ những căn hộ sang trọng đến những homestay bình dân.
+                Quản lý khách sạn giúp bạn tìm kiếm những nơi lưu trú độc đáo ở khắp nơi trên thế giới, từ những căn hộ
+                sang trọng đến những homestay bình dân.
             </p>
         </div>
     </section>
@@ -399,7 +431,41 @@
         </div>
     </footer>
 
+    <div id="chat-widget" style="position: fixed; bottom: 30px; right: 30px; z-index: 10000;">
+        <button id="chat-bubble"
+            style="background: var(--primary-color); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 15px rgba(255,56,92,0.4); display: flex; align-items: center; justify-content: center; transition: 0.3s;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+
+        <div id="chat-box"
+            style="display: none; width: 350px; height: 450px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; position: absolute; bottom: 80px; right: 0; border: 1px solid #eee;">
+            <div
+                style="background: var(--primary-color); color: white; padding: 15px 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 15px;">Hỗ trợ trực tuyến</span>
+                <span id="close-chat" style="cursor: pointer; font-size: 20px;">&times;</span>
+            </div>
+
+            <div id="chat-messages"
+                style="flex: 1; padding: 15px; overflow-y: auto; background: #fdfdfd; display: flex; flex-direction: column; gap: 10px;">
+                <div
+                    style="background: #e9ecef; color: #333; padding: 10px 15px; border-radius: 15px 15px 15px 0; font-size: 14px; align-self: flex-start; max-width: 80%;">
+                    Chào bạn! Cần hỗ trợ đặt phòng hoặc dịch vụ, hãy nhắn cho chúng tôi nhé.
+                </div>
+            </div>
+
+            <div style="padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; background: white;">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."
+                    style="flex: 1; border: 1px solid #ddd; padding: 10px 15px; border-radius: 25px; outline: none; font-size: 14px; transition: 0.3s;">
+                <button id="send-chat"
+                    style="background: var(--primary-color); color: white; border: none; padding: 0 20px; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s;">Gửi</button>
+            </div>
+        </div>
+    </div>
     <script>
+        // Lấy danh sách tỉnh thành cho tìm kiếm
         async function loadTinhThanh() {
             try {
                 const res = await fetch("/dstinh");
@@ -416,6 +482,7 @@
         loadTinhThanh();
 
         document.addEventListener("DOMContentLoaded", function () {
+            // --- UI LOGIC ---
             const loginButton = document.getElementById("loginButton");
             const registerButton = document.getElementById("registerButton");
             const logoutButton = document.getElementById("logoutButton");
@@ -425,6 +492,8 @@
             const locationInput = document.getElementById('locationInput');
 
             const username = sessionStorage.getItem('username');
+            const customerId = sessionStorage.getItem('customerId');
+
             if (username) {
                 usernameDisplay.textContent = `Xin chào, ${username}`;
                 usernameDisplay.style.display = 'inline';
@@ -449,6 +518,7 @@
                 }
             });
 
+            // LOAD DANH SÁCH KHÁCH SẠN
             fetch('/api/rooms')
                 .then(response => response.json())
                 .then(data => {
@@ -456,25 +526,19 @@
                     data.forEach(room => {
                         const hotelDiv = document.createElement('div');
                         hotelDiv.className = 'hotel';
-                        
-                        // Parse HinhAnh JSON and get first image
+
                         let imageUrl = '/anh/anhnen.jpg';
                         if (room.HinhAnh) {
                             try {
                                 const images = JSON.parse(room.HinhAnh);
-                                if (Array.isArray(images) && images.length > 0) {
-                                    imageUrl = images[0];
-                                }
-                            } catch (e) {
-                                // If HinhAnh is a string URL, use it directly
-                                imageUrl = room.HinhAnh;
-                            }
+                                if (Array.isArray(images) && images.length > 0) imageUrl = images[0];
+                            } catch (e) { imageUrl = room.HinhAnh; }
                         }
-                        
+
                         const imageStyle = `background-image: url('${imageUrl}');`;
-                        
+
                         hotelDiv.innerHTML = `
-                            <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; ${imageStyle}"></div>
+                            <div class="hotel-image" style="width: 100%; height: 200px; background: #ddd url('/anh/anhnen.jpg') center/cover; background-size: cover; background-position: center; border-radius: 12px; margin-bottom: 10px; ${imageStyle}"></div>
                             <div class="hotel-info">
                                 <h3>${room.TenKS}</h3>
                                 <p>${room.TinhThanh}</p>
@@ -488,7 +552,105 @@
                     });
                 })
                 .catch(error => console.error('Error:', error));
+
+            // ==========================================
+            // LOGIC CHAT SOCKET.IO
+            // ==========================================
+            const socket = typeof io !== 'undefined' ? io() : null;
+
+            if (socket) {
+                const chatBubble = document.getElementById('chat-bubble');
+                const chatBox = document.getElementById('chat-box');
+                const closeChat = document.getElementById('close-chat');
+                const chatInput = document.getElementById('chat-input');
+                const sendChat = document.getElementById('send-chat');
+                const chatMessages = document.getElementById('chat-messages');
+
+                // Mở/Đóng khung chat
+                chatBubble.addEventListener('click', () => {
+                    chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+                });
+
+                closeChat.addEventListener('click', () => {
+                    chatBox.style.display = 'none';
+                });
+
+                // Nếu user đã đăng nhập, kết nối vào Room chat bằng customerId
+                if (customerId) {
+                    socket.emit('join_room', customerId);
+                }
+
+                // Hàm hiển thị tin nhắn lên UI
+                function appendMessage(sender, text, isSelf) {
+                    const msgDiv = document.createElement('div');
+                    msgDiv.style.padding = '10px 15px';
+                    msgDiv.style.fontSize = '14px';
+                    msgDiv.style.maxWidth = '80%';
+                    msgDiv.style.marginBottom = '5px';
+
+                    if (isSelf) {
+                        msgDiv.style.background = 'var(--primary-color)';
+                        msgDiv.style.color = 'white';
+                        msgDiv.style.borderRadius = '15px 15px 0 15px';
+                        msgDiv.style.alignSelf = 'flex-end';
+                        msgDiv.innerHTML = `${text}`;
+                    } else {
+                        msgDiv.style.background = '#e9ecef';
+                        msgDiv.style.color = 'var(--text-dark)';
+                        msgDiv.style.borderRadius = '15px 15px 15px 0';
+                        msgDiv.style.alignSelf = 'flex-start';
+                        msgDiv.innerHTML = `<strong>${sender} (Admin):</strong><br>${text}`;
+                    }
+
+                    chatMessages.appendChild(msgDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống cùng
+                }
+
+                // Hàm Gửi tin nhắn
+                function sendMessage() {
+                    if (!customerId) {
+                        alert("Vui lòng đăng nhập để có thể chat với Admin!");
+                        window.location.href = '/login';
+                        return;
+                    }
+
+                    const text = chatInput.value.trim();
+                    if (text) {
+                        appendMessage('Bạn', text, true); // Hiển thị tin của mình
+
+                        // Phát sự kiện lên server
+                        socket.emit('send_message', {
+                            roomId: customerId,
+                            senderName: username,
+                            message: text
+                        });
+
+                        chatInput.value = '';
+                    }
+                }
+
+                sendChat.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') sendMessage();
+                });
+
+                // Lắng nghe tin nhắn từ Admin trả về
+                socket.on('receive_message', (data) => {
+                    // Nếu người gửi không phải là chính mình (tránh bị lặp tin nhắn)
+                    if (data.senderName !== username) {
+                        appendMessage(data.senderName, data.message, false);
+
+                        // Hiển thị khung chat nếu nó đang đóng
+                        if (chatBox.style.display === 'none') {
+                            chatBox.style.display = 'flex';
+                        }
+                    }
+                });
+            } else {
+                console.error("Không tải được thư viện Socket.io, vui lòng kiểm tra server.js");
+            }
         });
     </script>
 </body>
+
 </html>

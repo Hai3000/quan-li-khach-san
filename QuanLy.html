@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,9 @@
     <link rel='shortcut icon' href='/anh/favicon.ico' />
     <title>Bảng Quản Trị | Quản lý khách sạn</title>
     <link rel='stylesheet' href='/global-typography.css'>
+
+    <script src="/socket.io/socket.io.js"></script>
+
     <style>
         :root {
             --primary-color: #ff385c;
@@ -34,7 +38,7 @@
         /* Navbar */
         header {
             background: var(--white);
-            box-shadow: 0 1px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -91,14 +95,12 @@
             padding-left: 15px;
         }
 
-        /* Grid Layout cho các công cụ */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
 
-        /* Style cho từng thẻ công cụ */
         .tool-card {
             background: var(--white);
             border-radius: 15px;
@@ -116,7 +118,7 @@
 
         .tool-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
             border-color: var(--primary-color);
         }
 
@@ -127,7 +129,6 @@
             font-weight: 600;
         }
 
-        /* Icon giả lập bằng Emoji hoặc text symbol */
         .tool-icon {
             font-size: 40px;
             margin-bottom: 10px;
@@ -150,9 +151,22 @@
             text-align: left;
         }
 
-        .footer-column h4 { font-size: 16px; margin-bottom: 15px; }
-        .footer-column p { font-size: 14px; color: var(--text-gray); margin: 8px 0; }
-        .footer-column img { height: 25px; margin-right: 10px; margin-top: 10px; }
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .footer-column p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin: 8px 0;
+        }
+
+        .footer-column img {
+            height: 25px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
 
         .footer-bottom {
             text-align: center;
@@ -164,11 +178,71 @@
         }
 
         @media (max-width: 768px) {
-            .tools-grid { grid-template-columns: 1fr; }
-            .admin-section h2 { font-size: 22px; }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-section h2 {
+                font-size: 22px;
+            }
+        }
+
+        /* SCROLLBAR CHO CHAT ADMIN */
+        #admin-chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #admin-chat-messages::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 10px;
+        }
+
+        /* TOAST NOTIFICATION */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-weight: bold;
+            font-size: 14px;
+            animation: slideIn 0.3s ease forwards, fadeOut 0.5s ease 4.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="navbar">
@@ -181,9 +255,11 @@
         </div>
     </header>
 
+    <div id="toast-container"></div>
+
     <main class="admin-section">
         <h2>Danh sách công cụ quản lý</h2>
-        
+
         <div class="tools-grid">
             <div class="tool-card" id="hoteladd" style="display: none;">
                 <span class="tool-icon">🏢</span>
@@ -209,8 +285,55 @@
                 <span class="tool-icon">📊</span>
                 <h3 id="history">Lịch sử đặt & hủy phòng</h3>
             </div>
+
+            <div class="tool-card" id="roomloghistory" style="display: none;">
+                <span class="tool-icon">📖</span>
+                <h3 id="loghistoryBtn">Nhật ký quản lý phòng</h3>
+            </div>
         </div>
     </main>
+
+    <div id="admin-chat-widget" style="position: fixed; bottom: 30px; right: 30px; z-index: 10000;">
+        <button id="admin-chat-bubble"
+            style="background: var(--text-dark); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: 0.3s;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+
+        <div id="admin-chat-box"
+            style="display: none; width: 380px; height: 500px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; position: absolute; bottom: 80px; right: 0; border: 1px solid #eee;">
+            <div
+                style="background: var(--text-dark); color: white; padding: 15px 20px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 15px;">Kênh Hỗ Trợ (Admin)</span>
+                <span id="admin-close-chat" style="cursor: pointer; font-size: 20px;">&times;</span>
+            </div>
+
+            <div style="padding: 10px; background: #f0f0f0; border-bottom: 1px solid #ddd; display: flex; gap: 5px;">
+                <input type="text" id="target-customer-id" placeholder="Nhập ID Khách (VD: 15)..."
+                    style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px; outline: none;">
+                <button id="join-room-btn"
+                    style="background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Kết
+                    nối</button>
+            </div>
+
+            <div id="admin-chat-messages"
+                style="flex: 1; padding: 15px; overflow-y: auto; background: #fdfdfd; display: flex; flex-direction: column; gap: 10px;">
+                <div
+                    style="background: #e9ecef; color: #333; padding: 10px 15px; border-radius: 15px 15px 15px 0; font-size: 14px; align-self: flex-start; max-width: 80%;">
+                    Vui lòng nhập Mã Khách Hàng (UserID) và bấm Kết nối để bắt đầu hỗ trợ.
+                </div>
+            </div>
+
+            <div style="padding: 15px; border-top: 1px solid #eee; display: flex; gap: 10px; background: white;">
+                <input type="text" id="admin-chat-input" placeholder="Nhập tin nhắn hỗ trợ..." disabled
+                    style="flex: 1; border: 1px solid #ddd; padding: 10px 15px; border-radius: 25px; outline: none; font-size: 14px; transition: 0.3s; background: #f5f5f5;">
+                <button id="admin-send-chat" disabled
+                    style="background: #ccc; color: white; border: none; padding: 0 20px; border-radius: 25px; cursor: not-allowed; font-weight: bold; transition: 0.3s;">Gửi</button>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-content">
@@ -234,8 +357,9 @@
             </div>
             <div class="footer-column">
                 <h4>Ứng dụng quản lý</h4>
-                <img src="/anh/AppStore.svg" alt="App Store" style="width: 110px; display: block; margin-bottom: 5px;"/>
-                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px; display: block;"/>
+                <img src="/anh/AppStore.svg" alt="App Store"
+                    style="width: 110px; display: block; margin-bottom: 5px;" />
+                <img src="/anh/CHPlay.svg" alt="Google Play" style="width: 110px; display: block;" />
             </div>
         </div>
         <div class="footer-bottom">
@@ -244,46 +368,162 @@
     </footer>
 
     <script>
-        // Lấy các phần tử
+        // --- LOGIC PHÂN QUYỀN & CHUYỂN HƯỚNG ---
         const addroom = document.getElementById("addroom");
         const addhotel = document.getElementById("addhotel");
         const edithotel = document.getElementById("edithotel");
         const editroom = document.getElementById("editroom");
-        
         const edithotel_cont = document.getElementById("hoteledit");
         const addhotel_cont = document.getElementById("hoteladd");
-        
         const history_btn = document.getElementById("history");
         const history_cont = document.getElementById("hotelhistory");
+        const roomloghistory_cont = document.getElementById("roomloghistory");
+        const loghistoryBtn = document.getElementById("loghistoryBtn");
         const logoutButton = document.getElementById("logoutButton");
-        
-        // Kiểm tra vai trò từ Session
+
         const username = sessionStorage.getItem('username');
-        
+
         if (username === "Admin") {
-            // Admin hiển thị đầy đủ (Sử dụng 'flex' để phù hợp với card layout)
-            addhotel_cont.style.display = 'flex'; 
-            edithotel_cont.style.display = 'flex'; 
-            history_cont.style.display = 'flex'; 
+            addhotel_cont.style.display = 'flex';
+            edithotel_cont.style.display = 'flex';
+            history_cont.style.display = 'flex';
+            if (roomloghistory_cont) roomloghistory_cont.style.display = 'flex';
         } else {
-            // Nhân viên thường bị ẩn một số chức năng
-            addhotel_cont.style.display = 'none'; 
-            edithotel_cont.style.display = 'none'; 
+            addhotel_cont.style.display = 'none';
+            edithotel_cont.style.display = 'none';
             history_cont.style.display = 'none';
+            if (roomloghistory_cont) roomloghistory_cont.style.display = 'none';
         }
 
-        // Điều hướng (Giữ nguyên các href của bạn)
         addroom.parentElement.addEventListener("click", () => window.location.href = "/themphong");
         addhotel.parentElement.addEventListener("click", () => window.location.href = "/themkhachsan");
         edithotel.parentElement.addEventListener("click", () => window.location.href = "/dsks123");
         editroom.parentElement.addEventListener("click", () => window.location.href = "/dsphong");
         history_btn.parentElement.addEventListener("click", () => window.location.href = "/lichsudatphong");
+        if (loghistoryBtn) loghistoryBtn.parentElement.addEventListener("click", () => window.location.href = "/lsnhatky");
 
-        // Đăng xuất
         logoutButton.addEventListener("click", () => {
             sessionStorage.clear();
             window.location.href = "/logout";
         });
+
+        // ==========================================
+        // LOGIC CHAT CHO ADMIN (SOCKET.IO)
+        // ==========================================
+        const socket = typeof io !== 'undefined' ? io() : null;
+
+        if (socket) {
+            const chatBubble = document.getElementById('admin-chat-bubble');
+            const chatBox = document.getElementById('admin-chat-box');
+            const closeChat = document.getElementById('admin-close-chat');
+            const chatInput = document.getElementById('admin-chat-input');
+            const sendChat = document.getElementById('admin-send-chat');
+            const chatMessages = document.getElementById('admin-chat-messages');
+
+            const targetCustomerInput = document.getElementById('target-customer-id');
+            const joinRoomBtn = document.getElementById('join-room-btn');
+            let currentRoom = null;
+
+            // Hàm tạo Toast Thông báo
+            function showToast(message) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.innerHTML = `🔔 ${message}`;
+                container.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 5000);
+            }
+
+            // Mở/Đóng chat
+            chatBubble.addEventListener('click', () => {
+                chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+            });
+            closeChat.addEventListener('click', () => chatBox.style.display = 'none');
+
+            // Nút "Kết nối" với khách hàng
+            joinRoomBtn.addEventListener('click', () => {
+                const customerId = targetCustomerInput.value.trim();
+                if (customerId) {
+                    currentRoom = customerId;
+                    socket.emit('join_room', currentRoom); // Join vào phòng của Khách
+
+                    // Mở khóa input
+                    chatInput.disabled = false;
+                    sendChat.disabled = false;
+                    chatInput.style.background = 'white';
+                    sendChat.style.background = 'var(--primary-color)';
+                    sendChat.style.cursor = 'pointer';
+
+                    appendMessage('Hệ thống', `Đã kết nối với phòng của Khách ID: ${currentRoom}`, false, '#e8f5e9');
+                } else {
+                    alert("Vui lòng nhập ID Khách Hàng!");
+                }
+            });
+
+            // Hàm in tin nhắn ra màn hình
+            function appendMessage(sender, text, isSelf, bgColor = null) {
+                const msgDiv = document.createElement('div');
+                msgDiv.style.padding = '10px 15px';
+                msgDiv.style.fontSize = '14px';
+                msgDiv.style.maxWidth = '80%';
+                msgDiv.style.marginBottom = '5px';
+
+                if (isSelf) {
+                    msgDiv.style.background = 'var(--text-dark)';
+                    msgDiv.style.color = 'white';
+                    msgDiv.style.borderRadius = '15px 15px 0 15px';
+                    msgDiv.style.alignSelf = 'flex-end';
+                    msgDiv.innerHTML = `${text}`;
+                } else {
+                    msgDiv.style.background = bgColor || '#e9ecef';
+                    msgDiv.style.color = 'var(--text-dark)';
+                    msgDiv.style.borderRadius = '15px 15px 15px 0';
+                    msgDiv.style.alignSelf = 'flex-start';
+                    msgDiv.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+                }
+
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Gửi tin nhắn
+            function sendMessage() {
+                const text = chatInput.value.trim();
+                if (text && currentRoom) {
+                    appendMessage('Bạn', text, true);
+
+                    socket.emit('send_message', {
+                        roomId: currentRoom,
+                        senderName: username || 'Admin',
+                        message: text
+                    });
+
+                    chatInput.value = '';
+                }
+            }
+
+            sendChat.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+            // Lắng nghe tin nhắn MỚI từ Khách
+            socket.on('receive_message', (data) => {
+                if (data.senderName !== (username || 'Admin')) {
+                    appendMessage(data.senderName, data.message, false);
+                    if (chatBox.style.display === 'none') chatBox.style.display = 'flex';
+                }
+            });
+
+            // 🌟 Lắng nghe thông báo ĐẶT PHÒNG từ Server
+            socket.on('admin_notification', (data) => {
+                if (data.type === 'BOOKING') {
+                    showToast(data.content);
+                }
+            });
+
+        } else {
+            console.error("Lỗi: Socket.io chưa được load.");
+        }
     </script>
 </body>
+
 </html>

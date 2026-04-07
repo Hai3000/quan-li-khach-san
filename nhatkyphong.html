@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <title>Nhật ký quản lý phòng | Quản lý khách sạn</title>
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --secondary-color: #e31b4c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo a { text-decoration: none; }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #f1f1f1;
+            border-color: #ccc;
+        }
+
+        /* Form Container */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 80px;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+            background-color: #fff;
+        }
+
+        .form-control[readonly] {
+            background-color: #f1f1f1;
+            cursor: not-allowed;
+            color: var(--text-gray);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* Two columns layout */
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+        .col-half {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/quanly">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.history.back()">Quay lại danh sách</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="header-title">📝 Thêm Nhật Ký Quản Lý Phỏng</h2>
+        
+        <form id="logForm">
+            <div class="row">
+                <div class="form-group col-half">
+                    <label for="MaPhong">Mã Phòng</label>
+                    <input type="text" id="MaPhong" class="form-control" readonly required>
+                </div>
+                
+                <div class="form-group col-half">
+                    <label for="NguoiThucHien">Người Thực Hiện (Mã/Tên NV)</label>
+                    <input type="text" id="NguoiThucHien" class="form-control" placeholder="Ví dụ: NV001 hoặc Nguyễn Văn A" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-half">
+                    <label for="HanhDong">Hành Động</label>
+                    <select id="HanhDong" class="form-control" required>
+                        <option value="">-- Chọn hành động --</option>
+                        <option value="Kiểm tra định kỳ">Kiểm tra định kỳ</option>
+                        <option value="Sửa chữa thiết bị">Sửa chữa thiết bị</option>
+                        <option value="Dọn dẹp vệ sinh">Dọn dẹp vệ sinh</option>
+                        <option value="Bảo trì hệ thống">Bảo trì hệ thống</option>
+                        <option value="Kiểm tra khách trả phòng">Kiểm tra khách trả phòng</option>
+                        <option value="Xử lý sự cố">Xử lý sự cố</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+                
+                <div class="form-group col-half">
+                    <label for="TrangThaiSauCapNhat">Trạng Thái Sau Cập Nhật</label>
+                    <select id="TrangThaiSauCapNhat" class="form-control" required>
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="Sẵn sàng đón khách">Sẵn sàng đón khách</option>
+                        <option value="Đang sửa chữa">Đang sửa chữa</option>
+                        <option value="Đang dọn dẹp">Đang dọn dẹp</option>
+                        <option value="Trống">Trống</option>
+                        <option value="Tạm ngưng phục vụ">Tạm ngưng phục vụ</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="NoiDung">Nội Dung Chi Tiết</label>
+                <textarea id="NoiDung" class="form-control" placeholder="Mô tả chi tiết những việc đã thực hiện..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Lưu Nhật Ký</button>
+            <div id="message"></div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const maPhong = urlParams.get('maPhong');
+            
+            if (maPhong) {
+                document.getElementById('MaPhong').value = maPhong;
+            } else {
+                alert('Không tìm thấy mã phòng. Không thể thêm nhật ký.');
+                document.getElementById('submitBtn').disabled = true;
+            }
+
+            const logForm = document.getElementById('logForm');
+            const messageDiv = document.getElementById('message');
+            const submitBtn = document.getElementById('submitBtn');
+
+            logForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Đang lưu...';
+                messageDiv.style.display = 'none';
+                messageDiv.className = '';
+
+                // Lấy thời gian hiện tại chuẩn ISO, ví dụ "2026-04-07T14:30:00Z"
+                const currentTime = new Date().toISOString();
+
+                const logData = {
+                    MaPhong: document.getElementById('MaPhong').value,
+                    HanhDong: document.getElementById('HanhDong').value,
+                    NoiDung: document.getElementById('NoiDung').value,
+                    TrangThaiSauCapNhat: document.getElementById('TrangThaiSauCapNhat').value,
+                    NguoiThucHien: document.getElementById('NguoiThucHien').value,
+                    ThoiGian: currentTime
+                };
+
+                fetch('/api/room-log', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(logData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    messageDiv.style.display = 'block';
+                    if (data.success) {
+                        messageDiv.textContent = data.message || 'Nhật ký quản lý phòng đã được lưu!';
+                        messageDiv.className = 'success';
+                        
+                        setTimeout(() => {
+                            window.history.back(); // Trở về trang trước sau khi thành công
+                        }, 1500);
+                    } else {
+                        messageDiv.textContent = data.message || 'Có lỗi xảy ra!';
+                        messageDiv.className = 'error';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Lưu Nhật Ký';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    messageDiv.style.display = 'block';
+                    messageDiv.textContent = 'Lỗi kết nối. Không thể lưu nhật ký.';
+                    messageDiv.className = 'error';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Lưu Nhật Ký';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

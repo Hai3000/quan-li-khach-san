@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử nhật ký quản lý | Quản lý khách sạn</title>
+    <link rel='shortcut icon' href='/anh/favicon.ico' />
+    <link rel='stylesheet' href='/global-typography.css'>
+    <style>
+        :root {
+            --primary-color: #ff385c;
+            --text-dark: #222222;
+            --text-gray: #717171;
+            --bg-light: #f7f7f7;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: var(--white);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .navbar .logo h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo a { text-decoration: none; }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #f1f1f1;
+            border-color: #ccc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px 5%;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin: 0;
+            color: var(--text-dark);
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            width: 250px;
+        }
+
+        .filter-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .table-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #fafafa;
+            color: var(--text-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        .room-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .status-ready { background: #e8f5e9; color: #2e7d32; }
+        .status-cleaning { background: #fff8e1; color: #f57f17; }
+        .status-maintenance { background: #ffebee; color: #c62828; }
+        .status-default { background: #f3e5f5; color: #6a1b9a; }
+
+        .time-text {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="/quanly">
+                    <h1>Quản lý khách sạn</h1>
+                </a>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="window.location.href='/quanly'">Về Dashboard</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">Lịch sử nhật ký quản lý phòng</h2>
+            <div class="filter-container">
+                <input type="text" id="searchInput" class="filter-input" placeholder="Tìm kiếm mã phòng, hành động...">
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Mã Phòng</th>
+                        <th>Hành động</th>
+                        <th>Trạng thái cập nhật</th>
+                        <th>Người thực hiện</th>
+                        <th>Nội dung chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody id="logTableBody">
+                    <tr>
+                        <td colspan="6" class="empty-state">Đang tải dữ liệu...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let allLogs = [];
+
+        function formatDateTime(isoString) {
+            if (!isoString) return '';
+            const date = new Date(isoString);
+            return date.toLocaleString('vi-VN', { 
+                hour: '2-digit', minute: '2-digit', 
+                day: '2-digit', month: '2-digit', year: 'numeric' 
+            });
+        }
+
+        function getStatusClass(status) {
+            if (!status) return 'status-default';
+            status = status.toLowerCase();
+            if (status.includes('sẵn sàng') || status.includes('trống')) return 'status-ready';
+            if (status.includes('dọn dẹp') || status.includes('vệ sinh')) return 'status-cleaning';
+            if (status.includes('sửa chữa') || status.includes('bảo trì')) return 'status-maintenance';
+            return 'status-default';
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('logTableBody');
+            tbody.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Không có nhật ký nào được tìm thấy.</td></tr>';
+                return;
+            }
+
+            data.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="time-text">${formatDateTime(log.ThoiGian)}</td>
+                    <td><span class="room-badge">${log.MaPhong}</span></td>
+                    <td><strong>${log.HanhDong}</strong></td>
+                    <td>
+                        ${log.TrangThaiSauCapNhat ? 
+                            `<span class="status-badge ${getStatusClass(log.TrangThaiSauCapNhat)}">${log.TrangThaiSauCapNhat}</span>` 
+                            : '<span style="color:#aaa">-</span>'
+                        }
+                    </td>
+                    <td>${log.NguoiThucHien || '-'}</td>
+                    <td style="max-width: 300px; line-height: 1.4;">${log.NoiDung || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const maPhong = urlParams.get('maPhong');
+            const apiUrl = maPhong ? `/api/room-logs?maPhong=${maPhong}` : '/api/room-logs';
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    allLogs = data;
+                    renderTable(allLogs);
+                })
+                .catch(error => {
+                    console.error('Lỗi tải dữ liệu:', error);
+                    document.getElementById('logTableBody').innerHTML = 
+                        '<tr><td colspan="6" class="empty-state">Đã xảy ra lỗi khi tải dữ liệu!</td></tr>';
+                });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const keyword = e.target.value.toLowerCase();
+            const filtered = allLogs.filter(log => 
+                (log.MaPhong && log.MaPhong.toLowerCase().includes(keyword)) ||
+                (log.HanhDong && log.HanhDong.toLowerCase().includes(keyword)) ||
+                (log.NoiDung && log.NoiDung.toLowerCase().includes(keyword)) ||
+                (log.NguoiThucHien && log.NguoiThucHien.toLowerCase().includes(keyword))
+            );
+            renderTable(filtered);
+        });
+
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

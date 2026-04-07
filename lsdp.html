@@ -277,6 +277,7 @@
     <div id="confirmationModal" class="modal">
         <div class="modal-content">
             <h3>Bạn có chắc chắn muốn hủy đặt phòng này?</h3>
+            <p style="color: #666; font-size: 14px; margin-bottom: 25px;">*(Lưu ý: Nếu đơn đã thanh toán, admin sẽ tiến hành hoàn tiền cho bạn một cách sớm nhất sau khi hủy)*</p>
             <div class="modal-buttons">
                 <button id="confirmCancel" class="modal-button confirm-button">Xác nhận hủy</button>
                 <button id="cancelModal" class="modal-button cancel-modal-button">Quay lại</button>
@@ -399,6 +400,7 @@
                             fetch(`/api/bookings/${bookingId}`, { method: 'DELETE' })
                             .then(response => {
                                 if (response.ok) {
+                                    alert("Hủy phòng thành công! Nếu bạn đã thanh toán, admin sẽ tiến hành xử lý và hoàn tiền lại cho bạn một cách sớm nhất.");
                                     loadBookings();
                                     modal.style.display = 'none';
                                 } else {

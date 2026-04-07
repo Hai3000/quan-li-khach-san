@@ -327,6 +327,9 @@
                     <p><strong>Tiện nghi:</strong> ${room.TienNghi}</p>
                     <p class="price-tag">${room.GiaPhong.toLocaleString()} VNĐ <span style="font-size:12px; color:#717171;">/ đêm</span></p>
                     <p style="font-size:11px; margin-top:10px;">Mã phòng: ${room.MaPhong}</p>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button class="log-btn" style="flex: 1; padding: 10px 15px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: inherit; transition: 0.3s;" onmouseover="this.style.background='#1976D2'" onmouseout="this.style.background='#2196F3'" onclick="event.stopPropagation(); window.location.href='/nhatkyphong?maPhong=${room.MaPhong}'">📝 Nhật ký quản lý</button>
+                    </div>
                 </div>
             `;
 
